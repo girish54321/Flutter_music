@@ -1,4 +1,8 @@
-# musicPlayer
+# Flutter MusicPlayer
+
+![stack Overflow](https://github.com/girish54321/Flutter_music/blob/main/images/1.png)
+
+![stack Overflow](https://github.com/girish54321/Flutter_music/blob/main/images/2.png)
 
 A new Flutter project.
 
