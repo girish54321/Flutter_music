@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage>
         onPageChanged: onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      bottomSheet: Text("f"),
+      // bottomSheet: Text("f"),
       bottomNavigationBar: CupertinoTabBar(
           currentIndex: pageIndex,
           onTap: onTap,

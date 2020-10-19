@@ -96,6 +96,46 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     );
   }
 
+  Widget playerContalors() {
+    return (Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Icon(
+            Icons.repeat,
+            size: 36,
+          ),
+          Icon(
+            Icons.skip_previous,
+            size: 36,
+          ),
+          Container(
+            height: 60,
+            width: 60,
+            child: FloatingActionButton(
+              onPressed: AudioService.play,
+              backgroundColor: Colors.deepPurple,
+              child: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          ),
+          Icon(
+            Icons.skip_next,
+            size: 36,
+          ),
+          Icon(
+            Icons.shuffle,
+            size: 36,
+          ),
+        ],
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,45 +193,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                                   ),
                                   coverArt(mediaItem),
                                   positionIndicator(mediaItem, playbackState),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 30, right: 30),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.repeat,
-                                          size: 36,
-                                        ),
-                                        Icon(
-                                          Icons.skip_previous,
-                                          size: 36,
-                                        ),
-                                        Container(
-                                          height: 60,
-                                          width: 60,
-                                          child: FloatingActionButton(
-                                            onPressed: AudioService.play,
-                                            backgroundColor: Colors.deepPurple,
-                                            child: Icon(
-                                              Icons.play_arrow,
-                                              color: Colors.white,
-                                              size: 30,
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.skip_next,
-                                          size: 36,
-                                        ),
-                                        Icon(
-                                          Icons.shuffle,
-                                          size: 36,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  playerContalors(),
                                   // Row(
                                   //   mainAxisAlignment: MainAxisAlignment.center,
                                   //   children: [
@@ -250,6 +252,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           ),
         ],
       ),
+      // bottomSheet: playerContalors(),
     );
   }
 
