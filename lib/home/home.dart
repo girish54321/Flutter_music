@@ -5,6 +5,7 @@ import 'package:musicPlayer/account/account.dart';
 import 'package:musicPlayer/home/HomeScreen.dart';
 import 'package:musicPlayer/search/search.dart';
 import 'package:musicPlayer/widgets/header.dart';
+import 'package:musicPlayer/widgets/nowPlaying.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -59,7 +60,6 @@ class _MyHomePageState extends State<MyHomePage>
         onPageChanged: onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      // bottomSheet: Text("f"),
       bottomNavigationBar: CupertinoTabBar(
           currentIndex: pageIndex,
           onTap: onTap,
@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage>
             BottomNavigationBarItem(icon: Icon(Icons.search)),
             BottomNavigationBarItem(icon: Icon(Icons.person)),
           ]),
+      // bottomSheet: pageIndex != 2 ? NowPlaying() : Text(""),
     );
   }
 }

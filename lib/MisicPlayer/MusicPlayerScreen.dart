@@ -4,7 +4,9 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicPlayer/widgets/header.dart';
+import 'package:musicPlayer/widgets/nowPlaying.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:simple_animations/simple_animations.dart';
 import 'AudioPlayer.dart';
 
 class BGAudioPlayerScreen extends StatefulWidget {
@@ -96,9 +98,9 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     );
   }
 
-  Widget playerContalors() {
+  Widget playerContalors(playing) {
     return (Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30),
+      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -106,27 +108,32 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
             Icons.repeat,
             size: 36,
           ),
-          Icon(
-            Icons.skip_previous,
-            size: 36,
+          IconButton(
+            icon: Icon(
+              Icons.skip_previous,
+              size: 36,
+            ),
+            onPressed: AudioService.skipToPrevious,
           ),
           Container(
             height: 60,
             width: 60,
             child: FloatingActionButton(
-              onPressed: AudioService.play,
+              onPressed: playing ? AudioService.pause : AudioService.play,
               backgroundColor: Colors.deepPurple,
               child: Icon(
-                Icons.play_arrow,
+                playing ? Icons.plus_one : Icons.play_arrow,
                 color: Colors.white,
                 size: 30,
               ),
             ),
           ),
-          Icon(
-            Icons.skip_next,
-            size: 36,
-          ),
+          IconButton(
+              icon: Icon(
+                Icons.skip_next,
+                size: 36,
+              ),
+              onPressed: AudioService.skipToNext),
           Icon(
             Icons.shuffle,
             size: 36,
@@ -136,124 +143,149 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     ));
   }
 
+  Widget coverArtAnimastion(mediaItem) {
+    // ignore: deprecated_member_use
+    return ControlledAnimation(
+      duration: Duration(milliseconds: 600),
+      curve: Curves.elasticOut,
+      tween: Tween<double>(begin: 0, end: 1),
+      builder: (context, scaleValue) {
+        return Transform.scale(
+          scale: scaleValue,
+          alignment: Alignment.center,
+          child: coverArt(mediaItem),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-      body: ListView(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Header(context, "Now Playing"),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                      ),
-                      child: StreamBuilder<AudioState>(
-                        stream: _audioStateStream,
-                        builder: (context, snapshot) {
-                          final audioState = snapshot.data;
-                          final queue = audioState?.queue;
-                          final mediaItem = audioState?.mediaItem;
-                          final playbackState = audioState?.playbackState;
-                          final processingState =
-                              playbackState?.processingState ??
-                                  AudioProcessingState.none;
-                          final playing = playbackState?.playing ?? false;
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              children: [
-                                if (processingState ==
-                                    AudioProcessingState.none) ...[
-                                  _startAudioPlayerBtn(),
-                                ] else ...[
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 24),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        color: Colors.pinkAccent,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 19,
-                                  ),
-                                  coverArt(mediaItem),
-                                  positionIndicator(mediaItem, playbackState),
-                                  playerContalors(),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.center,
-                                  //   children: [
-                                  //     !playing
-                                  //         ? IconButton(
-                                  //             icon: Icon(Icons.play_arrow),
-                                  //             iconSize: 64.0,
-                                  //             onPressed: AudioService.play,
-                                  //           )
-                                  //         : IconButton(
-                                  //             icon: Icon(Icons.pause),
-                                  //             iconSize: 64.0,
-                                  //             onPressed: AudioService.pause,
-                                  //           ),
-                                  //     IconButton(
-                                  //       icon: Icon(Icons.stop),
-                                  //       iconSize: 64.0,
-                                  //       onPressed: AudioService.stop,
-                                  //     ),
-                                  //     Row(
-                                  //       mainAxisAlignment: MainAxisAlignment.center,
-                                  //       children: [
-                                  //         IconButton(
-                                  //           icon: Icon(Icons.skip_previous),
-                                  //           iconSize: 64,
-                                  //           onPressed: () {
-                                  //             if (mediaItem == queue.first) {
-                                  //               return;
-                                  //             }
-                                  //             AudioService.skipToPrevious();
-                                  //           },
-                                  //         ),
-                                  //         IconButton(
-                                  //           icon: Icon(Icons.skip_next),
-                                  //           iconSize: 64,
-                                  //           onPressed: () {
-                                  //             if (mediaItem == queue.last) {
-                                  //               return;
-                                  //             }
-                                  //             AudioService.skipToNext();
-                                  //           },
-                                  //         )
-                                  //       ],
-                                  //     ),
-                                  //   ],
-                                  // )
-                                ]
-                              ],
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 19),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30)),
+              ),
+              child: Center(
+                child: StreamBuilder<AudioState>(
+                  stream: _audioStateStream,
+                  builder: (context, snapshot) {
+                    final audioState = snapshot.data;
+                    final queue = audioState?.queue;
+                    final mediaItem = audioState?.mediaItem;
+                    final playbackState = audioState?.playbackState;
+                    final processingState = playbackState?.processingState ??
+                        AudioProcessingState.none;
+                    final playing = playbackState?.playing ?? false;
+                    return Container(
+                      // width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          if (processingState == AudioProcessingState.none) ...[
+                            _startAudioPlayerBtn(),
+                          ] else ...[
+                            SizedBox(
+                              height: 12,
                             ),
-                          );
-                        },
+                            SizedBox(
+                              height: 19,
+                            ),
+                            coverArtAnimastion(mediaItem),
+                            positionIndicator(mediaItem, playbackState),
+                            playerContalors(playing),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     !playing
+                            //         ? IconButton(
+                            //             icon: Icon(Icons.play_arrow),
+                            //             iconSize: 64.0,
+                            //             onPressed: AudioService.play,
+                            //           )
+                            //         : IconButton(
+                            //             icon: Icon(Icons.pause),
+                            //             iconSize: 64.0,
+                            //             onPressed: AudioService.pause,
+                            //           ),
+                            //     IconButton(
+                            //       icon: Icon(Icons.stop),
+                            //       iconSize: 64.0,
+                            //       onPressed: AudioService.stop,
+                            //     ),
+                            //     Row(
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //         IconButton(
+                            //           icon: Icon(Icons.skip_previous),
+                            //           iconSize: 64,
+                            //           onPressed: () {
+                            //             if (mediaItem == queue.first) {
+                            //               return;
+                            //             }
+                            //             AudioService.skipToPrevious();
+                            //           },
+                            //         ),
+                            //         IconButton(
+                            //           icon: Icon(Icons.skip_next),
+                            //           iconSize: 64,
+                            //           onPressed: () {
+                            //             if (mediaItem == queue.last) {
+                            //               return;
+                            //             }
+                            //             AudioService.skipToNext();
+                            //           },
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ],
+                            // )
+                          ]
+                        ],
                       ),
-                    ),
-                  ),
-                ]),
+                    );
+                  },
+                ),
+              ),
+            ),
           ),
         ],
       ),
-      // bottomSheet: playerContalors(),
+      bottomSheet: PlayButton(
+        startPlayBackUp: _startMusicButton,
+      ),
     );
+  }
+
+  _startMusicButton() async {
+    List<dynamic> list = List();
+    for (int i = 0; i < 2; i++) {
+      var m = _queue[i].toJson();
+      list.add(m);
+    }
+    var params = {"data": list};
+    setState(() {
+      _loading = true;
+    });
+    await AudioService.start(
+      backgroundTaskEntrypoint: _audioPlayerTaskEntrypoint,
+      androidNotificationChannelName: 'Audio Player',
+      androidNotificationColor: 0xFF2196f3,
+      androidNotificationIcon: 'mipmap/ic_launcher',
+      params: params,
+    );
+    setState(() {
+      _loading = false;
+    });
   }
 
   _startAudioPlayerBtn() {

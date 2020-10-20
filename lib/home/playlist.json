@@ -1,0 +1,1144 @@
+{
+    "artwork_url": "https://i1.sndcdn.com/artworks-000405464955-n4ge52-large.jpg",
+    "created_at": "2015-07-23T14:35:27Z",
+    "description": null,
+    "duration": 36163996,
+    "embeddable_by": "all",
+    "genre": "chill",
+    "id": 127755258,
+    "kind": "playlist",
+    "label_name": null,
+    "last_modified": "2020-09-29T18:35:39Z",
+    "license": "all-rights-reserved",
+    "likes_count": 87954,
+    "managed_by_feeds": false,
+    "permalink": "morning-chillout",
+    "permalink_url": "https://soundcloud.com/mightyj-1/sets/morning-chillout",
+    "public": true,
+    "purchase_title": null,
+    "purchase_url": null,
+    "release_date": null,
+    "reposts_count": 5066,
+    "secret_token": null,
+    "sharing": "public",
+    "tag_list": "electronic morning sunrise chillout downtempo sunset house relax",
+    "title": "Morning Chillout",
+    "uri": "https://api.soundcloud.com/playlists/127755258",
+    "user_id": 2182746,
+    "set_type": "",
+    "is_album": false,
+    "published_at": "2020-06-30T15:25:37Z",
+    "display_date": "2020-06-30T15:25:37Z",
+    "user": {
+        "avatar_url": "https://i1.sndcdn.com/avatars-000334268881-tf5fwn-large.jpg",
+        "first_name": "Jordan",
+        "full_name": "Jordan Robinson",
+        "id": 2182746,
+        "kind": "user",
+        "last_modified": "2019-12-03T06:30:53Z",
+        "last_name": "Robinson",
+        "permalink": "mightyj-1",
+        "permalink_url": "https://soundcloud.com/mightyj-1",
+        "uri": "https://api.soundcloud.com/users/2182746",
+        "urn": "soundcloud:users:2182746",
+        "username": "Mighty",
+        "verified": false,
+        "city": "Los Angeles",
+        "country_code": "US",
+        "badges": {
+            "pro_unlimited": false,
+            "verified": false
+        }
+    },
+    "tracks": [
+        {
+            "artwork_url": "https://i1.sndcdn.com/artworks-000233434893-n4xs0d-large.jpg",
+            "caption": null,
+            "commentable": true,
+            "comment_count": 5870,
+            "created_at": "2015-05-21T16:36:39Z",
+            "description": "Support on iTunes: http://smarturl.it/SILKSF099\nFollow Silk Music: silkmusic.lnk.to/listen\n\nWhy [Follow] our SoundCloud?\nWe stream all of our new releases and radio shows on our SoundCloud.\n\nEnjoying the tune? Please consider clicking the [Repost] ↻ button!\n---\n▼ Follow Silk Music:\nSupport on YouTube: http://bit.ly/SilkMusicTV\nSupport on Facebook: http://bit.ly/SilkFacebook\nFollow on Twitter: http://bit.ly/SilkTwitter\nListen on SoundCloud: http://bit.ly/SilkSoundCloud\nFollow on Google+: http://bit.ly/SilkGooglePlus\n---\n▼ Visit our website:\nhttp://www.silk-music.com\n\n---\n▼ Follow Delectatio:\nSoundCloud: http://soundcloud.com/delectatiomusic\nFacebook: http://facebook.com/delectatiomusic\n---\n▼ Release Tracklist:\n01 Delectatio - Numinous\n02 Delectatio - Be Free\n03 Delectatio - Remember\n04 Delectatio - Latibule\n\nPortuguese artist Delectatio is a new signing to Silk Sofa. His EP, \"Sunrise\", features four unique and unforgettable downtempo cuts.\n\n\"Numinous\" starts with intriguing guitar riffs and enjoyable melodies on top. Soon, intricate percussion elements as well as hypnotizing vocal stems emerge, while the delightful theme melody continues to liven up the soundscape. A blissful guitar line and soothing percussion elements introduce \"Be Free\". Fascinating vocal stems are added later, thereby adding an extra layer of delicate and refreshing textures. \"Remember\" begins with a stunning atmosphere, including a number of lush synths and an intricate bassline. A mesmerizing arpeggio melody emerges later, and numerous sound effects continuously spice up the soundscape. The final song in this package is \"Latibule\". Beautiful melodies are quickly established, and multiple new layers are added on top, as the song progresses. The soothing breakbeat comforts the listener even further.\n---\n▼ Photography:\nPhotographer: Sorin B.\nWebsite: http://www.flickr.com/photos/sorin-bogdan",
+            "downloadable": false,
+            "download_count": 0,
+            "duration": 290116,
+            "full_duration": 290116,
+            "embeddable_by": "all",
+            "genre": "Chillout",
+            "has_downloads_left": true,
+            "id": 206559958,
+            "kind": "track",
+            "label_name": "Silk Sofa Music",
+            "last_modified": "2020-10-19T15:13:25Z",
+            "license": "all-rights-reserved",
+            "likes_count": 117603,
+            "permalink": "silksf099-1",
+            "permalink_url": "https://soundcloud.com/silkmusic/silksf099-1",
+            "playback_count": 8209805,
+            "public": true,
+            "publisher_metadata": {
+                "id": 206559958,
+                "urn": "soundcloud:tracks:206559958",
+                "artist": "Delectatio",
+                "album_title": "Sunrise",
+                "contains_music": true,
+                "publisher": "Proton LLC",
+                "upc_or_ean": "8535640000001",
+                "isrc": "US83Z1512266",
+                "writer_composer": "Tiago Silva",
+                "release_title": "Numinous"
+            },
+            "purchase_title": null,
+            "purchase_url": "http://itunes.apple.com/us/album/sunrise-ep/id993328519",
+            "release_date": "2015-05-20T00:00:00Z",
+            "reposts_count": 3390,
+            "secret_token": null,
+            "sharing": "public",
+            "state": "finished",
+            "streamable": true,
+            "tag_list": "ambient idm downtempo atmospheric melodic illbient cinematic delectatio numinous \"silk sofa\" \"silk music\"",
+            "title": "Delectatio - Numinous [Silk Music]",
+            "uri": "https://api.soundcloud.com/tracks/206559958",
+            "urn": "soundcloud:tracks:206559958",
+            "user_id": 2065244,
+            "visuals": null,
+            "waveform_url": "https://wave.sndcdn.com/Hybhx411eh15_m.json",
+            "display_date": "2015-05-21T16:36:39Z",
+            "media": {
+                "transcodings": [
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:206559958/7db11b0e-cb30-4a1f-a11c-e5bbb0a4d4b9/stream/hls",
+                        "preset": "mp3_0_0",
+                        "duration": 290116,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:206559958/7db11b0e-cb30-4a1f-a11c-e5bbb0a4d4b9/stream/progressive",
+                        "preset": "mp3_0_0",
+                        "duration": 290116,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "progressive",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    }
+                ]
+            },
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW",
+            "user": {
+                "avatar_url": "https://i1.sndcdn.com/avatars-000312246170-slj398-large.jpg",
+                "first_name": "",
+                "full_name": "",
+                "id": 2065244,
+                "kind": "user",
+                "last_modified": "2020-10-11T09:43:18Z",
+                "last_name": "",
+                "permalink": "silkmusic",
+                "permalink_url": "https://soundcloud.com/silkmusic",
+                "uri": "https://api.soundcloud.com/users/2065244",
+                "urn": "soundcloud:users:2065244",
+                "username": "Silk Music",
+                "verified": false,
+                "city": "LA",
+                "country_code": "US",
+                "badges": {
+                    "pro_unlimited": true,
+                    "verified": false
+                }
+            }
+        },
+        {
+            "artwork_url": "https://i1.sndcdn.com/artworks-000358395576-6rgzx1-large.jpg",
+            "caption": null,
+            "commentable": true,
+            "comment_count": 227,
+            "created_at": "2018-06-08T16:45:56Z",
+            "description": "Buy / Stream: https://Anjunadeep.lnk.to/NTso\nANJDEE356D\n\nFollowing his debut appearance on Anjunadeep’s Explorations 05 earlier this year with ‘Plane Mode’, Dmitry Kuzmin AKA Nuage is back with his new, carefully crafted EP ‘Thor’. In stark contrast to the frigid cold of his home city of St Petersburg, ‘Thor’ is an warming incarnation of uplifting electronica. From the feather-light ‘Electricity’, to the deeper, vocal ridden ‘Whirl’, ‘Thor’ showcases Kuzmin’s capacity for emotive songwriting and nuanced production.",
+            "downloadable": false,
+            "download_count": 0,
+            "duration": 263338,
+            "full_duration": 263338,
+            "embeddable_by": "all",
+            "genre": "Electronic",
+            "has_downloads_left": true,
+            "id": 455663940,
+            "kind": "track",
+            "label_name": "Anjunadeep",
+            "last_modified": "2020-10-19T15:12:11Z",
+            "license": "all-rights-reserved",
+            "likes_count": 6426,
+            "permalink": "nuage-flares",
+            "permalink_url": "https://soundcloud.com/anjunadeep/nuage-flares",
+            "playback_count": 469213,
+            "public": true,
+            "publisher_metadata": {
+                "id": 455663940,
+                "urn": "soundcloud:tracks:455663940",
+                "artist": "Nuage",
+                "contains_music": true,
+                "publisher": "Involved Publishing Ltd.",
+                "isrc": "GBEWA1801352",
+                "writer_composer": "Dmitri Kuzman",
+                "release_title": "Thor EP"
+            },
+            "purchase_title": "Buy / Stream",
+            "purchase_url": "https://Anjunadeep.lnk.to/NTso",
+            "release_date": "2018-06-08T00:00:00Z",
+            "reposts_count": 250,
+            "secret_token": null,
+            "sharing": "public",
+            "state": "finished",
+            "streamable": true,
+            "tag_list": "",
+            "title": "Nuage - Flares",
+            "uri": "https://api.soundcloud.com/tracks/455663940",
+            "urn": "soundcloud:tracks:455663940",
+            "user_id": 237204,
+            "visuals": null,
+            "waveform_url": "https://wave.sndcdn.com/9JR9nUSDFQYf_m.json",
+            "display_date": "2018-06-08T16:49:45Z",
+            "media": {
+                "transcodings": [
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:455663940/9cb9fe7b-9768-4311-ac80-7ca6a1fdca3c/stream/hls",
+                        "preset": "mp3_0_0",
+                        "duration": 263338,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:455663940/9cb9fe7b-9768-4311-ac80-7ca6a1fdca3c/stream/progressive",
+                        "preset": "mp3_0_0",
+                        "duration": 263338,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "progressive",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:455663940/f6a6d00a-f9cf-4e91-a2ae-2a5c255110d4/stream/hls",
+                        "preset": "opus_0_0",
+                        "duration": 263338,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/ogg; codecs=\"opus\""
+                        },
+                        "quality": "sq"
+                    }
+                ]
+            },
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW",
+            "user": {
+                "avatar_url": "https://i1.sndcdn.com/avatars-iCVwZCID0bpaoODX-0mR86w-large.jpg",
+                "first_name": "",
+                "full_name": "",
+                "id": 237204,
+                "kind": "user",
+                "last_modified": "2020-10-16T08:38:08Z",
+                "last_name": "",
+                "permalink": "anjunadeep",
+                "permalink_url": "https://soundcloud.com/anjunadeep",
+                "uri": "https://api.soundcloud.com/users/237204",
+                "urn": "soundcloud:users:237204",
+                "username": "Anjunadeep",
+                "verified": false,
+                "city": "London",
+                "country_code": null,
+                "badges": {
+                    "pro_unlimited": true,
+                    "verified": false
+                }
+            }
+        },
+        {
+            "artwork_url": "https://i1.sndcdn.com/artworks-000572715911-cy6qh7-large.jpg",
+            "caption": null,
+            "commentable": true,
+            "comment_count": 699,
+            "created_at": "2019-07-25T19:33:22Z",
+            "description": "Buy Link: http://bit.ly/30TRWEP \n\nhttps://soundcloud.com/beatandpath\nhttps://soundcloud.com/bondi-music\nhttps://soundcloud.com/saandmusic",
+            "downloadable": false,
+            "download_count": 0,
+            "duration": 355220,
+            "full_duration": 355220,
+            "embeddable_by": "all",
+            "genre": "Deep House",
+            "has_downloads_left": true,
+            "id": 656385386,
+            "kind": "track",
+            "label_name": null,
+            "last_modified": "2020-10-19T14:44:16Z",
+            "license": "all-rights-reserved",
+            "likes_count": 29796,
+            "permalink": "premiere-bondi-saand-mission-control-beat-path",
+            "permalink_url": "https://soundcloud.com/egroove/premiere-bondi-saand-mission-control-beat-path",
+            "playback_count": 1927326,
+            "public": true,
+            "publisher_metadata": {
+                "id": 656385386,
+                "urn": "soundcloud:tracks:656385386",
+                "contains_music": true
+            },
+            "purchase_title": "Release info",
+            "purchase_url": "http://bit.ly/2LFbglT",
+            "release_date": null,
+            "reposts_count": 933,
+            "secret_token": null,
+            "sharing": "public",
+            "state": "finished",
+            "streamable": true,
+            "tag_list": "BONDI SAAND \"Beat & Path\"",
+            "title": "Premiere: BONDI & SAAND - Mission Control -  Beat & Path",
+            "uri": "https://api.soundcloud.com/tracks/656385386",
+            "urn": "soundcloud:tracks:656385386",
+            "user_id": 28892,
+            "visuals": null,
+            "waveform_url": "https://wave.sndcdn.com/IWfkYxWeK6TK_m.json",
+            "display_date": "2019-07-25T19:40:21Z",
+            "media": {
+                "transcodings": [
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:656385386/c631fd4f-4459-4a2d-b8fd-375144d9cfc5/stream/hls",
+                        "preset": "mp3_0_0",
+                        "duration": 355220,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:656385386/c631fd4f-4459-4a2d-b8fd-375144d9cfc5/stream/progressive",
+                        "preset": "mp3_0_0",
+                        "duration": 355220,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "progressive",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:656385386/acdd6db9-a1b0-4860-8739-6f6a48c7c19d/stream/hls",
+                        "preset": "opus_0_0",
+                        "duration": 355138,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/ogg; codecs=\"opus\""
+                        },
+                        "quality": "sq"
+                    }
+                ]
+            },
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW",
+            "user": {
+                "avatar_url": "https://i1.sndcdn.com/avatars-g6PPrEtCCyCJBblZ-4SseWw-large.jpg",
+                "first_name": "Electronic",
+                "full_name": "Electronic Groove",
+                "id": 28892,
+                "kind": "user",
+                "last_modified": "2020-08-19T19:22:43Z",
+                "last_name": "Groove",
+                "permalink": "egroove",
+                "permalink_url": "https://soundcloud.com/egroove",
+                "uri": "https://api.soundcloud.com/users/28892",
+                "urn": "soundcloud:users:28892",
+                "username": "Electronic Groove",
+                "verified": false,
+                "city": "",
+                "country_code": "US",
+                "badges": {
+                    "pro_unlimited": true,
+                    "verified": false
+                }
+            }
+        },
+        {
+            "artwork_url": "https://i1.sndcdn.com/artworks-000091994036-9wwwsu-large.jpg",
+            "caption": null,
+            "commentable": true,
+            "comment_count": 1558,
+            "created_at": "2014-09-24T13:22:31Z",
+            "description": "♫ Full Article ♫\nhttp://www.deephouseamsterdam.com/free-download-downtown-party-network-ft-egle-sirvydyte-space-2014-version/\n\nOriginally debuted on Dixon’s formidable Essential Mix in September, Downtown Party Network ft Egle Sirvydyte dropped ‘Space Me Out’ on Silence Music along with remixes from Musk, Mario Basanov and Hannes Fischer back in 2013. After much critical acclaim and being well-played by many top-djs, the track is now remixed by Downtown Party Network into this sparkling 2014 version. Since it will not be officially released by any label, you can exclusively download this re-take on one of the hottest tracks last year at Deep House Amsterdam. Enjoy!",
+            "downloadable": false,
+            "download_count": 0,
+            "duration": 367629,
+            "full_duration": 367629,
+            "embeddable_by": "all",
+            "genre": "downtown party network",
+            "has_downloads_left": true,
+            "id": 169155349,
+            "kind": "track",
+            "label_name": null,
+            "last_modified": "2020-10-19T14:44:16Z",
+            "license": "all-rights-reserved",
+            "likes_count": 45945,
+            "permalink": "free-download-downtown-party-network-ft-egle-sirvydyte-space-me-out-2014-version",
+            "permalink_url": "https://soundcloud.com/deep-house-amsterdam/free-download-downtown-party-network-ft-egle-sirvydyte-space-me-out-2014-version",
+            "playback_count": 3141272,
+            "public": true,
+            "publisher_metadata": {
+                "id": 169155349,
+                "urn": "soundcloud:tracks:169155349"
+            },
+            "purchase_title": null,
+            "purchase_url": null,
+            "release_date": null,
+            "reposts_count": 3882,
+            "secret_token": null,
+            "sharing": "public",
+            "state": "finished",
+            "streamable": true,
+            "tag_list": "\"space Me Out\"",
+            "title": "Full Premiere: Downtown Party Network Ft. Egle Sirvydyte - Space Me Out (2014 Version)",
+            "uri": "https://api.soundcloud.com/tracks/169155349",
+            "urn": "soundcloud:tracks:169155349",
+            "user_id": 15904471,
+            "visuals": null,
+            "waveform_url": "https://wave.sndcdn.com/TiK90t5JXzDQ_m.json",
+            "display_date": "2014-09-24T13:22:31Z",
+            "media": {
+                "transcodings": [
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:169155349/1291cce7-c8a4-4844-9877-88005077301a/stream/hls",
+                        "preset": "mp3_0_0",
+                        "duration": 367629,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:169155349/1291cce7-c8a4-4844-9877-88005077301a/stream/progressive",
+                        "preset": "mp3_0_0",
+                        "duration": 367629,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "progressive",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:169155349/96d9a9b8-5b80-4e93-9885-5e1eb70c22ae/stream/hls",
+                        "preset": "opus_0_0",
+                        "duration": 367629,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/ogg; codecs=\"opus\""
+                        },
+                        "quality": "sq"
+                    }
+                ]
+            },
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW",
+            "user": {
+                "avatar_url": "https://i1.sndcdn.com/avatars-000503964876-624ow5-large.jpg",
+                "first_name": "",
+                "full_name": "",
+                "id": 15904471,
+                "kind": "user",
+                "last_modified": "2019-08-02T13:26:51Z",
+                "last_name": "",
+                "permalink": "deep-house-amsterdam",
+                "permalink_url": "https://soundcloud.com/deep-house-amsterdam",
+                "uri": "https://api.soundcloud.com/users/15904471",
+                "urn": "soundcloud:users:15904471",
+                "username": "DHA FM (Deep House Amsterdam)",
+                "verified": false,
+                "city": "Amsterdam",
+                "country_code": "NL",
+                "badges": {
+                    "pro_unlimited": true,
+                    "verified": false
+                }
+            }
+        },
+        {
+            "artwork_url": "https://i1.sndcdn.com/artworks-000443357661-pnpxe6-large.jpg",
+            "caption": null,
+            "commentable": true,
+            "comment_count": 239,
+            "created_at": "2018-11-20T21:29:02Z",
+            "description": "A song that makes you want to get lost in your lover's eyes and blossom from an unconscious vulnerability. Like being hugged without being touched. \n\nCheck out the amazing video shot for Sapiosexual: https://bit.ly/WatchTheSapiosexualVideo",
+            "downloadable": false,
+            "download_count": 1,
+            "duration": 350099,
+            "full_duration": 350099,
+            "embeddable_by": "all",
+            "genre": "Deep House",
+            "has_downloads_left": true,
+            "id": 533076738,
+            "kind": "track",
+            "label_name": "Genius Loci Records",
+            "last_modified": "2020-10-16T12:10:29Z",
+            "license": "all-rights-reserved",
+            "likes_count": 4312,
+            "permalink": "sapiosexual-ft-alan-watts",
+            "permalink_url": "https://soundcloud.com/henry-pope/sapiosexual-ft-alan-watts",
+            "playback_count": 329989,
+            "public": true,
+            "publisher_metadata": {
+                "id": 533076738,
+                "urn": "soundcloud:tracks:533076738",
+                "artist": "Henry Pope",
+                "contains_music": true,
+                "publisher": "Genius Loci",
+                "isrc": "QZJRC1924733",
+                "explicit": false,
+                "writer_composer": "Henry Pope",
+                "release_title": "Sapiosexual feat Alan Watts"
+            },
+            "purchase_title": "Download",
+            "purchase_url": "https://itunes.apple.com/us/album/sapiosexual-feat-alan-watts/1440049472?i=1440049480",
+            "release_date": null,
+            "reposts_count": 584,
+            "secret_token": null,
+            "sharing": "public",
+            "state": "finished",
+            "streamable": true,
+            "tag_list": "\"alan watts \" \"Deep House\" Techno Minimal funk Poetry \"spoken word\" \"philosophy \" House Bass Bassline",
+            "title": "Sapiosexual Feat. Alan Watts",
+            "uri": "https://api.soundcloud.com/tracks/533076738",
+            "urn": "soundcloud:tracks:533076738",
+            "user_id": 6157222,
+            "visuals": null,
+            "waveform_url": "https://wave.sndcdn.com/X09NawvLU0R2_m.json",
+            "display_date": "2018-11-20T21:29:02Z",
+            "media": {
+                "transcodings": [
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:533076738/f210e6dd-e54c-4d71-9d21-79c0208ea093/stream/hls",
+                        "preset": "mp3_standard",
+                        "duration": 350099,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:533076738/f210e6dd-e54c-4d71-9d21-79c0208ea093/stream/progressive",
+                        "preset": "mp3_standard",
+                        "duration": 350099,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "progressive",
+                            "mime_type": "audio/mpeg"
+                        },
+                        "quality": "sq"
+                    },
+                    {
+                        "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:533076738/2617e19f-eee9-42b0-bd11-c798eb1993fa/stream/hls",
+                        "preset": "opus_0_0",
+                        "duration": 350099,
+                        "snipped": false,
+                        "format": {
+                            "protocol": "hls",
+                            "mime_type": "audio/ogg; codecs=\"opus\""
+                        },
+                        "quality": "sq"
+                    }
+                ]
+            },
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW",
+            "user": {
+                "avatar_url": "https://i1.sndcdn.com/avatars-000697011226-lj3o5z-large.jpg",
+                "first_name": "",
+                "full_name": "",
+                "id": 6157222,
+                "kind": "user",
+                "last_modified": "2020-08-27T18:38:56Z",
+                "last_name": "",
+                "permalink": "henry-pope",
+                "permalink_url": "https://soundcloud.com/henry-pope",
+                "uri": "https://api.soundcloud.com/users/6157222",
+                "urn": "soundcloud:users:6157222",
+                "username": "HENRY POPE",
+                "verified": false,
+                "city": "Los Angeles",
+                "country_code": null,
+                "badges": {
+                    "pro_unlimited": true,
+                    "verified": false
+                }
+            }
+        },
+        {
+            "id": 838807852,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 196504795,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 725920519,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 176568862,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 101403891,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 231380272,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 231678958,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 100430651,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 256761970,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 257763131,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 169989132,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 168448204,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 174276882,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 171791080,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 200580240,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 207094246,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 263453033,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 233770380,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 200910035,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 290208917,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 290085882,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 322538554,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 95759647,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 233330508,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 233681465,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 220122138,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 214853924,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 55149736,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 258469434,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 332100635,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 258794393,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 247405635,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 267278797,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 331342685,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 243889279,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 180149002,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 26905303,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 337065653,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 336226146,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 338247612,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 335839818,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 346040635,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 308893865,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 365746157,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 236082267,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 308486400,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 304180358,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 287310273,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "SNIP"
+        },
+        {
+            "id": 276927984,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 256128412,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "BLOCK"
+        },
+        {
+            "id": 128209587,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 76255568,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "SNIP"
+        },
+        {
+            "id": 166783535,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 84384151,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 130572064,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 284305671,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 211029451,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 214787869,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 137127648,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 115526695,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 503151465,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 165185488,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 337842103,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 155700228,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 305816859,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 438233802,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "SNIP"
+        },
+        {
+            "id": 137033616,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 305219559,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "SNIP"
+        },
+        {
+            "id": 593981181,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 249833335,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 520211469,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 505711077,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 656236307,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 576354837,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 178032085,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 195171197,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 209723296,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 654806993,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 112564688,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 217746816,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 435026730,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 747651682,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 416126220,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 384520922,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 206189104,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 543396186,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 750736945,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "SNIP"
+        },
+        {
+            "id": 385441865,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 505919196,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 685993468,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 230806728,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        },
+        {
+            "id": 894699616,
+            "kind": "track",
+            "monetization_model": "NOT_APPLICABLE",
+            "policy": "ALLOW"
+        }
+    ],
+    "track_count": 97
+}
