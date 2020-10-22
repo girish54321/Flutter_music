@@ -4,8 +4,6 @@ import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/account/account.dart';
 import 'package:musicPlayer/home/HomeScreen.dart';
 import 'package:musicPlayer/search/search.dart';
-import 'package:musicPlayer/widgets/header.dart';
-import 'package:musicPlayer/widgets/nowPlaying.dart';
 
 class MyHomePage extends StatefulWidget {
   @override

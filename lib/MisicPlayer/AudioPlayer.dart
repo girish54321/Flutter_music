@@ -137,6 +137,13 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   @override
+  void onAddQueueItem(MediaItem mediaItem) {
+    super.onAddQueueItem(mediaItem);
+    _queue.add(mediaItem);
+    AudioServiceBackground.setQueue(_queue);
+  }
+
+  @override
   Future<void> onStop() async {
     _playing = false;
     await _audioPlayer.stop();

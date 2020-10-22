@@ -6,9 +6,6 @@ import 'package:musicPlayer/animasions/showUp.dart';
 Widget Header(context, toolBarText) {
   return AppBar(
     elevation: 0,
-    title: ShowUp(
-        delay: 500,
-        child:
-            Container(alignment: Alignment.center, child: Text(toolBarText))),
+    title: ShowUp(delay: 500, child: Text(toolBarText)),
   );
 }

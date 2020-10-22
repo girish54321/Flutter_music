@@ -33,7 +33,9 @@ dependencies:
   animations: ^1.1.2
   http: ^0.12.1
   cached_network_image: ^2.3.3
-
+  progress_dialog: ^1.2.4
+  page_transition: "^1.1.7+2"
+  flushbar: ^1.10.4
 
 dev_dependencies:
   flutter_test:
@@ -52,7 +54,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/placholder.jpg
-    # - images/placholder.jpg 
+    # - images/placholder.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

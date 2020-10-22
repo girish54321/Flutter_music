@@ -7,8 +7,10 @@ import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 class HomeShongListItem extends StatelessWidget {
   final ItemsCollection itemsCollection;
   final int height;
+  final Function goToPlayList;
 
-  const HomeShongListItem({Key key, this.height, this.itemsCollection})
+  const HomeShongListItem(
+      {Key key, this.height, this.itemsCollection, this.goToPlayList})
       : super(key: key);
 
   @override
@@ -16,7 +18,9 @@ class HomeShongListItem extends StatelessWidget {
     return RightToLeft(
       delay: 150,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          goToPlayList(itemsCollection, itemsCollection.id.toString());
+        },
         child: Padding(
           padding: EdgeInsets.only(top: 6.0, bottom: 2.0, right: 14.0),
           child: Column(
@@ -24,7 +28,7 @@ class HomeShongListItem extends StatelessWidget {
               Stack(
                 children: <Widget>[
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(2.0),
                     child: itemsCollection.artworkUrl != null
                         ? AppNetworkImage(
                             imageUrl: itemsCollection.artworkUrl
@@ -49,7 +53,10 @@ class HomeShongListItem extends StatelessWidget {
                             size: 33,
                             color: Colors.white,
                           ),
-                          onPressed: () {}),
+                          onPressed: () {
+                            goToPlayList(
+                                itemsCollection, itemsCollection.id.toString());
+                          }),
                     ),
                   ),
                 ],

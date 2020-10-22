@@ -1,6 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'MisicPlayer/MusicPlayerScreen.dart';
+import 'articesProfile/singerProfile.dart';
 import 'home/home.dart';
 
 void main() {
@@ -8,16 +8,17 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  @override
+  @override 
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter ',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: AudioServiceWidget(child: MyHomePage()));
-    // home: MyHomePage());
+        // home: SingerProgile());
     // home: BGAudioPlayerScreen());
+    // home: OpenContainerTransformDemo());
   }
 }
