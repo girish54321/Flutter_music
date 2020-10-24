@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/account/account.dart';
+import 'package:musicPlayer/animasions/rightToLeft.dart';
 import 'package:musicPlayer/home/HomeScreen.dart';
 import 'package:musicPlayer/search/search.dart';
+import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/widgets/nowPlaying.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -12,7 +16,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   PageController pageController;
   int pageIndex = 0;
 
@@ -45,7 +48,6 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       body: PageView(
         children: <Widget>[
           HomeScreen(),
@@ -63,18 +65,26 @@ class _MyHomePageState extends State<MyHomePage>
           onTap: onTap,
           activeColor: Theme.of(context).primaryColor,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home)),
-            BottomNavigationBarItem(icon: Icon(Icons.notifications)),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.play_circle_filled,
-                size: 44,
-              ),
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.search)),
-            BottomNavigationBarItem(icon: Icon(Icons.person)),
+                icon: Icon(Icons.audiotrack), label: "EXPLORE"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.whatshot), label: "TRENDING"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.play_circle_filled,
+                ),
+                label: "PLAYER"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.library_music), label: "LIBRARY"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: "SETTINGS"),
           ]),
-      // bottomSheet: pageIndex != 2 ? NowPlaying() : Text(""),
+      bottomSheet: pageIndex != 2
+          ? RightToLeft(
+              child: NowPlayingMinPlayer(),
+              delay: 150,
+            )
+          : Text(""),
     );
   }
 }

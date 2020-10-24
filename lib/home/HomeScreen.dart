@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/screen/playListScreen.dart';
+import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/header.dart';
+import 'package:musicPlayer/widgets/nowPlaying.dart';
 import 'package:musicPlayer/widgets/verticleBox.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
@@ -37,9 +39,9 @@ class _HomeScreenState extends State<HomeScreen>
           _loading = false;
         });
       }
-    } catch (_) {
+    } catch (e) {
       print("response22 ERRERs");
-      print(_);
+      print(e);
     }
   }
 
@@ -69,25 +71,32 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header(context, "Home"),
-      body: _loading
-          ? Center(
-              child: new CircularProgressIndicator(),
-            )
-          : CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: <Widget>[
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    HomeSongListCollection collection =
-                        homeSongList.collection[index];
-                    return VerticalBox(
-                        collection: collection, goToPlayList: goToPlayList);
-                  }, childCount: homeSongList.collection.length),
-                ),
-              ],
-            ),
+      appBar: AppBar(title: Text("Home")),
+      body: SafeArea(
+        child: _loading
+            ? Center(
+                child: new CircularProgressIndicator(),
+              )
+            : CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 16.0, top: 18.0),
+                        child: Headline2(text: "Recommended for you")),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      HomeSongListCollection collection =
+                          homeSongList.collection[index];
+                      return VerticalBox(
+                          collection: collection, goToPlayList: goToPlayList);
+                    }, childCount: homeSongList.collection.length),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

@@ -1,10 +1,14 @@
 import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicPlayer/articesProfile/singerProfile.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 import 'package:musicPlayer/widgets/header.dart';
 import 'package:musicPlayer/widgets/nowPlaying.dart';
 import 'package:page_transition/page_transition.dart';
@@ -12,6 +16,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'AudioPlayer.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
+import 'package:color_thief_flutter/color_thief_flutter.dart';
+import 'package:color_thief_flutter/utils.dart';
 
 class BGAudioPlayerScreen extends StatefulWidget {
   final List<NowPlayingClass> nowPlayingClass;
@@ -28,30 +34,40 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
       BehaviorSubject.seeded(null);
 
   List<MediaItem> nowPlaying = [];
-  bool _loading;
+  bool _loading = false;
 
   @override
   void initState() {
     super.initState();
-    _loading = false;
+    // _loading = false;
     playInComingTrack();
   }
 
   playInComingTrack() async {
     print("HEHHEHH1111E");
     if (AudioService.running) {
-      var listItem = widget.nowPlayingClass[0];
-      MediaItem mediaItem = new MediaItem(
-          id: listItem.url,
-          title: listItem.title,
-          artist: listItem.artist,
-          artUri: listItem.artUri.replaceAll("large", "t500x500"),
-          album: listItem.album,
-          duration: listItem.duration);
-      print(listItem.title);
-      print("ADDED IN LISt");
-      await Future.delayed(Duration(seconds: 5));
-      await AudioService.addQueueItem(mediaItem);
+      if (widget.nowPlayingClass != null) {
+        var listItem = widget.nowPlayingClass[0];
+        MediaItem mediaItem = new MediaItem(
+            id: listItem.url,
+            title: listItem.title,
+            artist: listItem.artist,
+            artUri: listItem.artUri.replaceAll("large", "t500x500"),
+            album: listItem.album,
+            duration: listItem.duration);
+        print(listItem.title);
+        print("ADDED IN LISt");
+
+        Future.delayed(Duration(seconds: 5));
+        Fluttertoast.showToast(
+            msg: "Added To PlayList",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        await AudioService.addQueueItem(mediaItem);
+      }
     } else {
       if (widget.nowPlayingClass != null) {
         for (int i = 0; i < widget.nowPlayingClass.length; i++) {
@@ -84,7 +100,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           backgroundTaskEntrypoint: _audioPlayerTaskEntrypoint,
           androidNotificationChannelName: 'Audio Player',
           androidNotificationColor: 0xFF2196f3,
-          androidNotificationIcon: 'mipmap/ic_launcher',
+          androidNotificationIcon: 'mipmap/launcher_icon',
           params: params,
         );
         setState(() {
@@ -104,25 +120,37 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
   // }
 
   Widget coverArt(MediaItem mediaItem) {
+    // var color = [90, 90, 90];
+    // getColorFromUrl(mediaItem.artUri.replaceAll("large", "t300x300"))
+    //     .then((color) {
+    //   print(color); // [R,G,B]
+    //   print("// [R,G,B]");
+    //   color = color;
+    //   // if()
+    //   // setState(() {});
+    // });
     return Column(
       children: <Widget>[
         Center(
-          child: Container(
-            height: 250,
-            width: 250,
-            padding: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(200)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(200),
-              child: Image.network(
-                mediaItem.artUri.replaceAll("large", "t300x300"),
-                fit: BoxFit.cover,
-              ),
+            child: Container(
+          height: 290.00,
+          width: 290.00,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  mediaItem.artUri.replaceAll("large", "t300x300")),
             ),
+            borderRadius: BorderRadius.circular(20.00),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0.00, 3.00),
+                color: Colors.black,
+                // color: Color.fromRGBO(color[0], color[1], color[2], 1),
+                blurRadius: 26,
+              ),
+            ],
           ),
-        ),
+        )),
         singerName(mediaItem.artist, mediaItem.title),
       ],
     );
@@ -134,51 +162,38 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(
-          height: 30,
+          height: 22,
         ),
         Center(
-          child: Text(
-            title != null ? title : "",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 27,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Headline3(
+            text: title != null ? title : "",
           ),
-        ),
-        SizedBox(
-          height: 10,
         ),
         Center(
-          child: Text(
-            name != null ? name : "",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 15, color: Colors.grey.shade700),
+            child: FlatButton(
+          child: LargeBody(
+            text: name != null ? name : "",
           ),
-        ),
-        SizedBox(height: 20),
-        RaisedButton(
-          child: Text("About Singer"),
           onPressed: () {
             Navigator.push(
                 context,
                 PageTransition(
-                    type: PageTransitionType.topToBottom,
+                    type: PageTransitionType.rightToLeft,
                     child: SingerProgile(track: widget.track)));
           },
-        )
+        )),
       ],
     );
   }
 
   Widget playerContalors(playing) {
-    return (Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 16),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 38),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Icon(
-            Icons.repeat,
+            Icons.replay_30,
             size: 36,
           ),
           IconButton(
@@ -189,15 +204,18 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
             onPressed: AudioService.skipToPrevious,
           ),
           Container(
-            height: 60,
-            width: 60,
-            child: FloatingActionButton(
+            height: 70.00,
+            width: 70.00,
+            decoration: BoxDecoration(
+              color: Color(0xffff2d55),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
               onPressed: playing ? AudioService.pause : AudioService.play,
-              backgroundColor: Colors.deepPurple,
-              child: Icon(
-                playing ? Icons.plus_one : Icons.play_arrow,
+              icon: Icon(
+                playing ? Icons.pause : Icons.play_arrow,
+                size: 40,
                 color: Colors.white,
-                size: 30,
               ),
             ),
           ),
@@ -208,123 +226,109 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
               ),
               onPressed: AudioService.skipToNext),
           Icon(
-            Icons.shuffle,
+            Icons.forward_30,
             size: 36,
           ),
         ],
       ),
-    ));
+    );
   }
 
-  Widget coverArtAnimastion(mediaItem) {
-    // ignore: deprecated_member_use
-    return ControlledAnimation(
-      duration: Duration(milliseconds: 600),
-      curve: Curves.elasticOut,
-      tween: Tween<double>(begin: 0, end: 1),
-      builder: (context, scaleValue) {
-        return Transform.scale(
-          scale: scaleValue,
-          alignment: Alignment.center,
-          child: coverArt(mediaItem),
-        );
-      },
-    );
+  // Widget coverArtAnimastion(mediaItem) {
+  //   // ignore: deprecated_member_use
+  //   return ControlledAnimation(
+  //     duration: Duration(milliseconds: 600),
+  //     curve: Curves.elasticOut,
+  //     tween: Tween<double>(begin: 0, end: 1),
+  //     builder: (context, scaleValue) {
+  //       return Transform.scale(
+  //         scale: scaleValue,
+  //         alignment: Alignment.center,
+  //         child: coverArt(mediaItem),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Widget nowPlayingToolBar(title) {
+    return (Container(
+      child: ListTile(
+        title: Text(
+          "NOW PLAYING FROM",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w600,
+            fontSize: 13,
+            color: Color(0xff000000).withOpacity(0.60),
+          ),
+        ),
+        subtitle: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w600,
+            fontSize: 17,
+            color: Color(0xffff2d55),
+          ),
+        ),
+        trailing: IconButton(
+            icon: new Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              // Navigator.pop(context);
+            }),
+        leading: IconButton(
+            icon: new Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Theme.of(context).accentColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Header(context, "Now Playing"),
-          Expanded(
-            child: Container(
-              child: Center(
-                child: StreamBuilder<AudioState>(
-                  stream: _audioStateStream,
-                  builder: (context, snapshot) {
-                    final audioState = snapshot.data;
-                    final queue = audioState?.queue;
-                    final mediaItem = audioState?.mediaItem;
-                    final playbackState = audioState?.playbackState;
-                    final processingState = playbackState?.processingState ??
-                        AudioProcessingState.none;
-                    final playing = playbackState?.playing ?? false;
-                    return Container(
-                      // width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: [
-                          if (processingState == AudioProcessingState.none) ...[
-                            _startAudioPlayerBtn(),
-                          ] else ...[
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              height: 19,
-                            ),
-                            coverArtAnimastion(mediaItem),
-                            positionIndicator(mediaItem, playbackState),
-                            playerContalors(playing),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     !playing
-                            //         ? IconButton(
-                            //             icon: Icon(Icons.play_arrow),
-                            //             iconSize: 64.0,
-                            //             onPressed: AudioService.play,
-                            //           )
-                            //         : IconButton(
-                            //             icon: Icon(Icons.pause),
-                            //             iconSize: 64.0,
-                            //             onPressed: AudioService.pause,
-                            //           ),
-                            //     IconButton(
-                            //       icon: Icon(Icons.stop),
-                            //       iconSize: 64.0,
-                            //       onPressed: AudioService.stop,
-                            //     ),
-                            //     Row(
-                            //       mainAxisAlignment: MainAxisAlignment.center,
-                            //       children: [
-                            //         IconButton(
-                            //           icon: Icon(Icons.skip_previous),
-                            //           iconSize: 64,
-                            //           onPressed: () {
-                            //             if (mediaItem == queue.first) {
-                            //               return;
-                            //             }
-                            //             AudioService.skipToPrevious();
-                            //           },
-                            //         ),
-                            //         IconButton(
-                            //           icon: Icon(Icons.skip_next),
-                            //           iconSize: 64,
-                            //           onPressed: () {
-                            //             if (mediaItem == queue.last) {
-                            //               return;
-                            //             }
-                            //             AudioService.skipToNext();
-                            //           },
-                            //         )
-                            //       ],
-                            //     ),
-                            //   ],
-                            // )
-                          ]
-                        ],
-                      ),
-                    );
-                  },
-                ),
+      body: SafeArea(
+        child: StreamBuilder<AudioState>(
+          stream: _audioStateStream,
+          builder: (context, snapshot) {
+            final audioState = snapshot.data;
+            final queue = audioState?.queue;
+            final mediaItem = audioState?.mediaItem;
+            final playbackState = audioState?.playbackState;
+            final processingState =
+                playbackState?.processingState ?? AudioProcessingState.none;
+            final playing = playbackState?.playing ?? false;
+            return Container(
+              // width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (processingState == AudioProcessingState.none) ...[
+                    //  nowPlayingToolBar(""),
+                    _startAudioPlayerBtn(),
+                  ] else ...[
+                    // nowPlayingToolBar(mediaItem.artist),
+                    SizedBox(height: 14),
+                    coverArt(mediaItem),
+                    positionIndicator(mediaItem, playbackState),
+                    playerContalors(playing),
+                    SizedBox(height: 14)
+                  ]
+                ],
               ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
       bottomSheet: PlayButton(
         startPlayBackUp: _startMusicButton,
@@ -403,44 +407,54 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
             snapshot.data ?? state.currentPosition.inMilliseconds.toDouble();
         double duration = mediaItem?.duration?.inMilliseconds?.toDouble();
         final player = AudioPlayer();
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    _printDuration(state.currentPosition),
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        return Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              if (duration != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18),
+                  child: Slider(
+                    activeColor: Theme.of(context).accentColor,
+                    inactiveColor: Colors.grey.shade300,
+                    min: 0.0,
+                    max: duration,
+                    value: seekPos ?? max(0.0, min(position, duration)),
+                    onChanged: (value) {
+                      _dragPositionSubject.add(value);
+                    },
+                    onChangeEnd: (value) {
+                      AudioService.seekTo(
+                          Duration(milliseconds: value.toInt()));
+                      seekPos = value;
+                      _dragPositionSubject.add(null);
+                    },
                   ),
-                  Text(
-                    _printDuration(mediaItem.duration),
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                ],
+                ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 38),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      _printDuration(state.currentPosition),
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).accentColor),
+                    ),
+                    Text(
+                      _printDuration(mediaItem.duration),
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).accentColor),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (duration != null)
-              Slider(
-                activeColor: Colors.red,
-                inactiveColor: Colors.grey.shade300,
-                min: 0.0,
-                max: duration,
-                value: seekPos ?? max(0.0, min(position, duration)),
-                onChanged: (value) {
-                  _dragPositionSubject.add(value);
-                },
-                onChangeEnd: (value) {
-                  AudioService.seekTo(Duration(milliseconds: value.toInt()));
-                  seekPos = value;
-                  _dragPositionSubject.add(null);
-                },
-              ),
-            SizedBox(
-              height: 40,
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

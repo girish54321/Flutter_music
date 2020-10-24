@@ -1,11 +1,19 @@
 import 'dart:convert';
 
+import 'package:flushbar/flushbar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
+import 'package:musicPlayer/modal/audio_url.dart';
+import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
+import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/header.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import '../animasions/FadeAnimation.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +37,9 @@ class _SingerProgileState extends State<SingerProgile> {
   List myList;
   ScrollController _scrollController = ScrollController();
   int _currentMax = 10;
+  bool _loadingMore = true;
+  List<NowPlayingClass> nowPlaying = [];
+  AudioUrl audioUrl;
 
   @override
   void initState() {
@@ -37,7 +48,16 @@ class _SingerProgileState extends State<SingerProgile> {
       print(widget.track.user.id);
       getSingerProfile(widget.track.user.id);
       // getSingerProfile(147072974);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error Loading Singer",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
+
     // getSingerProfile(147072974);
     // myList = List.generate(10, (i) => "Item : ${i + 1}");
     _scrollController.addListener(() {
@@ -83,11 +103,24 @@ class _SingerProgileState extends State<SingerProgile> {
           });
         }
         print(resBody['collection'].length);
+        if (resBody['collection'].length == 0) {
+          _loadingMore = false;
+        }
         // singerProfile = new SingerProfile.fromJson(resBody);
       }
     } catch (e) {
       print("Error");
+      Flushbar(
+        title: "Error.",
+        message: e.toString(),
+        reverseAnimationCurve: Curves.easeIn,
+        forwardAnimationCurve: Curves.easeInOut,
+        duration: Duration(seconds: 2),
+        margin: EdgeInsets.all(8),
+        borderRadius: 8,
+      )..show(context);
       // pr.hide();
+      _loadingMore = false;
       print(e);
     }
   }
@@ -107,6 +140,15 @@ class _SingerProgileState extends State<SingerProgile> {
       }
     } catch (e) {
       print("Error");
+      Flushbar(
+        title: "Error.",
+        message: e.toString(),
+        reverseAnimationCurve: Curves.easeIn,
+        forwardAnimationCurve: Curves.easeInOut,
+        duration: Duration(seconds: 2),
+        margin: EdgeInsets.all(8),
+        borderRadius: 8,
+      )..show(context);
       // pr.hide();
       print(e);
     }
@@ -125,7 +167,10 @@ class _SingerProgileState extends State<SingerProgile> {
         });
         print("collection");
         print(resBody['collection'].length);
-        singerTracksModal = new SingerTracksModal.fromJson(resBody);
+        setState(() {
+          singerTracksModal = new SingerTracksModal.fromJson(resBody);
+        });
+
         // for (int i = 0; i <= resBody['collection'].length; i++) {
         //   SingerTracksModal singerTracksModal =
         //       new SingerTracksModal.fromJson(resBody['collection'][i]);
@@ -142,6 +187,15 @@ class _SingerProgileState extends State<SingerProgile> {
     } catch (e) {
       print("Error");
       // pr.hide();
+      Flushbar(
+        title: "Error.",
+        message: e.toString(),
+        reverseAnimationCurve: Curves.easeIn,
+        forwardAnimationCurve: Curves.easeInOut,
+        duration: Duration(seconds: 2),
+        margin: EdgeInsets.all(8),
+        borderRadius: 8,
+      )..show(context);
       print(e);
     }
   }
@@ -160,12 +214,82 @@ class _SingerProgileState extends State<SingerProgile> {
     return dummyList;
   }
 
+  Future<void> sendSongUrlToPlayer(Collection collection) async {
+    ProgressDialog pr = ProgressDialog(context);
+    //For normal dialog
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
+    pr.style(
+        message: 'Loading..',
+        padding: EdgeInsets.all(16.0),
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: Container(
+            padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
+        elevation: 6.0,
+        insetAnimCurve: Curves.easeInOut,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 19.0,
+          fontWeight: FontWeight.w600,
+        ));
+    await pr.show();
+    try {
+      http.Response response =
+          await Network().getStremUrl(collection.media.transcodings[1].url);
+      print(response.body);
+      if (response.statusCode == 200) {
+        var singerName = "UnKnow";
+        if (collection.user.fullName != null) {
+          singerName = collection.user.username;
+        }
+        var resBody = json.decode(response.body);
+        audioUrl = new AudioUrl.fromJson(resBody);
+        nowPlaying.add(new NowPlayingClass(
+            audioUrl.url,
+            collection.title,
+            singerName,
+            collection.artworkUrl,
+            null,
+            Duration(milliseconds: collection.media.transcodings[1].duration)));
+        pr.hide();
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: BGAudioPlayerScreen(
+                    nowPlayingClass: nowPlaying, track: null)));
+        await Future.delayed(Duration(seconds: 5));
+        nowPlaying.clear();
+      }
+    } catch (e) {
+      print("Error");
+      pr.hide();
+      Flushbar(
+        title: "Error.",
+        message: e.toString(),
+        reverseAnimationCurve: Curves.easeIn,
+        forwardAnimationCurve: Curves.easeInOut,
+        duration: Duration(seconds: 2),
+        margin: EdgeInsets.all(8),
+        borderRadius: 8,
+      )..show(context);
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.black,
-      body: _loading
-          ? Text("loadk")
+      body: _loading || singerTracksModal.collection.length == 0
+          ? Center(
+              child: Center(
+                child: new CircularProgressIndicator(),
+              ),
+            )
           : CustomScrollView(
               controller: _scrollController,
               slivers: <Widget>[
@@ -235,34 +359,60 @@ class _SingerProgileState extends State<SingerProgile> {
                             child: Column(
                               children: [
                                 ListTile(
-                                  title: Text(collection.title),
+                                  onTap: () {
+                                    sendSongUrlToPlayer(collection);
+                                  },
+                                  // title: Text(collection.title),
+                                  title: Headline4(text: collection.title),
                                   trailing: collection.media != null
                                       ? Text(Network().printDuration(Duration(
                                           milliseconds: collection
                                               .media.transcodings[1].duration)))
                                       : Text(""),
-                                  leading: CircleAvatar(
-                                    radius: 24.0,
-                                    backgroundImage: collection.artworkUrl !=
-                                            null
-                                        ? NetworkImage(collection.artworkUrl)
-                                        : NetworkImage(collection.artworkUrl),
-                                    backgroundColor: Colors.transparent,
+                                  // leading: CircleAvatar(
+                                  //   radius: 24.0,
+                                  //   backgroundImage: collection.artworkUrl !=
+                                  //           null
+                                  //       ? NetworkImage(collection.artworkUrl)
+                                  //       : NetworkImage(collection.artworkUrl),
+                                  //   backgroundColor: Colors.transparent,
+                                  // ),
+                                  leading: Container(
+                                    height: 60.00,
+                                    width: 60.00,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: collection.artworkUrl != null
+                                              ? NetworkImage(
+                                                  collection.artworkUrl)
+                                              : NetworkImage(
+                                                  collection.artworkUrl),
+                                          fit: BoxFit.cover),
+                                      borderRadius:
+                                          BorderRadius.circular(15.00),
+                                    ),
                                   ),
-                                  subtitle: Text(
-                                    collection.createdAt.toLocal().toString(),
-                                    maxLines: 2,
-                                  ),
+                                  subtitle: SMALLCAPTION(
+                                      text: collection.createdAt
+                                          .toLocal()
+                                          .toString()),
+                                  // subtitle: Text(
+                                  //   collection.createdAt.toLocal().toString(),
+                                  //   maxLines: 2,
+                                  // ),
                                 ),
                                 Divider()
                               ],
                             ),
                           );
                         }).toList(),
-                        RaisedButton(
-                          child: Text("Load  Moew"),
-                          onPressed: _getMoreData,
-                        )
+                        Center(
+                          child: _loadingMore
+                              ? Container(
+                                  margin: EdgeInsets.symmetric(vertical: 18),
+                                  child: CircularProgressIndicator())
+                              : Text(""),
+                        ),
                       ],
                     ),
                   ]),

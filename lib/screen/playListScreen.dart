@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
@@ -7,6 +8,7 @@ import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:musicPlayer/network_utils/api.dart';
@@ -89,7 +91,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
         Navigator.push(
             context,
             PageTransition(
-                type: PageTransitionType.bottomToTop,
+                type: PageTransitionType.rightToLeft,
                 child: BGAudioPlayerScreen(
                     nowPlayingClass: nowPlaying, track: track)));
         await Future.delayed(Duration(seconds: 5));
@@ -98,6 +100,15 @@ class _PlayListScreenState extends State<PlayListScreen> {
     } catch (e) {
       print("Error");
       pr.hide();
+      Flushbar(
+        title: "Error.",
+        message: e.toString(),
+        reverseAnimationCurve: Curves.easeIn,
+        forwardAnimationCurve: Curves.easeInOut,
+        duration: Duration(seconds: 2),
+        margin: EdgeInsets.all(8),
+        borderRadius: 8,
+      )..show(context);
       print(e);
     }
   }
@@ -116,6 +127,15 @@ class _PlayListScreenState extends State<PlayListScreen> {
       }
     } catch (e) {
       print("Error");
+      Flushbar(
+        title: "Error.",
+        message: e.toString(),
+        reverseAnimationCurve: Curves.easeIn,
+        forwardAnimationCurve: Curves.easeInOut,
+        duration: Duration(seconds: 2),
+        margin: EdgeInsets.all(8),
+        borderRadius: 8,
+      )..show(context);
       print(e);
     }
   }
@@ -131,21 +151,6 @@ class _PlayListScreenState extends State<PlayListScreen> {
             )
           : CustomScrollView(
               slivers: <Widget>[
-                // SliverAppBar(
-                //   expandedHeight: 360,
-                //   pinned: false,
-                //   flexibleSpace: FlexibleSpaceBar(
-                //     title: Text(widget.itemsCollection.title),
-                //     background: Hero(
-                //       tag: widget.heroTag,
-                //       child: Image.network(
-                //         playListResponse.artworkUrl
-                //             .replaceAll("large", "t500x500"),
-                //         fit: BoxFit.cover,
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 GardeenAppBar(
                   isProfile: false,
                   imageUrl: playListResponse.artworkUrl != null
@@ -154,48 +159,77 @@ class _PlayListScreenState extends State<PlayListScreen> {
                       : "",
                   title: widget.itemsCollection.title,
                 ),
+                SliverToBoxAdapter(
+                  // child: Padding(
+                  //     padding: EdgeInsets.all(16.0),
+                  //     child: Headline3(text: "Popular")),
+                  child:SizedBox(height: 16,)
+                ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                     playList.Track track = playListResponse.tracks[index];
-                    return Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
-                      child: ListTile(
-                        onTap: () {
-                          sendSongUrlToPlayer(track);
-                          // if (track.media == null) {
-                          //   if (track.media.transcodings[1].url != null) {
-                          //     sendSongUrlToPlayer(track);
-                          //   }
-                          // }
-                        },
-                        leading: CircleAvatar(
-                          radius: 24.0,
-                          backgroundImage: track.artworkUrl != null
-                              ? NetworkImage(track.artworkUrl)
-                              : playListResponse.artworkUrl != null
-                                  ? NetworkImage(playListResponse.artworkUrl)
-                                  : NetworkImage(""),
-                          backgroundColor: Colors.transparent,
+                    return Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 4.0),
+                          child: ListTile(
+                            onTap: () {
+                              Flushbar(
+                                title: "Loading...",
+                                message: track.title,
+                                reverseAnimationCurve: Curves.easeIn,
+                                forwardAnimationCurve: Curves.easeInOut,
+                                duration: Duration(seconds: 2),
+                                margin: EdgeInsets.all(8),
+                                borderRadius: 8,
+                              )..show(context);
+                              sendSongUrlToPlayer(track);
+                              // if (track.media == null) {
+                              //   if (track.media.transcodings[1].url != null) {
+                              //     sendSongUrlToPlayer(track);
+                              //   }
+                              // }
+                            },
+                            leading: Container(
+                              height: 60.00,
+                              width: 60.00,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: track.artworkUrl != null
+                                        ? NetworkImage(track.artworkUrl)
+                                        : playListResponse.artworkUrl != null
+                                            ? NetworkImage(
+                                                playListResponse.artworkUrl)
+                                            : NetworkImage(""),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(15.00),
+                              ),
+                            ),
+                            // title: Text(
+                            //   track.title != null
+                            //       ? track.title
+                            //       : "Title Not Avalive",
+                            //   maxLines: 2,
+                            // ),
+                            title: Headline4(
+                                text: track.title != null
+                                    ? track.title
+                                    : "Title Not Avalive"),
+                            subtitle: SMALLCAPTION(
+                                text: track.user != null
+                                    ? track.user.username != null
+                                        ? track.user.username
+                                        : ""
+                                    : "Artise Name Not Found"),
+                            trailing: track.media != null
+                                ? Text(Network().printDuration(Duration(
+                                    milliseconds:
+                                        track.media.transcodings[1].duration)))
+                                : Text(""),
+                          ),
                         ),
-                        title: Text(
-                          track.title != null
-                              ? track.title
-                              : "Title Not Avalive",
-                          maxLines: 2,
-                        ),
-                        subtitle: Text(track.user != null
-                            ? track.user.username != null
-                                ? track.user.username
-                                : ""
-                            : "Artise Name Not Found"),
-                        trailing: track.media != null
-                            ? Text(Network().printDuration(Duration(
-                                milliseconds:
-                                    track.media.transcodings[1].duration)))
-                            : Text(""),
-                      ),
+                      ],
                     );
                   }, childCount: playListResponse.tracks.length),
                 ),

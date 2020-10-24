@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,10 +24,22 @@ class Network {
   }
 
   getMOreTracks(offset) async {
-    return await http.get("${offset}&client_id=8rirGfqZBZPpMxmdSA5WjjpowkwD0Ygz", headers: _setHeaders());
+    return await http.get(
+        "${offset}&client_id=8rirGfqZBZPpMxmdSA5WjjpowkwD0Ygz",
+        headers: _setHeaders());
     // return await http.get(
     //     "https://api-v2.soundcloud.com/users/70847422/tracks?offset=2020-10-16T08%3A47%3A10.000Z%2Ctracks%2C00911548267&limit=10&client_id=8rirGfqZBZPpMxmdSA5WjjpowkwD0Ygz",
     //     headers: _setHeaders());
+  }
+
+  showToastMessage(message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.orange,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   getAllTrackFormSinger(userId) async {

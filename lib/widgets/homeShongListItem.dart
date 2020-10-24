@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
 import 'package:musicPlayer/animasions/showUp.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
+import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 
 class HomeShongListItem extends StatelessWidget {
@@ -15,75 +16,54 @@ class HomeShongListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RightToLeft(
-      delay: 150,
-      child: InkWell(
-        onTap: () {
-          goToPlayList(itemsCollection, itemsCollection.id.toString());
-        },
-        child: Padding(
-          padding: EdgeInsets.only(top: 6.0, bottom: 2.0, right: 14.0),
+    return Padding(
+      // padding: EdgeInsets.only(right: 14, top: 14.0),
+      padding: EdgeInsets.only(left: 16.0, top: 16.0),
+      child: RightToLeft(
+        delay: 150,
+        child: InkWell(
+          onTap: () {
+            goToPlayList(itemsCollection, itemsCollection.id.toString());
+          },
           child: Column(
             children: [
-              Stack(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(2.0),
-                    child: itemsCollection.artworkUrl != null
-                        ? AppNetworkImage(
-                            imageUrl: itemsCollection.artworkUrl
-                                .replaceAll("large", "t300x300"),
-                          )
-                        : itemsCollection.calculatedArtworkUrl != null
-                            ? AppNetworkImage(
-                                imageUrl: itemsCollection.calculatedArtworkUrl
-                                    .replaceAll("large", "t300x300"),
-                              )
-                            : PlaseHolder(),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    child: Center(
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.play_circle_outline,
-                            size: 33,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            goToPlayList(
-                                itemsCollection, itemsCollection.id.toString());
-                          }),
-                    ),
-                  ),
-                ],
+              Container(
+                height: 180.00,
+                width: 180.00,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: itemsCollection.artworkUrl != null
+                      ? AppNetworkImage(
+                          imageUrl: itemsCollection.artworkUrl
+                              .replaceAll("large", "t300x300"),
+                        )
+                      : itemsCollection.calculatedArtworkUrl != null
+                          ? AppNetworkImage(
+                              imageUrl: itemsCollection.calculatedArtworkUrl
+                                  .replaceAll("large", "t300x300"),
+                            )
+                          : PlaseHolder(),
+                ),
               ),
               Container(
-                  width: height != null ? height : 140,
-                  alignment: Alignment.topLeft,
+                  width: 180,
+                  // alignment: Alignment.topLeft,
                   // color: Colors.red,
                   margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        itemsCollection.title != null
-                            ? itemsCollection.title
-                            : "",
-                        maxLines: 2,
-                      ),
+                      Headline5(
+                          text: itemsCollection.title != null
+                              ? itemsCollection.title
+                              : ""),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 2.0),
-                        child: Text(
-                          itemsCollection.user.username != null
+                        child: SMALLCAPTION(
+                          text: itemsCollection.user.username != null
                               ? itemsCollection.user.username
                               : "",
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                          maxLines: 2,
                         ),
                       ),
                     ],
