@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/account/account.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
 import 'package:musicPlayer/home/HomeScreen.dart';
 import 'package:musicPlayer/search/search.dart';
-import 'package:musicPlayer/widgets/allText/AppText.dart';
-import 'package:musicPlayer/widgets/nowPlaying.dart';
+import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 
 class MyHomePage extends StatefulWidget {
   @override

@@ -55,7 +55,7 @@ class Headline3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Text(
-     text,
+      text,
       style: TextStyle(
         fontFamily: "Poppins",
         fontWeight: FontWeight.w700,
@@ -74,11 +74,12 @@ class Headline4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Text(
       text,
+      maxLines: 2,
       style: TextStyle(
         fontFamily: "Poppins",
         fontWeight: FontWeight.w700,
         fontSize: 20,
-        color: Color(0xff000000), 
+        color: Color(0xff000000),
       ),
     );
   }
@@ -130,7 +131,7 @@ class Body extends StatelessWidget {
       style: TextStyle(
         fontFamily: "Poppins",
         fontWeight: FontWeight.w500,
-        fontSize: 15, 
+        fontSize: 15,
         color: Color(0xff000000),
       ),
     );

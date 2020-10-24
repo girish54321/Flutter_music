@@ -8,8 +8,9 @@ import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
-import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
+import 'package:musicPlayer/widgets/songListItem.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
@@ -36,13 +37,22 @@ class _PlayListScreenState extends State<PlayListScreen> {
     super.initState();
     print(widget.itemsCollection.id);
     getlayListForId();
-    // print("Heor Tag");
-    // print(widget.heroTag);
   }
 
   Future<void> sendSongUrlToPlayer(playList.Track track) async {
+    print("IN FFF");
+    Flushbar(
+      title: "Loading...",
+      message: track.title,
+      reverseAnimationCurve: Curves.easeIn,
+      forwardAnimationCurve: Curves.easeInOut,
+      duration: Duration(seconds: 2),
+      margin: EdgeInsets.all(8),
+      borderRadius: 8,
+    )..show(context);
+
     ProgressDialog pr = ProgressDialog(context);
-    //For normal dialog
+
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
     pr.style(
@@ -82,20 +92,15 @@ class _PlayListScreenState extends State<PlayListScreen> {
             null,
             Duration(milliseconds: track.media.transcodings[1].duration)));
         pr.hide();
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) =>
-        //           BGAudioPlayerScreen(nowPlayingClass: nowPlaying),
-        //     ));
         Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeft,
                 child: BGAudioPlayerScreen(
                     nowPlayingClass: nowPlaying, track: track)));
-        await Future.delayed(Duration(seconds: 5));
-        nowPlaying.clear();
+        Future.delayed(const Duration(milliseconds: 500), () {
+          nowPlaying.clear();
+        });
       }
     } catch (e) {
       print("Error");
@@ -146,7 +151,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
       body: _loading
           ? Center(
               child: Center(
-                child: new CircularProgressIndicator(),
+                child: new LoadingScreen(),
               ),
             )
           : CustomScrollView(
@@ -160,11 +165,9 @@ class _PlayListScreenState extends State<PlayListScreen> {
                   title: widget.itemsCollection.title,
                 ),
                 SliverToBoxAdapter(
-                  // child: Padding(
-                  //     padding: EdgeInsets.all(16.0),
-                  //     child: Headline3(text: "Popular")),
-                  child:SizedBox(height: 16,)
-                ),
+                    child: SizedBox(
+                  height: 16,
+                )),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
@@ -173,65 +176,30 @@ class _PlayListScreenState extends State<PlayListScreen> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 4.0),
-                          child: ListTile(
-                            onTap: () {
-                              Flushbar(
-                                title: "Loading...",
-                                message: track.title,
-                                reverseAnimationCurve: Curves.easeIn,
-                                forwardAnimationCurve: Curves.easeInOut,
-                                duration: Duration(seconds: 2),
-                                margin: EdgeInsets.all(8),
-                                borderRadius: 8,
-                              )..show(context);
-                              sendSongUrlToPlayer(track);
-                              // if (track.media == null) {
-                              //   if (track.media.transcodings[1].url != null) {
-                              //     sendSongUrlToPlayer(track);
-                              //   }
-                              // }
-                            },
-                            leading: Container(
-                              height: 60.00,
-                              width: 60.00,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: track.artworkUrl != null
-                                        ? NetworkImage(track.artworkUrl)
-                                        : playListResponse.artworkUrl != null
-                                            ? NetworkImage(
-                                                playListResponse.artworkUrl)
-                                            : NetworkImage(""),
-                                    fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(15.00),
-                              ),
-                            ),
-                            // title: Text(
-                            //   track.title != null
-                            //       ? track.title
-                            //       : "Title Not Avalive",
-                            //   maxLines: 2,
-                            // ),
-                            title: Headline4(
-                                text: track.title != null
-                                    ? track.title
-                                    : "Title Not Avalive"),
-                            subtitle: SMALLCAPTION(
-                                text: track.user != null
-                                    ? track.user.username != null
-                                        ? track.user.username
-                                        : ""
-                                    : "Artise Name Not Found"),
-                            trailing: track.media != null
-                                ? Text(Network().printDuration(Duration(
-                                    milliseconds:
-                                        track.media.transcodings[1].duration)))
-                                : Text(""),
-                          ),
+                          child: SongListItem(
+                              // onClick: sendSongUrlToPlayer,
+                              onClick: () {
+                                print("OUTT");
+                                sendSongUrlToPlayer(track);
+                              },
+                              imageUrl: track.artworkUrl != null
+                                  ? track.artworkUrl
+                                  : playListResponse.artworkUrl != null
+                                      ? playListResponse.artworkUrl
+                                      : "",
+                              title: track.title != null
+                                  ? track.title
+                                  : "Title Not Avalive",
+                              subtitle: track.user != null
+                                  ? track.user.username != null
+                                      ? track.user.username
+                                      : ""
+                                  : "Artise Name Not Found",
+                              duration: track.media.transcodings[1].duration),
                         ),
                       ],
                     );
-                  }, childCount: playListResponse.tracks.length),
+                  }, childCount: 5),
                 ),
               ],
             ),

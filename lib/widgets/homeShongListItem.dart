@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
-import 'package:musicPlayer/animasions/showUp.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/appNetWorkImage.dart';
@@ -17,7 +16,6 @@ class HomeShongListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // padding: EdgeInsets.only(right: 14, top: 14.0),
       padding: EdgeInsets.only(left: 16.0, top: 16.0),
       child: RightToLeft(
         delay: 150,
@@ -47,8 +45,6 @@ class HomeShongListItem extends StatelessWidget {
               ),
               Container(
                   width: 180,
-                  // alignment: Alignment.topLeft,
-                  // color: Colors.red,
                   margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

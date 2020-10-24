@@ -46,16 +46,6 @@ class GardeenAppBar extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 8, left: 16, right: 16),
               child: Stack(
                 children: [
-                  // new Positioned(
-                  //   child: new FloatingActionButton(
-                  //     child: new Icon(Icons.play_arrow),
-                  //     onPressed: () {
-                  //       print('FAB tapped!');
-                  //     },
-                  //   ),
-                  //   right: 1.0,
-                  //   bottom: 1.0,
-                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,

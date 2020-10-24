@@ -33,28 +33,9 @@ class NowPlayingMinPlayer extends StatelessWidget {
                 Container(
                   // height: 55.00,
                   width: double.infinity,
-                  color: Color(0xffEBEBEB),
+                  color: Color(0xfff9f9f9),
                   child: ListTile(
                       onTap: () {
-                        // BGAudioPlayerScreen()
-                        // showGeneralDialog(
-                        //   barrierLabel: "Label",
-                        //   barrierDismissible: false,
-                        //   barrierColor: Colors.black.withOpacity(0.5),
-                        //   transitionDuration: Duration(milliseconds: 400),
-                        //   context: context,
-                        //   pageBuilder: (context, anim1, anim2) {
-                        //     return BGAudioPlayerScreen();
-                        //   },
-                        //   transitionBuilder: (context, anim1, anim2, child) {
-                        //     return SlideTransition(
-                        //       position:
-                        //           Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                        //               .animate(anim1),
-                        //       child: child,
-                        //     );
-                        //   },
-                        // );
                         Navigator.push(
                             context,
                             PageTransition(

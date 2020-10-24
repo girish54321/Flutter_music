@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'articesProfile/singerProfile.dart';
 import 'home/home.dart';
 
 void main() {

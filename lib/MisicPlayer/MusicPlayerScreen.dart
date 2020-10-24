@@ -1,23 +1,17 @@
 import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:musicPlayer/articesProfile/singerProfile.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:musicPlayer/screen/articesProfile/singerProfile.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
-import 'package:musicPlayer/widgets/appNetWorkImage.dart';
-import 'package:musicPlayer/widgets/header.dart';
-import 'package:musicPlayer/widgets/nowPlaying.dart';
+import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'AudioPlayer.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
-import 'package:color_thief_flutter/color_thief_flutter.dart';
-import 'package:color_thief_flutter/utils.dart';
 
 class BGAudioPlayerScreen extends StatefulWidget {
   final List<NowPlayingClass> nowPlayingClass;
@@ -162,11 +156,14 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(
-          height: 22,
+          height: 18,
         ),
-        Center(
-          child: Headline3(
-            text: title != null ? title : "",
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 26),
+          child: Center(
+            child: Headline3(
+              text: title != null ? title : "",
+            ),
           ),
         ),
         Center(
@@ -293,6 +290,41 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     ));
   }
 
+  Widget extraContorl() {
+    return Padding(
+      // padding: EdgeInsets.symmetric(horizontal: 28),
+      padding: EdgeInsets.only(left: 33, right: 33, bottom: 14),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+              icon: Icon(
+                Icons.favorite,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () {}),
+          IconButton(
+              icon: Icon(
+                Icons.swap_horiz,
+               
+              ),
+              onPressed: () {}),
+          IconButton(
+              icon: Icon(
+                Icons.account_circle,
+                 color: Theme.of(context).accentColor,
+              ),
+              onPressed: () {}),
+          IconButton(
+              icon: Icon(
+                Icons.queue_music,
+              ),
+              onPressed: () {})
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -322,7 +354,8 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                     coverArt(mediaItem),
                     positionIndicator(mediaItem, playbackState),
                     playerContalors(playing),
-                    SizedBox(height: 14)
+                    // SizedBox(height: 11),
+                    extraContorl()
                   ]
                 ],
               ),

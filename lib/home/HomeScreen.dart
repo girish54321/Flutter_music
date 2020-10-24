@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/network_utils/api.dart';
-import 'package:musicPlayer/screen/playListScreen.dart';
+import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
+import 'package:musicPlayer/screen/playListScreen/playListScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
-import 'package:musicPlayer/widgets/header.dart';
-import 'package:musicPlayer/widgets/nowPlaying.dart';
 import 'package:musicPlayer/widgets/verticleBox.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
@@ -45,22 +44,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  Widget showList() {
-    if (_loading) {
-      return Text("Loading");
-    } else {
-      return Text("Loading Donel̥");
-    }
-  }
-
-  void goToPlayList(ItemsCollection id, String heroTag) {
-    print(heroTag);
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) =>
-    //           PlayListScreen(itemsCollection: id, heroTag: heroTag),
-    //     ));
+  goToPlayList(ItemsCollection id, String heroTag) {
     Navigator.push(
         context,
         PageTransition(
@@ -75,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen>
       body: SafeArea(
         child: _loading
             ? Center(
-                child: new CircularProgressIndicator(),
+                child: new LoadingScreen(),
               )
             : CustomScrollView(
                 physics: const BouncingScrollPhysics(),
