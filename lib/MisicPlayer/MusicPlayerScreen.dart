@@ -5,19 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/screen/articesProfile/singerProfile.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
 import 'AudioPlayer.dart';
-import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 
 class BGAudioPlayerScreen extends StatefulWidget {
   final List<NowPlayingClass> nowPlayingClass;
-  final playList.Track track;
-  const BGAudioPlayerScreen({Key key, this.nowPlayingClass, this.track})
-      : super(key: key);
+
+  const BGAudioPlayerScreen({
+    Key key,
+    this.nowPlayingClass,
+  }) : super(key: key);
 
   @override
   _BGAudioPlayerScreenState createState() => _BGAudioPlayerScreenState();
@@ -39,41 +41,57 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
 
   playInComingTrack() async {
     print("HEHHEHH1111E");
+    print(widget.nowPlayingClass[0].imageUrl);
     if (AudioService.running) {
       if (widget.nowPlayingClass != null) {
         var listItem = widget.nowPlayingClass[0];
+        Map<String, dynamic> nowPlayingSinger = {
+          "name": listItem.name,
+          "songId": listItem.songId,
+          "singerId": listItem.singerId,
+          "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
+          "fav": listItem.fav,
+        };
+        print(nowPlayingSinger);
         MediaItem mediaItem = new MediaItem(
             id: listItem.url,
             title: listItem.title,
             artist: listItem.artist,
             artUri: listItem.artUri.replaceAll("large", "t500x500"),
             album: listItem.album,
-            duration: listItem.duration);
-        print(listItem.title);
-        print("ADDED IN LISt");
-
+            duration: listItem.duration,
+            extras: nowPlayingSinger);
+        setState(() {});
+        // Fluttertoast.showToast(
+        //     msg: "Added To PlayList",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.BOTTOM,
+        //     backgroundColor: Theme.of(context).accentColor,
+        //     textColor: Colors.white,
+        //     fontSize: 16.0);
         Future.delayed(Duration(seconds: 5));
-        Fluttertoast.showToast(
-            msg: "Added To PlayList",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.orange,
-            textColor: Colors.white,
-            fontSize: 16.0);
         await AudioService.addQueueItem(mediaItem);
+        print("ADDEDEDED");
       }
     } else {
       if (widget.nowPlayingClass != null) {
         for (int i = 0; i < widget.nowPlayingClass.length; i++) {
-          print("HEHHEHHEssssssssssss");
           var listItem = widget.nowPlayingClass[i];
+          Map<String, dynamic> nowPlayingSinger = {
+            "name": listItem.name,
+            "songId": listItem.songId,
+            "singerId": listItem.singerId,
+            "imageUrl": listItem.imageUrl,
+            "fav": listItem.fav,
+          };
           MediaItem mediaItem = new MediaItem(
               id: listItem.url,
               title: listItem.title,
               artist: listItem.artist,
               artUri: listItem.artUri.replaceAll("large", "t500x500"),
               album: listItem.album,
-              duration: listItem.duration);
+              duration: listItem.duration,
+              extras: nowPlayingSinger);
           setState(() {
             nowPlaying.add(mediaItem);
           });
@@ -106,23 +124,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     }
   }
 
-  // @override
-  // void onAddQueueItem(MediaItem mediaItem) {
-  //   super.onAddQueueItem(mediaItem);
-  //   nowPlaying.add(mediaItem);
-  //   AudioServiceBackground.setQueue(nowPlaying);
-  // }
-
   Widget coverArt(MediaItem mediaItem) {
-    // var color = [90, 90, 90];
-    // getColorFromUrl(mediaItem.artUri.replaceAll("large", "t300x300"))
-    //     .then((color) {
-    //   print(color); // [R,G,B]
-    //   print("// [R,G,B]");
-    //   color = color;
-    //   // if()
-    //   // setState(() {});
-    // });
     return Column(
       children: <Widget>[
         Center(
@@ -135,22 +137,24 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                   mediaItem.artUri.replaceAll("large", "t300x300")),
             ),
             borderRadius: BorderRadius.circular(20.00),
-            boxShadow: [
-              BoxShadow(
-                offset: Offset(0.00, 3.00),
-                color: Colors.black,
-                // color: Color.fromRGBO(color[0], color[1], color[2], 1),
-                blurRadius: 26,
-              ),
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     offset: Offset(0.00, 3.00),
+            //     color: Colors.black,
+            //     // color: Color.fromRGBO(color[0], color[1], color[2], 1),
+            //     blurRadius: 26,
+            //   ),
+            // ],
           ),
         )),
-        singerName(mediaItem.artist, mediaItem.title),
+        singerName(mediaItem.artist, mediaItem.title, mediaItem.extras),
       ],
     );
   }
 
-  Widget singerName(name, title) {
+  Widget singerName(name, title, extras) {
+    // print("YOUOYOYOY");
+    // print(extras);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -171,13 +175,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           child: LargeBody(
             text: name != null ? name : "",
           ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: SingerProgile(track: widget.track)));
-          },
+          onPressed: () {},
         )),
       ],
     );
@@ -231,22 +229,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     );
   }
 
-  // Widget coverArtAnimastion(mediaItem) {
-  //   // ignore: deprecated_member_use
-  //   return ControlledAnimation(
-  //     duration: Duration(milliseconds: 600),
-  //     curve: Curves.elasticOut,
-  //     tween: Tween<double>(begin: 0, end: 1),
-  //     builder: (context, scaleValue) {
-  //       return Transform.scale(
-  //         scale: scaleValue,
-  //         alignment: Alignment.center,
-  //         child: coverArt(mediaItem),
-  //       );
-  //     },
-  //   );
-  // }
-
   Widget nowPlayingToolBar(title) {
     return (Container(
       child: ListTile(
@@ -290,7 +272,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     ));
   }
 
-  Widget extraContorl() {
+  Widget extraContorl(MediaItem mediaItem) {
     return Padding(
       // padding: EdgeInsets.symmetric(horizontal: 28),
       padding: EdgeInsets.only(left: 33, right: 33, bottom: 14),
@@ -306,15 +288,39 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           IconButton(
               icon: Icon(
                 Icons.swap_horiz,
-               
               ),
               onPressed: () {}),
           IconButton(
               icon: Icon(
                 Icons.account_circle,
-                 color: Theme.of(context).accentColor,
+                color: Theme.of(context).accentColor,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                // imageUrl: https://i1.sndcdn.com/avatars-000463172286-f7nnhe-large.jpg, name: Distant.lo, fav: 1, songId: 25175318
+                // mediaItem.extras['imageUrl']
+                print("extras");
+                NowPlayingClass nowPlayingClass = new NowPlayingClass(
+                  mediaItem.id,
+                  mediaItem.title,
+                  mediaItem.artist,
+                  mediaItem.artUri,
+                  null,
+                  mediaItem.duration,
+                  mediaItem.artist,
+                  mediaItem.extras['songId'],
+                  mediaItem.extras['singerId'],
+                  mediaItem.extras['imageUrl'],
+                  mediaItem.extras['fav'],
+                  mediaItem.extras['audio_url'],
+                );
+                print(mediaItem.extras);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child:
+                            SingerProgile(nowPlayingClass: nowPlayingClass)));
+              }),
           IconButton(
               icon: Icon(
                 Icons.queue_music,
@@ -355,7 +361,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                     positionIndicator(mediaItem, playbackState),
                     playerContalors(playing),
                     // SizedBox(height: 11),
-                    extraContorl()
+                    extraContorl(mediaItem)
                   ]
                 ],
               ),
@@ -419,13 +425,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     );
   }
 
-  String _printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-  }
-
   Widget positionIndicator(MediaItem mediaItem, PlaybackState state) {
     double seekPos;
     // print(mediaItem);
@@ -470,14 +469,14 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      _printDuration(state.currentPosition),
+                      Network().printDuration(state.currentPosition),
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).accentColor),
                     ),
                     Text(
-                      _printDuration(mediaItem.duration),
+                      Network().printDuration(mediaItem.duration),
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,

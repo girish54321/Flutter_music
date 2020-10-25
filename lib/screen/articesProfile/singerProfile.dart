@@ -17,9 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 
 class SingerProgile extends StatefulWidget {
-  final playList.Track track;
+  final NowPlayingClass nowPlayingClass;
 
-  const SingerProgile({Key key, this.track}) : super(key: key);
+  const SingerProgile({Key key, this.nowPlayingClass}) : super(key: key);
   @override
   _SingerProgileState createState() => _SingerProgileState();
 }
@@ -41,9 +41,11 @@ class _SingerProgileState extends State<SingerProgile> {
   @override
   void initState() {
     super.initState();
+    print("sfd");
+    print(widget.nowPlayingClass.singerId);
     Future.delayed(Duration.zero, () {
-      if (widget.track != null) {
-        getSingerProfile(widget.track.user.id);
+      if (widget.nowPlayingClass != null) {
+        getSingerProfile(widget.nowPlayingClass.singerId);
       } else {
         Fluttertoast.showToast(
             msg: "Error Loading Singer",
@@ -221,20 +223,29 @@ class _SingerProgileState extends State<SingerProgile> {
         }
         var resBody = json.decode(response.body);
         audioUrl = new AudioUrl.fromJson(resBody);
-        nowPlaying.add(new NowPlayingClass(
-            audioUrl.url,
-            collection.title,
-            singerName,
-            collection.artworkUrl,
-            null,
-            Duration(milliseconds: collection.media.transcodings[1].duration)));
+        nowPlaying.add(
+          new NowPlayingClass(
+              audioUrl.url,
+              collection.title,
+              singerName,
+              collection.artworkUrl,
+              null,
+              Duration(milliseconds: collection.media.transcodings[1].duration),
+              singerName,
+              collection.id,
+              collection.user.id,
+              collection.user.avatarUrl,
+              1,
+              collection.media.transcodings[1].url),
+        );
         pr.hide();
         Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeft,
                 child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying, track: null)));
+                  nowPlayingClass: nowPlaying,
+                )));
         await Future.delayed(Duration(seconds: 5));
         nowPlaying.clear();
       }
@@ -256,7 +267,8 @@ class _SingerProgileState extends State<SingerProgile> {
   @override
   Widget build(BuildContext context) {
     return SingerProfileUi(
-      avatarUrl: widget.track.user.avatarUrl.replaceAll("large", "t500x500"),
+      avatarUrl:
+          widget.nowPlayingClass.imageUrl.replaceAll("large", "t500x500"),
       loading: _loading,
       loadingMore: _loadingMore,
       scrollController: _scrollController,

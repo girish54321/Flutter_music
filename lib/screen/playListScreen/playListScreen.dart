@@ -8,6 +8,7 @@ import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:musicPlayer/modal/singerModle.dart';
 import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
@@ -84,20 +85,45 @@ class _PlayListScreenState extends State<PlayListScreen> {
         }
         var resBody = json.decode(response.body);
         audioUrl = new AudioUrl.fromJson(resBody);
-        nowPlaying.add(new NowPlayingClass(
-            audioUrl.url,
-            track.title,
-            singerName,
-            track.artworkUrl,
-            null,
-            Duration(milliseconds: track.media.transcodings[1].duration)));
+        // nowPlaying.add(
+        //   new NowPlayingClass(
+        //       audioUrl.url,
+        //       track.title,
+        //       singerName,
+        //       track.artworkUrl,
+        //       null,
+        //       Duration(milliseconds: track.media.transcodings[1].duration),
+        //       singerName,
+        //       track.user.id,
+        //       track.user.avatarUrl,
+        //       1),
+        // );
+        nowPlaying.add(
+          new NowPlayingClass(
+              audioUrl.url,
+              track.title,
+              singerName,
+              track.artworkUrl,
+              null,
+              Duration(milliseconds: track.media.transcodings[1].duration),
+              singerName,
+              track.id,
+              track.user.id,
+              track.user.avatarUrl,
+              1,
+              track.media.transcodings[1].url),
+        );
         pr.hide();
+
+        // NowPlayingSinger nowPlayingSinger = new NowPlayingSinger(
+        //     singerName, track.user.id, track.user.avatarUrl, 1);
         Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeft,
                 child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying, track: track)));
+                  nowPlayingClass: nowPlaying,
+                )));
         Future.delayed(const Duration(milliseconds: 500), () {
           nowPlaying.clear();
         });
