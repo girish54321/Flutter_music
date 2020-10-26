@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
@@ -239,15 +240,53 @@ class _SingerProgileState extends State<SingerProgile> {
               collection.media.transcodings[1].url),
         );
         pr.hide();
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: BGAudioPlayerScreen(
-                  nowPlayingClass: nowPlaying,
-                )));
-        await Future.delayed(Duration(seconds: 5));
-        nowPlaying.clear();
+        if (AudioService.running) {
+          if (nowPlaying != null) {
+            var listItem = nowPlaying[0];
+            Map<String, dynamic> nowPlayingSinger = {
+              "name": listItem.name,
+              "songId": listItem.songId,
+              "singerId": listItem.singerId,
+              "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
+              "fav": listItem.fav,
+            };
+            // print(nowPlayingSinger);
+            MediaItem mediaItem = new MediaItem(
+                id: listItem.url,
+                title: listItem.title,
+                artist: listItem.artist,
+                artUri: listItem.artUri.replaceAll("large", "t500x500"),
+                album: listItem.album,
+                duration: listItem.duration,
+                extras: nowPlayingSinger);
+
+            Future.delayed(Duration(seconds: 5));
+            await AudioService.addQueueItem(mediaItem);
+            print("ADDEDEDED");
+            Flushbar(
+              title: "Done.",
+              message: "Added To PlayList.",
+              backgroundColor: Theme.of(context).accentColor,
+              reverseAnimationCurve: Curves.easeIn,
+              forwardAnimationCurve: Curves.easeInOut,
+              duration: Duration(seconds: 2),
+              margin: EdgeInsets.all(8),
+              borderRadius: 8,
+            )..show(context);
+            await Future.delayed(Duration(seconds: 5));
+            nowPlaying.clear();
+          }
+        } else {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: BGAudioPlayerScreen(
+                    nowPlayingClass: nowPlaying,
+                  )));
+          await Future.delayed(Duration(seconds: 5));
+          nowPlaying.clear();
+        }
       }
     } catch (e) {
       pr.hide();

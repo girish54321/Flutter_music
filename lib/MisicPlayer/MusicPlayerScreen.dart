@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
@@ -61,14 +62,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
             album: listItem.album,
             duration: listItem.duration,
             extras: nowPlayingSinger);
-        setState(() {});
-        // Fluttertoast.showToast(
-        //     msg: "Added To PlayList",
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     gravity: ToastGravity.BOTTOM,
-        //     backgroundColor: Theme.of(context).accentColor,
-        //     textColor: Colors.white,
-        //     fontSize: 16.0);
+
         Future.delayed(Duration(seconds: 5));
         await AudioService.addQueueItem(mediaItem);
         print("ADDEDEDED");

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:audio_service/audio_service.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
@@ -41,19 +42,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
   }
 
   Future<void> sendSongUrlToPlayer(playList.Track track) async {
-    print("IN FFF");
-    Flushbar(
-      title: "Loading...",
-      message: track.title,
-      reverseAnimationCurve: Curves.easeIn,
-      forwardAnimationCurve: Curves.easeInOut,
-      duration: Duration(seconds: 2),
-      margin: EdgeInsets.all(8),
-      borderRadius: 8,
-    )..show(context);
-
     ProgressDialog pr = ProgressDialog(context);
-
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
     pr.style(
@@ -85,19 +74,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
         }
         var resBody = json.decode(response.body);
         audioUrl = new AudioUrl.fromJson(resBody);
-        // nowPlaying.add(
-        //   new NowPlayingClass(
-        //       audioUrl.url,
-        //       track.title,
-        //       singerName,
-        //       track.artworkUrl,
-        //       null,
-        //       Duration(milliseconds: track.media.transcodings[1].duration),
-        //       singerName,
-        //       track.user.id,
-        //       track.user.avatarUrl,
-        //       1),
-        // );
+
         nowPlaying.add(
           new NowPlayingClass(
               audioUrl.url,
@@ -114,19 +91,51 @@ class _PlayListScreenState extends State<PlayListScreen> {
               track.media.transcodings[1].url),
         );
         pr.hide();
-
-        // NowPlayingSinger nowPlayingSinger = new NowPlayingSinger(
-        //     singerName, track.user.id, track.user.avatarUrl, 1);
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: BGAudioPlayerScreen(
-                  nowPlayingClass: nowPlaying,
-                )));
-        Future.delayed(const Duration(milliseconds: 500), () {
-          nowPlaying.clear();
-        });
+        if (AudioService.running) {
+          if (nowPlaying != null) {
+            var listItem = nowPlaying[0];
+            Map<String, dynamic> nowPlayingSinger = {
+              "name": listItem.name,
+              "songId": listItem.songId,
+              "singerId": listItem.singerId,
+              "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
+              "fav": listItem.fav,
+            };
+            print(nowPlayingSinger);
+            MediaItem mediaItem = new MediaItem(
+                id: listItem.url,
+                title: listItem.title,
+                artist: listItem.artist,
+                artUri: listItem.artUri.replaceAll("large", "t500x500"),
+                album: listItem.album,
+                duration: listItem.duration,
+                extras: nowPlayingSinger);
+            Future.delayed(Duration(seconds: 5));
+            await AudioService.addQueueItem(mediaItem);
+            print("ADDEDEDED");
+            Flushbar(
+              title: "Done.",
+              message: "Added To PlayList.",
+              backgroundColor: Theme.of(context).accentColor,
+              reverseAnimationCurve: Curves.easeIn,
+              forwardAnimationCurve: Curves.easeInOut,
+              duration: Duration(seconds: 2),
+              margin: EdgeInsets.all(8),
+              borderRadius: 8,
+            )..show(context);
+          }
+        } else {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: BGAudioPlayerScreen(
+                    nowPlayingClass: nowPlaying,
+                  )));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            nowPlaying.clear();
+          });
+        }
       }
     } catch (e) {
       print("Error");
