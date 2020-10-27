@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage>
       body: PageView(
         children: <Widget>[
           HomeScreen(),
-          SearchScreen(),
+          // SearchScreen(),
           BGAudioPlayerScreen(),
           Favorite(),
           AccountScreen(),
@@ -66,8 +66,8 @@ class _MyHomePageState extends State<MyHomePage>
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.audiotrack), label: "EXPLORE"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.whatshot), label: "TRENDING"),
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.queue_music_outlined), label: "PLAYLIST"),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.play_circle_filled,
@@ -76,9 +76,9 @@ class _MyHomePageState extends State<MyHomePage>
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: "FAVORITE"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "SETTINGS"),
+                icon: Icon(Icons.person), label: "ACCOUNT"),
           ]),
-      bottomSheet: pageIndex != 2 ? NowPlayingMinPlayer() : Text(""),
+      bottomSheet: pageIndex != 1 ? NowPlayingMinPlayer() : Text(""),
     );
   }
 }

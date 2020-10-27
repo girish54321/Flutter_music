@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:audio_service/audio_service.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
@@ -191,7 +192,8 @@ class _SingerProgileState extends State<SingerProgile> {
     return dummyList;
   }
 
-  Future<void> sendSongUrlToPlayer(Collection collection) async {
+  Future<void> sendSongUrlToPlayer(
+      Collection collection, Function updateList) async {
     ProgressDialog pr = ProgressDialog(context);
     //For normal dialog
     pr = ProgressDialog(context,
@@ -249,6 +251,7 @@ class _SingerProgileState extends State<SingerProgile> {
               "singerId": listItem.singerId,
               "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
               "fav": listItem.fav,
+              "audio_url": listItem.audio_url
             };
             // print(nowPlayingSinger);
             MediaItem mediaItem = new MediaItem(
@@ -262,7 +265,10 @@ class _SingerProgileState extends State<SingerProgile> {
 
             Future.delayed(Duration(seconds: 5));
             await AudioService.addQueueItem(mediaItem);
+
+            DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             print("ADDEDEDED");
+            updateList();
             Flushbar(
               title: "Done.",
               message: "Added To PlayList.",
@@ -277,6 +283,8 @@ class _SingerProgileState extends State<SingerProgile> {
             nowPlaying.clear();
           }
         } else {
+          DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
+          updateList();
           Navigator.push(
               context,
               PageTransition(

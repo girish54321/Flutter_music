@@ -2,8 +2,10 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/database/database_helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/screen/articesProfile/singerProfile.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 class ExtrarContols extends StatefulWidget {
   final MediaItem mediaItem;
@@ -34,7 +36,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
 
 // Button onPressed methods
 
-  void _insert(MediaItem mediaItem) async {
+  void _insert(MediaItem mediaItem, Function updateList) async {
     // row to insert
 
     print(mediaItem.extras);
@@ -55,6 +57,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
     setState(() {
       addedFav = true;
     });
+    updateList();
   }
 
   void _query() async {
@@ -74,7 +77,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
     // print('updated $rowsAffected row(s)');
   }
 
-  void _delete(data) async {
+  void _delete(data, Function updateList) async {
     // Assuming that the number of rows is the id for the last row.
     // final id = await dbHelper.queryRowCount();
     // final rowsDeleted = await dbHelper.delete(id);
@@ -86,90 +89,85 @@ class _ExtrarContolsState extends State<ExtrarContols> {
     setState(() {
       addedFav = false;
     });
+    updateList();
   }
 
-  Future<void> hasFav() async {
+  Future<void> hasFav(Function updateList) async {
     final data = await dbHelper
         .findObjects22(widget.mediaItem.extras['songId'].toString());
     // return id;
     if (data.length == 0) {
-      _insert(widget.mediaItem);
+      _insert(widget.mediaItem, updateList);
     } else {
-      _delete(data);
+      _delete(data, updateList);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // padding: EdgeInsets.symmetric(horizontal: 28),
-      padding: EdgeInsets.only(left: 33, right: 33, bottom: 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: addedFav ? Theme.of(context).accentColor : Colors.grey,
-              ),
-              onPressed: () async {
-                hasFav();
-                // print(widget.mediaItem.extras['songId']);
-                // final id = await dbHelper
-                //     .hasData(widget.mediaItem.extras['songId'].toString());
-                // print(id);
-                // print("dnfdslf");
-                // _query();
-                // // final id2 = await dbHelper.queryRowCount();
-                // // return;
-                // _insert(widget.mediaItem);
-                // raw query
-              }),
-          IconButton(
-              icon: Icon(
-                Icons.swap_horiz,
-              ),
-              onPressed: () {
-                _query();
-              }),
-          IconButton(
-              icon: Icon(
-                Icons.account_circle,
-                color: Theme.of(context).accentColor,
-              ),
-              onPressed: () {
-                // imageUrl: https://i1.sndcdn.com/avatars-000463172286-f7nnhe-large.jpg, name: Distant.lo, fav: 1, songId: 25175318
-                // mediaItem.extras['imageUrl']
-                print("extras");
-                NowPlayingClass nowPlayingClass = new NowPlayingClass(
-                  widget.mediaItem.id,
-                  widget.mediaItem.title,
-                  widget.mediaItem.artist,
-                  widget.mediaItem.artUri,
-                  null,
-                  widget.mediaItem.duration,
-                  widget.mediaItem.artist,
-                  widget.mediaItem.extras['songId'],
-                  widget.mediaItem.extras['singerId'],
-                  widget.mediaItem.extras['imageUrl'],
-                  widget.mediaItem.extras['fav'],
-                  widget.mediaItem.extras['audio_url'],
-                );
-                print(widget.mediaItem.extras);
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child:
-                            SingerProgile(nowPlayingClass: nowPlayingClass)));
-              }),
-          IconButton(
-              icon: Icon(
-                Icons.queue_music,
-              ),
-              onPressed: () {})
-        ],
-      ),
-    );
+        // padding: EdgeInsets.symmetric(horizontal: 28),
+        padding: EdgeInsets.only(left: 33, right: 33, bottom: 14),
+        child: Consumer<FavListProvider>(
+          //            <--- MyModel Consumer
+          builder: (context, favListProvider, child) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: addedFav ? Colors.red : Colors.grey,
+                    ),
+                    onPressed: () async {
+                      hasFav(favListProvider.updateList);
+                    }),
+                IconButton(
+                    icon: Icon(
+                      Icons.swap_horiz,
+                    ),
+                    onPressed: () {
+                      _query();
+                    }),
+                IconButton(
+                    icon: Icon(
+                      Icons.account_circle,
+                      color: Theme.of(context).accentColor,
+                    ),
+                    onPressed: () {
+                      // imageUrl: https://i1.sndcdn.com/avatars-000463172286-f7nnhe-large.jpg, name: Distant.lo, fav: 1, songId: 25175318
+                      // mediaItem.extras['imageUrl']
+                      print("extras");
+                      NowPlayingClass nowPlayingClass = new NowPlayingClass(
+                        widget.mediaItem.id,
+                        widget.mediaItem.title,
+                        widget.mediaItem.artist,
+                        widget.mediaItem.artUri,
+                        null,
+                        widget.mediaItem.duration,
+                        widget.mediaItem.artist,
+                        widget.mediaItem.extras['songId'],
+                        widget.mediaItem.extras['singerId'],
+                        widget.mediaItem.extras['imageUrl'],
+                        widget.mediaItem.extras['fav'],
+                        widget.mediaItem.extras['audio_url'],
+                      );
+                      print(widget.mediaItem.extras);
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: SingerProgile(
+                                  nowPlayingClass: nowPlayingClass)));
+                    }),
+                IconButton(
+                    icon: Icon(
+                      Icons.queue_music,
+                    ),
+                    onPressed: () {})
+              ],
+            );
+          },
+        ));
   }
 }

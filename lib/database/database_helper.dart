@@ -71,8 +71,13 @@ class DatabaseHelper {
   // All of the rows are returned as a list of maps, where each map is
   // a key-value list of columns.
   Future<List<Map<String, dynamic>>> queryAllRows() async {
+    // Database db = await instance.database;
+    // return await db.query(table);
     Database db = await instance.database;
-    return await db.query(table);
+    // return await db.query(table);
+    final ret =
+        await db.rawQuery('SELECT * FROM $table ORDER BY $columnId DESC');
+    return ret;
   }
 
 //WHERE QUERy

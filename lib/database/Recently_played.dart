@@ -22,7 +22,8 @@ class RecentlyPlayedDatabaseHelper {
 
   // make this a singleton class
   RecentlyPlayedDatabaseHelper._privateConstructor();
-  static final RecentlyPlayedDatabaseHelper instance = RecentlyPlayedDatabaseHelper._privateConstructor();
+  static final RecentlyPlayedDatabaseHelper instance =
+      RecentlyPlayedDatabaseHelper._privateConstructor();
 
   // only have a single app-wide reference to the database
   static Database _database;
@@ -72,7 +73,9 @@ class RecentlyPlayedDatabaseHelper {
   // a key-value list of columns.
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
-    return await db.query(table);
+    // return await db.query(table);
+    final ret = await db.rawQuery('SELECT * FROM $table ORDER BY $columnId DESC');
+    return ret;
   }
 
 //WHERE QUERy

@@ -10,8 +10,8 @@ class AppNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      fadeInDuration: Duration(milliseconds: 200),
-      fadeOutDuration: Duration(milliseconds: 800),
+      fadeInDuration: Duration(milliseconds: 400),
+      fadeOutDuration: Duration(milliseconds: 200),
       imageUrl: imageUrl,
       imageBuilder: (context, image) => Image.network(
         imageUrl,

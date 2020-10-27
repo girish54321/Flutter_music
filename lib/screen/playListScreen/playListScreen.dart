@@ -13,6 +13,7 @@ import 'package:musicPlayer/modal/playListResponse.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/modal/singerModle.dart';
+import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
@@ -20,6 +21,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:provider/provider.dart';
 
 class PlayListScreen extends StatefulWidget {
   final ItemsCollection itemsCollection;
@@ -45,7 +47,8 @@ class _PlayListScreenState extends State<PlayListScreen> {
     getlayListForId();
   }
 
-  Future<void> sendSongUrlToPlayer(playList.Track track) async {
+  Future<void> sendSongUrlToPlayer(
+      playList.Track track, Function updateList) async {
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
@@ -120,6 +123,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
             await AudioService.addQueueItem(mediaItem);
             print("ADDEDEDED");
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
+            updateList();
             Flushbar(
               title: "Done.",
               message: "Added To PlayList.",
@@ -133,6 +137,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
           }
         } else {
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
+          updateList();
           Navigator.push(
               context,
               PageTransition(
@@ -215,33 +220,37 @@ class _PlayListScreenState extends State<PlayListScreen> {
                   delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                     playList.Track track = playListResponse.tracks[index];
-                    return Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 4.0),
-                          child: SongListItem(
-                              // onClick: sendSongUrlToPlayer,
-                              onClick: () {
-                                print("OUTT");
-                                sendSongUrlToPlayer(track);
-                              },
-                              imageUrl: track.artworkUrl != null
-                                  ? track.artworkUrl
-                                  : playListResponse.artworkUrl != null
-                                      ? playListResponse.artworkUrl
-                                      : "",
-                              title: track.title != null
-                                  ? track.title
-                                  : "Title Not Avalive",
-                              subtitle: track.user != null
-                                  ? track.user.username != null
-                                      ? track.user.username
-                                      : ""
-                                  : "Artise Name Not Found",
-                              duration: track.media.transcodings[1].duration),
-                        ),
-                      ],
-                    );
+                    return Consumer<RecentlyPlayedProvider>(
+                        builder: (context, recentlyPlayedProvider, child) {
+                      return Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 4.0),
+                            child: SongListItem(
+                                // onClick: sendSongUrlToPlayer,
+                                onClick: () {
+                                  print("OUTT");
+                                  sendSongUrlToPlayer(
+                                      track, recentlyPlayedProvider.updateList);
+                                },
+                                imageUrl: track.artworkUrl != null
+                                    ? track.artworkUrl
+                                    : playListResponse.artworkUrl != null
+                                        ? playListResponse.artworkUrl
+                                        : "",
+                                title: track.title != null
+                                    ? track.title
+                                    : "Title Not Avalive",
+                                subtitle: track.user != null
+                                    ? track.user.username != null
+                                        ? track.user.username
+                                        : ""
+                                    : "Artise Name Not Found",
+                                duration: track.media.transcodings[1].duration),
+                          ),
+                        ],
+                      );
+                    });
                   }, childCount: 5),
                 ),
               ],

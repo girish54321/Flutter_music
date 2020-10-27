@@ -33,8 +33,10 @@ class DatabaseOperations {
     Map<String, dynamic> row = {
       RecentlyPlayedDatabaseHelper.transcodings: nowPlayingClass.audio_url,
       RecentlyPlayedDatabaseHelper.singerName: nowPlayingClass.artist,
-      RecentlyPlayedDatabaseHelper.artworkUrl: nowPlayingClass.artUri,
-      RecentlyPlayedDatabaseHelper.duration: nowPlayingClass.duration.toString(),
+      RecentlyPlayedDatabaseHelper.artworkUrl:
+          nowPlayingClass.artUri.replaceAll("large", "t500x500"),
+      RecentlyPlayedDatabaseHelper.duration:
+          nowPlayingClass.duration.toString(),
       RecentlyPlayedDatabaseHelper.trackid: nowPlayingClass.songId.toString(),
       RecentlyPlayedDatabaseHelper.userid: nowPlayingClass.singerId.toString(),
       RecentlyPlayedDatabaseHelper.avatarUrl: nowPlayingClass.imageUrl,

@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:musicPlayer/provider/Fav_list.dart';
+import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
+import 'package:provider/provider.dart';
 import 'home/home.dart';
 
 void main() {
@@ -52,14 +55,35 @@ class Palette {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Music Player ',
-        theme: ThemeData(
-          primarySwatch: generateMaterialColor(Palette.primary),
-          // visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: Colors.white,
-        ),
-        home: AudioServiceWidget(child: MyHomePage()));
+    return MultiProvider(
+      //                                     <--- MultiProvider
+      providers: [
+        ChangeNotifierProvider<RecentlyPlayedProvider>(
+            create: (context) => RecentlyPlayedProvider()),
+        ChangeNotifierProvider<FavListProvider>(
+            create: (context) => FavListProvider()),
+      ],
+      // child: MaterialApp(
+      //     title: 'Music Player ',
+      //     theme: ThemeData(
+      //       primarySwatch: generateMaterialColor(Palette.primary),
+      //       // visualDensity: VisualDensity.adaptivePlatformDensity,
+      //       scaffoldBackgroundColor: Colors.white,
+      //     ),
+      //     home: AudioServiceWidget(child: MyHomePage())),
+      child: Consumer<RecentlyPlayedProvider>(
+        builder: (context, RecentlyPlayedProvider notifier, child) {
+          return MaterialApp(
+              title: 'Music Player ',
+              theme: ThemeData(
+                primarySwatch: generateMaterialColor(Palette.primary),
+                // visualDensity: VisualDensity.adaptivePlatformDensity,
+                scaffoldBackgroundColor: Colors.white,
+              ),
+              home: AudioServiceWidget(child: MyHomePage()));
+        },
+      ),
+    );
     // home: SingerProgile());
     // home: BGAudioPlayerScreen());
     // home: OpenContainerTransformDemo());

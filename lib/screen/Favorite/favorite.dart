@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:audio_service/audio_service.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
+import 'package:musicPlayer/animasions/rightToLeft.dart';
+import 'package:musicPlayer/animasions/showUp.dart';
 import 'package:musicPlayer/database/FavSongeMobileData.dart';
 import 'package:musicPlayer/database/database_helper.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
@@ -11,10 +14,13 @@ import 'package:musicPlayer/modal/SingerTrackModale.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
+import 'package:musicPlayer/provider/Fav_list.dart';
+import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Favorite extends StatefulWidget {
   Favorite({Key key}) : super(key: key);
@@ -42,7 +48,7 @@ class _FavoriteState extends State<Favorite> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getuserFavSongs();
+    // getuserFavSongs();
   }
 
   getuserFavSongs() async {
@@ -102,7 +108,8 @@ class _FavoriteState extends State<Favorite> {
     return Duration(hours: hours, minutes: minutes, microseconds: micros);
   }
 
-  Future<void> sendSongUrlToPlayer(FavSongMobileData favSongMobileData) async {
+  Future<void> sendSongUrlToPlayer(
+      FavSongMobileData favSongMobileData, Function updateList) async {
     ProgressDialog pr = ProgressDialog(context);
     //For normal dialog
     pr = ProgressDialog(context,
@@ -175,6 +182,8 @@ class _FavoriteState extends State<Favorite> {
             Future.delayed(Duration(seconds: 5));
             await AudioService.addQueueItem(mediaItem);
             print("ADDEDEDED");
+            DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
+            updateList();
             Flushbar(
               title: "Done.",
               message: "Added To PlayList.",
@@ -189,6 +198,8 @@ class _FavoriteState extends State<Favorite> {
             nowPlaying.clear();
           }
         } else {
+          DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
+          updateList();
           Navigator.push(
               context,
               PageTransition(
@@ -218,25 +229,36 @@ class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Favorite"),
-      ),
-      body: ListView.builder(
-          itemCount: favSongMobileDataList.length,
-          itemBuilder: (BuildContext context, int index) {
-            FavSongMobileData favSongMobileData = favSongMobileDataList[index];
-            return SongListItem(
-              onClick: () {
-                sendSongUrlToPlayer(favSongMobileData);
-              },
-              imageUrl: favSongMobileData.artworkUrl,
-              title: favSongMobileData.songname != null
-                  ? favSongMobileData.songname
-                  : "Title Not Avalive",
-              subtitle: favSongMobileData.singerName,
-              durationString: favSongMobileData.duration,
-            );
-          }),
-    );
+        appBar: AppBar(
+          title: Text("Favorite"),
+        ),
+        body: Consumer<FavListProvider>(
+            builder: (context, favListProvider, child) {
+          return ListView.builder(
+              itemCount: favListProvider.favSongMobileDataList.length,
+              itemBuilder: (BuildContext context, int index) {
+                FavSongMobileData favSongMobileData =
+                    favListProvider.favSongMobileDataList[index];
+                return Consumer<FavListProvider>(
+                  builder: (context, favListProvider, child) {
+                    return ShowUp(
+                      delay: 150,
+                      child: SongListItem(
+                        onClick: () {
+                          sendSongUrlToPlayer(
+                              favSongMobileData, favListProvider.updateList);
+                        },
+                        imageUrl: favSongMobileData.artworkUrl,
+                        title: favSongMobileData.songname != null
+                            ? favSongMobileData.songname
+                            : "Title Not Avalive",
+                        subtitle: favSongMobileData.singerName,
+                        durationString: favSongMobileData.duration,
+                      ),
+                    );
+                  },
+                );
+              });
+        }));
   }
 }

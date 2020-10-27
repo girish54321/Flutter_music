@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
+import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
+import 'package:provider/provider.dart';
 
 class SingerProfileUi extends StatelessWidget {
   final bool loading;
@@ -91,29 +93,35 @@ class SingerProfileUi extends StatelessWidget {
                               .map((MapEntry map) {
                             Collection collection =
                                 singerTracksModal.collection[map.key];
-                            return Container(
-                              margin: EdgeInsets.only(top: 4.0),
-                              child: Column(
-                                children: [
-                                  SongListItem(
-                                      onClick: () {
-                                        sendSongUrlToPlayer(collection);
-                                      },
-                                      imageUrl: collection.artworkUrl,
-                                      title: collection.title != null
-                                          ? collection.title
-                                          : "Title Not Avalive",
-                                      subtitle: collection.user != null
-                                          ? collection.user.username != null
-                                              ? collection.user.username
-                                              : ""
-                                          : "Artise Name Not Found",
-                                      duration: collection
-                                          .media.transcodings[1].duration),
-                                  Divider()
-                                ],
-                              ),
-                            );
+                            return Consumer<RecentlyPlayedProvider>(builder:
+                                (context, recentlyPlayedProvider, child) {
+                              return Container(
+                                margin: EdgeInsets.only(top: 4.0),
+                                child: Column(
+                                  children: [
+                                    SongListItem(
+                                        onClick: () {
+                                          sendSongUrlToPlayer(
+                                              collection,
+                                              recentlyPlayedProvider
+                                                  .updateList);
+                                        },
+                                        imageUrl: collection.artworkUrl,
+                                        title: collection.title != null
+                                            ? collection.title
+                                            : "Title Not Avalive",
+                                        subtitle: collection.user != null
+                                            ? collection.user.username != null
+                                                ? collection.user.username
+                                                : ""
+                                            : "Artise Name Not Found",
+                                        duration: collection
+                                            .media.transcodings[1].duration),
+                                    Divider()
+                                  ],
+                                ),
+                              );
+                            });
                           }).toList(),
                         Center(
                           child: loadingMore
