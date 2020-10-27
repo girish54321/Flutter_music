@@ -3,7 +3,10 @@ import 'dart:ui';
 import 'package:audio_service/audio_service.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
+import 'package:musicPlayer/database/data_modal/Recently_played_modal.dart';
+import 'package:musicPlayer/database/database_helper.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
@@ -32,6 +35,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
   bool _loading = true;
   AudioUrl audioUrl;
   List<NowPlayingClass> nowPlaying = [];
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   void initState() {
@@ -62,7 +66,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
           fontWeight: FontWeight.w600,
         ));
     await pr.show();
-
+    final hasData = await dbHelper.hasData(track.id.toString());
     try {
       http.Response response =
           await Network().getStremUrl(track.media.transcodings[1].url);
@@ -87,7 +91,8 @@ class _PlayListScreenState extends State<PlayListScreen> {
               track.id,
               track.user.id,
               track.user.avatarUrl,
-              1,
+              // ignore: unrelated_type_equality_checks
+              hasData == true ? 1 : 0,
               track.media.transcodings[1].url),
         );
         pr.hide();
@@ -99,7 +104,8 @@ class _PlayListScreenState extends State<PlayListScreen> {
               "songId": listItem.songId,
               "singerId": listItem.singerId,
               "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
-              "fav": listItem.fav,
+              "fav": hasData == true ? 1 : 0,
+              "audio_url": listItem.audio_url
             };
             print(nowPlayingSinger);
             MediaItem mediaItem = new MediaItem(
@@ -113,6 +119,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
             Future.delayed(Duration(seconds: 5));
             await AudioService.addQueueItem(mediaItem);
             print("ADDEDEDED");
+            DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             Flushbar(
               title: "Done.",
               message: "Added To PlayList.",
@@ -125,6 +132,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
             )..show(context);
           }
         } else {
+          DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           Navigator.push(
               context,
               PageTransition(

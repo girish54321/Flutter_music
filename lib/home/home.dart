@@ -4,6 +4,7 @@ import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/account/account.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
 import 'package:musicPlayer/home/HomeScreen.dart';
+import 'package:musicPlayer/screen/Favorite/favorite.dart';
 import 'package:musicPlayer/search/search.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 
@@ -51,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage>
           HomeScreen(),
           SearchScreen(),
           BGAudioPlayerScreen(),
-          AccountScreen(),
+          Favorite(),
           AccountScreen(),
         ],
         controller: pageController,
@@ -73,16 +74,11 @@ class _MyHomePageState extends State<MyHomePage>
                 ),
                 label: "PLAYER"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.library_music), label: "LIBRARY"),
+                icon: Icon(Icons.favorite), label: "FAVORITE"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.settings), label: "SETTINGS"),
           ]),
-      bottomSheet: pageIndex != 2
-          ? RightToLeft(
-              child: NowPlayingMinPlayer(),
-              delay: 150,
-            )
-          : Text(""),
+      bottomSheet: pageIndex != 2 ? NowPlayingMinPlayer() : Text(""),
     );
   }
 }

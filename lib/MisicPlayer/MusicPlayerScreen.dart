@@ -5,6 +5,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:musicPlayer/MisicPlayer/MusicPlayerExtraControl.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/screen/articesProfile/singerProfile.dart';
@@ -52,6 +53,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           "singerId": listItem.singerId,
           "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
           "fav": listItem.fav,
+          "audio_url":listItem.audio_url
         };
         print(nowPlayingSinger);
         MediaItem mediaItem = new MediaItem(
@@ -77,6 +79,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
             "singerId": listItem.singerId,
             "imageUrl": listItem.imageUrl,
             "fav": listItem.fav,
+            "audio_url":listItem.audio_url
           };
           MediaItem mediaItem = new MediaItem(
               id: listItem.url,
@@ -131,14 +134,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                   mediaItem.artUri.replaceAll("large", "t300x300")),
             ),
             borderRadius: BorderRadius.circular(20.00),
-            // boxShadow: [
-            //   BoxShadow(
-            //     offset: Offset(0.00, 3.00),
-            //     color: Colors.black,
-            //     // color: Color.fromRGBO(color[0], color[1], color[2], 1),
-            //     blurRadius: 26,
-            //   ),
-            // ],
           ),
         )),
         singerName(mediaItem.artist, mediaItem.title, mediaItem.extras),
@@ -147,8 +142,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
   }
 
   Widget singerName(name, title, extras) {
-    // print("YOUOYOYOY");
-    // print(extras);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -221,49 +214,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
         ],
       ),
     );
-  }
-
-  Widget nowPlayingToolBar(title) {
-    return (Container(
-      child: ListTile(
-        title: Text(
-          "NOW PLAYING FROM",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-            color: Color(0xff000000).withOpacity(0.60),
-          ),
-        ),
-        subtitle: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w600,
-            fontSize: 17,
-            color: Color(0xffff2d55),
-          ),
-        ),
-        trailing: IconButton(
-            icon: new Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              // Navigator.pop(context);
-            }),
-        leading: IconButton(
-            icon: new Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-      ),
-    ));
   }
 
   Widget extraContorl(MediaItem mediaItem) {
@@ -346,16 +296,15 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if (processingState == AudioProcessingState.none) ...[
-                    //  nowPlayingToolBar(""),
                     _startAudioPlayerBtn(),
                   ] else ...[
-                    // nowPlayingToolBar(mediaItem.artist),
                     SizedBox(height: 14),
                     coverArt(mediaItem),
                     positionIndicator(mediaItem, playbackState),
                     playerContalors(playing),
                     // SizedBox(height: 11),
-                    extraContorl(mediaItem)
+                    // extraContorl(mediaItem)
+                    ExtrarContols(mediaItem: mediaItem)
                   ]
                 ],
               ),

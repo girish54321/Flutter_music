@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/home/Recently_played_ui.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
@@ -64,6 +65,12 @@ class _HomeScreenState extends State<HomeScreen>
             : CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    // child: Padding(
+                    //     padding: EdgeInsets.only(left: 16.0, top: 18.0),
+                    //     child: Headline2(text: "Recently Played")),
+                    child: Recently_playedUI(),
+                  ),
                   SliverToBoxAdapter(
                     child: Padding(
                         padding: EdgeInsets.only(left: 16.0, top: 18.0),
