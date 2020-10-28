@@ -11,12 +11,10 @@ import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
-import 'package:musicPlayer/screen/articesProfile/singerProfileUi.dart';
+import 'package:musicPlayer/screen/SingerProfile/singerProfileUi.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 
 class SingerProgile extends StatefulWidget {
   final NowPlayingClass nowPlayingClass;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/account/account.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
-import 'package:musicPlayer/home/HomeScreen.dart';
+import 'package:musicPlayer/home/HomeMain.dart';
 import 'package:musicPlayer/screen/Favorite/favorite.dart';
 import 'package:musicPlayer/search/search.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';

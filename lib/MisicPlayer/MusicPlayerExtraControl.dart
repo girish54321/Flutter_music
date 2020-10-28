@@ -1,9 +1,9 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/database/database_helper.dart';
+import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
-import 'package:musicPlayer/screen/articesProfile/singerProfile.dart';
+import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.mediaItem.extras['fav'] == 1) {
       setState(() {
@@ -82,7 +81,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
     // final id = await dbHelper.queryRowCount();
     // final rowsDeleted = await dbHelper.delete(id);
     // print('deleted $rowsDeleted row(s): row $id');
-    print(data[0]['id']);
+    // print(data[0]['id']);
     // return;
     final rowsDeleted = await dbHelper.deleteFav(data[0]['id']);
     print('deleted $rowsDeleted ');

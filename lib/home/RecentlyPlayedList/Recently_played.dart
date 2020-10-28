@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
-import 'package:musicPlayer/database/FavSongeMobileData.dart';
+import 'package:musicPlayer/database/data_modal/FavSongeMobileData.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 
@@ -49,7 +49,7 @@ class RecentlyPlayedList extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              new Container(
+                              new Container(  
                                 height: 130.33,
                                 width: 130.33,
                                 child: ClipRRect(

@@ -1,18 +1,17 @@
 import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerExtraControl.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
-import 'package:musicPlayer/screen/articesProfile/singerProfile.dart';
+import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
+import '../helper.dart';
 import 'AudioPlayer.dart';
 
 class BGAudioPlayerScreen extends StatefulWidget {
@@ -45,6 +44,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
     print("HEHHEHH1111E");
     print(widget.nowPlayingClass[0].imageUrl);
     if (AudioService.running) {
+      print("NOW PLAYIN");
       if (widget.nowPlayingClass != null) {
         var listItem = widget.nowPlayingClass[0];
         Map<String, dynamic> nowPlayingSinger = {
@@ -53,7 +53,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           "singerId": listItem.singerId,
           "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
           "fav": listItem.fav,
-          "audio_url":listItem.audio_url
+          "audio_url": listItem.audio_url
         };
         print(nowPlayingSinger);
         MediaItem mediaItem = new MediaItem(
@@ -70,6 +70,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
         print("ADDEDEDED");
       }
     } else {
+      print("NOW PLAYIN STRING");
       if (widget.nowPlayingClass != null) {
         for (int i = 0; i < widget.nowPlayingClass.length; i++) {
           var listItem = widget.nowPlayingClass[i];
@@ -79,7 +80,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
             "singerId": listItem.singerId,
             "imageUrl": listItem.imageUrl,
             "fav": listItem.fav,
-            "audio_url":listItem.audio_url
+            "audio_url": listItem.audio_url
           };
           MediaItem mediaItem = new MediaItem(
               id: listItem.url,
@@ -112,6 +113,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
           androidNotificationIcon: 'mipmap/launcher_icon',
           params: params,
         );
+        print("STATED NA");
         setState(() {
           _loading = false;
         });
@@ -412,14 +414,14 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      Network().printDuration(state.currentPosition),
+                      Helper().printDuration(state.currentPosition),
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).accentColor),
                     ),
                     Text(
-                      Network().printDuration(mediaItem.duration),
+                      Helper().printDuration(mediaItem.duration),
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,

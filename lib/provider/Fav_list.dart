@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/database/FavSongeMobileData.dart';
-import 'package:musicPlayer/database/Recently_played.dart';
-import 'package:musicPlayer/database/database_helper.dart';
+import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
+import 'package:musicPlayer/database/data_modal/FavSongeMobileData.dart';
 
 class FavListProvider with ChangeNotifier {
-  //                        <--- MyModel
-  String someValue = 'Hello';
   List<FavSongMobileData> favSongMobileDataList = [];
 
   FavListProvider() {
     updateProviderData();
   }
 
-  void updateList() { 
-    someValue = 'Goodbye';
-    print(someValue);
-    // notifyListeners();
+  void updateList() {
     favSongMobileDataList.clear();
     updateProviderData();
   }
@@ -24,7 +18,7 @@ class FavListProvider with ChangeNotifier {
     final dbHelper = DatabaseHelper.instance;
     final allRows = await dbHelper.queryAllRows();
     print('query all rows: PROVIDER');
-    print(allRows[0]);
+    // print(allRows[0]);
     if (allRows.length != 0) {
       print(allRows[0]);
       for (int i = 0; i < allRows.length; i++) {

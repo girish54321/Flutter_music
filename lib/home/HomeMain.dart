@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/home/Recently_played_ui.dart';
+import 'package:musicPlayer/home/RecentlyPlayedList/Recently_played_ui.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/network_utils/api.dart';
-import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
+import 'package:musicPlayer/screen/EmtyScreen/loadingScreen.dart';
 import 'package:musicPlayer/screen/playListScreen/playListScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/verticleBox.dart';

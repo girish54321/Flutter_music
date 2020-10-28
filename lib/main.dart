@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
+import 'package:musicPlayer/screen/loginScreen.dart/login.dart';
 import 'package:provider/provider.dart';
 import 'home/home.dart';
 
@@ -63,26 +64,26 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<FavListProvider>(
             create: (context) => FavListProvider()),
       ],
-      // child: MaterialApp(
-      //     title: 'Music Player ',
-      //     theme: ThemeData(
-      //       primarySwatch: generateMaterialColor(Palette.primary),
-      //       // visualDensity: VisualDensity.adaptivePlatformDensity,
-      //       scaffoldBackgroundColor: Colors.white,
-      //     ),
-      //     home: AudioServiceWidget(child: MyHomePage())),
-      child: Consumer<RecentlyPlayedProvider>(
-        builder: (context, RecentlyPlayedProvider notifier, child) {
-          return MaterialApp(
-              title: 'Music Player ',
-              theme: ThemeData(
-                primarySwatch: generateMaterialColor(Palette.primary),
-                // visualDensity: VisualDensity.adaptivePlatformDensity,
-                scaffoldBackgroundColor: Colors.white,
-              ),
-              home: AudioServiceWidget(child: MyHomePage()));
-        },
-      ),
+      child: MaterialApp(
+          title: 'Music Player ',
+          theme: ThemeData(
+            primarySwatch: generateMaterialColor(Palette.primary),
+            // visualDensity: VisualDensity.adaptivePlatformDensity,
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          home: AudioServiceWidget(child: MyHomePage())),
+      // child: Consumer<RecentlyPlayedProvider>( 
+      //   builder: (context, RecentlyPlayedProvider notifier, child) {
+      //     return MaterialApp(
+      //         title: 'Music Player',
+      //         theme: ThemeData(
+      //           primarySwatch: generateMaterialColor(Palette.primary),
+      //           // visualDensity: VisualDensity.adaptivePlatformDensity,
+      //           scaffoldBackgroundColor: Colors.white,
+      //         ),
+      //         home: AudioServiceWidget(child: LoginScreen()));
+      //   },
+      // ),
     );
     // home: SingerProgile());
     // home: BGAudioPlayerScreen());

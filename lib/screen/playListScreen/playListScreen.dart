@@ -5,16 +5,14 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
-import 'package:musicPlayer/database/data_modal/Recently_played_modal.dart';
-import 'package:musicPlayer/database/database_helper.dart';
+import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
-import 'package:musicPlayer/modal/singerModle.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
-import 'package:musicPlayer/screen/LoadingScreen/loadingScreen.dart';
+import 'package:musicPlayer/screen/EmtyScreen/loadingScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
 import 'package:page_transition/page_transition.dart';
@@ -143,7 +141,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
               PageTransition(
                   type: PageTransitionType.rightToLeft,
                   child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying,
+                    nowPlayingClass: nowPlaying, 
                   )));
           Future.delayed(const Duration(milliseconds: 500), () {
             nowPlaying.clear();

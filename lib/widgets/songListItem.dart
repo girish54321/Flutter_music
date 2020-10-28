@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 
@@ -67,8 +68,8 @@ class SongListItem extends StatelessWidget {
       subtitle: SMALLCAPTION(text: subtitle),
       trailing: Text(
         duration != null
-            ? Network().printDuration(Duration(milliseconds: duration))
-            : Network().printDuration(Network().parseDuration(durationString)),
+            ? Helper().printDuration(Duration(milliseconds: duration))
+            : Helper().printDuration(Network().parseDuration(durationString)),
       ),
     );
   }

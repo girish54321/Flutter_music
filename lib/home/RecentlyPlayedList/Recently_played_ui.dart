@@ -1,19 +1,17 @@
 import 'dart:convert';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
-import 'package:musicPlayer/database/FavSongeMobileData.dart';
-import 'package:musicPlayer/database/Recently_played.dart';
-import 'package:musicPlayer/home/Recently_played.dart';
+import 'package:musicPlayer/database/data_modal/FavSongeMobileData.dart';
+import 'package:musicPlayer/database/dataBaseHelper/Recently_played.dart';
+import 'package:musicPlayer/home/RecentlyPlayedList/Recently_played.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
-import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;

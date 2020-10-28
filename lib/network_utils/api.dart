@@ -64,13 +64,6 @@ class Network {
     return await http.get(id + client_id, headers: _setHeaders());
   }
 
-  printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-  }
-
   Duration parseDuration(String s) {
     int hours = 0;
     int minutes = 0;
