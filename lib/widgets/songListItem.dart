@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/helper.dart';
 import 'package:musicPlayer/network_utils/api.dart';
@@ -47,21 +48,39 @@ class SongListItem extends StatelessWidget {
       //     imageUrl: imageUrl != null ? imageUrl : "",
       //   ),
       // ),
-      leading: Container(
-        height: 60.00,
-        width: 60.00,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(imageUrl != null ? imageUrl : ""),
-              fit: BoxFit.cover),
-          // boxShadow: [
-          //   BoxShadow(
-          //     offset: Offset(0.00, 3.00),
-          //     color: Color(0xff00a650).withOpacity(0.30),
-          //     blurRadius: 26,
-          //   ),
-          // ],
-          borderRadius: BorderRadius.circular(15.00),
+      // leading: Container(
+      //   height: 60.00,
+      //   width: 60.00,
+      //   decoration: BoxDecoration(
+      //     image: DecorationImage(
+      //         image: NetworkImage(imageUrl != null ? imageUrl : ""),
+      //         fit: BoxFit.cover),
+      //     borderRadius: BorderRadius.circular(15.00),
+      //   ), PlaseHolder()
+      // ),
+      leading: CachedNetworkImage(
+        placeholder: (context, url) => Container(
+          height: 60.00,
+          width: 60.00, 
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/placholder.jpg'),
+                fit: BoxFit.cover),
+            borderRadius: BorderRadius.circular(15.00),
+          ),
+        ),
+        imageUrl: imageUrl != null ? imageUrl : "",
+        imageBuilder: (context, imageProvider) => Container(
+          height: 60.00,
+          width: 60.00,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            borderRadius: BorderRadius.circular(15.00),
+          ),
+        ),
+        errorWidget: (context, url, error) => Container(
+          height: 150.0,
+          child: Icon(Icons.error),
         ),
       ),
       title: Headline4(text: title),
@@ -69,7 +88,7 @@ class SongListItem extends StatelessWidget {
       trailing: Text(
         duration != null
             ? Helper().printDuration(Duration(milliseconds: duration))
-            : Helper().printDuration(Network().parseDuration(durationString)),
+            : Helper().printDuration(Helper().parseDuration(durationString)),
       ),
     );
   }

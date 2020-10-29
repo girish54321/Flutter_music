@@ -47,6 +47,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
 
   Future<void> sendSongUrlToPlayer(
       playList.Track track, Function updateList) async {
+    nowPlaying.clear();
     ProgressDialog pr = ProgressDialog(context);
     pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
@@ -68,7 +69,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
         ));
     await pr.show();
     final hasData = await dbHelper.hasData(track.id.toString());
-    try {
+    try { 
       http.Response response =
           await Network().getStremUrl(track.media.transcodings[1].url);
       print(response.body);
@@ -122,6 +123,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
             print("ADDEDEDED");
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             updateList();
+            nowPlaying.clear();
             Flushbar(
               title: "Done.",
               message: "Added To PlayList.",
@@ -141,7 +143,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
               PageTransition(
                   type: PageTransitionType.rightToLeft,
                   child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying, 
+                    nowPlayingClass: nowPlaying,
                   )));
           Future.delayed(const Duration(milliseconds: 500), () {
             nowPlaying.clear();

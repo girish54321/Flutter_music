@@ -13,10 +13,20 @@ class AppNetworkImage extends StatelessWidget {
       fadeInDuration: Duration(milliseconds: 400),
       fadeOutDuration: Duration(milliseconds: 200),
       imageUrl: imageUrl,
-      imageBuilder: (context, image) => Image.network(
-        imageUrl,
-        height: height != null ? height : 150,
-        fit: BoxFit.fill,
+      // imageBuilder: (context, image) => Image.network(
+      //   imageUrl,
+      //   height: height != null ? height : 150,
+      //   fit: BoxFit.fill,
+      // ),
+      imageBuilder: (context, imageProvider) => Container(
+        // height: 60.00,
+        // width: 60.00,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(15.00),
+        ),
       ),
       placeholder: (context, url) => PlaseHolder(),
       errorWidget: (context, url, error) => Icon(Icons.error),

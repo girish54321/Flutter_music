@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/provider/loginState.dart';
 import 'package:provider/provider.dart';
+import 'package:musicPlayer/Compontes/dialogs.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -10,6 +11,11 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Column buildDisplayNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,15 +67,6 @@ class _AccountScreenState extends State<AccountScreen> {
         title: Text(
           "Edit Profile",
         ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Icons.done,
-              size: 30.0,
-            ),
-          ),
-        ],
       ),
       body: Consumer<LoginStateProvider>(
         builder: (context, loginStateProvider, child) {
@@ -84,10 +81,23 @@ class _AccountScreenState extends State<AccountScreen> {
                               top: 16.0,
                               bottom: 8.0,
                             ),
-                            child: CircleAvatar(
-                              radius: 50.0,
-                              backgroundImage: CachedNetworkImageProvider(
-                                  "https://wallpapercave.com/wp/wp6031453.jpg"),
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) => CircleAvatar(
+                                radius: 66.0,
+                                backgroundImage:
+                                    AssetImage('assets/images/placholder.jpg'),
+                              ),
+                              imageUrl:
+                                  "https://m.media-amazon.com/images/M/MV5BM2M2ZGE5NjItYjc2ZS00ZWYzLTk2MzEtZTc3YThhNzhiNmU4XkEyXkFqcGdeQXVyNTU0NDgwMzA@._V1_.jpg",
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
+                                radius: 66.0,
+                                backgroundImage: imageProvider,
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                height: 150.0,
+                                child: Icon(Icons.error),
+                              ),
                             ),
                           ),
                           Padding(
@@ -116,11 +126,21 @@ class _AccountScreenState extends State<AccountScreen> {
                               return Padding(
                                 padding: EdgeInsets.all(16.0),
                                 child: FlatButton.icon(
+                                  // onPressed: () async {
+                                  //   await FirebaseAuth.instance.signOut();
+                                  //   loginStateProvider.changeLoginState(false);
+                                  //   // loginStateProvider.saveUserFavSong();
+                                  //   // loginStateProvider.deleteFav();
+                                  //   // loginStateProvider.getClientId();
+                                  // },
                                   onPressed: () async {
-                                    // await FirebaseAuth.instance.signOut();
-                                    // loginStateProvider.changeLoginState(false);
-                                    // loginStateProvider.saveUserFavSong();
-                                    loginStateProvider.allDataFav();
+                                    final action = await Dialogs.yesAbortDialog(
+                                        context, 'Log Out', 'Are You Sure ?');
+                                    if (action == DialogAction.yes) {
+                                      await FirebaseAuth.instance.signOut();
+                                      loginStateProvider
+                                          .changeLoginState(false);
+                                    } else {}
                                   },
                                   icon: Icon(Icons.cancel, color: Colors.red),
                                   label: Text(

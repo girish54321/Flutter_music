@@ -11,6 +11,8 @@ class LoginStateProvider with ChangeNotifier {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference favSong =
       FirebaseFirestore.instance.collection('favSong');
+  CollectionReference clientId =
+      FirebaseFirestore.instance.collection('clientId');
 
   LoginStateProvider() {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -21,6 +23,28 @@ class LoginStateProvider with ChangeNotifier {
       logedIn = false;
       notifyListeners();
     }
+  }
+
+  getClientId() {
+    FirebaseFirestore.instance
+        .collection('clientId')
+        .doc('clientId')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document exists on the database clientId');
+        print(documentSnapshot.get('clientId'));
+        return true;
+      } else {
+        clientId.doc('clientId').set({
+          'clientId': 'clientId',
+        }).then((value) {
+          logedIn = true;
+          print("clientId");
+          return true;
+        }).catchError((error) => print("Failed to add user: $error"));
+      }
+    });
   }
 
   saveUserFavSong() {
@@ -69,8 +93,8 @@ class LoginStateProvider with ChangeNotifier {
     print("ALL NAV");
     // snapshot.docs.map((doc) => print(doc).toList());
     for (int i = 0; i < snapshot.docs.length; i++) {
-      print("ALL NAV22");
-      print(snapshot.docs[i]['sing']);
+      print("ALL avatarUrl");
+      print(snapshot.docs[i]['singerName']);
     }
     // print(snapshot.docs['sing']);
     // QuerySnapshot snapshot = await timelineRef
@@ -83,6 +107,20 @@ class LoginStateProvider with ChangeNotifier {
     // setState(() {
     //   this.posts = posts;
     // });
+  }
+
+  deleteFav() {
+    favSong
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('userFav')
+        .doc('206559958')
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+        print("DATA IS DELTED");
+      }
+    });
   }
 
   changeLoginState(bool state) {
@@ -116,8 +154,8 @@ class LoginStateProvider with ChangeNotifier {
           logedIn = true;
           notifyListeners();
           print("Added");
-          return true;
           changeLoginState(true);
+          return true;
         }).catchError((error) => print("Failed to add user: $error"));
       }
     });

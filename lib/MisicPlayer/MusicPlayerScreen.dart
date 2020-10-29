@@ -1,13 +1,16 @@
 import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerExtraControl.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
+import 'package:musicPlayer/screen/imageViewScreen/imageViewScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
@@ -126,18 +129,42 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
   Widget coverArt(MediaItem mediaItem) {
     return Column(
       children: <Widget>[
-        Center(
-            child: Container(
-          height: 290.00,
-          width: 290.00,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  mediaItem.artUri.replaceAll("large", "t300x300")),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade,
+                    child: ImageViewScreen(
+                        imageUrl: mediaItem.artUri, heroTag: "heroTag")));
+          },
+          child: Hero(
+            tag: "heroTag",
+            child: CachedNetworkImage(
+              imageUrl: mediaItem.artUri,
+              imageBuilder: (context, imageProvider) => Container(
+                height: 290.00,
+                width: 290.00,
+                decoration: BoxDecoration(
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                  borderRadius: BorderRadius.circular(20.00),
+                ),
+              ),
+              placeholder: (context, url) => Container(
+                height: 290.00,
+                width: 290.00,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/placholder.jpg'),
+                      fit: BoxFit.cover),
+                  borderRadius: BorderRadius.circular(20.00),
+                ),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-            borderRadius: BorderRadius.circular(20.00),
           ),
-        )),
+        ),
         singerName(mediaItem.artist, mediaItem.title, mediaItem.extras),
       ],
     );

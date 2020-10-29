@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/database/data_modal/FavSongeMobileData.dart';
 import 'package:musicPlayer/database/dataBaseHelper/Recently_played.dart';
+import 'package:musicPlayer/helper.dart';
 import 'package:musicPlayer/home/RecentlyPlayedList/Recently_played.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
@@ -112,7 +113,7 @@ class _Recently_playedUIState extends State<Recently_playedUI> {
               singerName,
               favSongMobileData.artworkUrl,
               null,
-              Network().parseDuration(favSongMobileData.duration),
+              Helper().parseDuration(favSongMobileData.duration),
               singerName,
               int.parse(favSongMobileData.trackId),
               int.parse(favSongMobileData.userId),

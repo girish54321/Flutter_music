@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:audio_service/audio_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
@@ -18,19 +22,27 @@ class ExtrarContols extends StatefulWidget {
 class _ExtrarContolsState extends State<ExtrarContols> {
   final dbHelper = DatabaseHelper.instance;
   bool addedFav = false;
-
+  CollectionReference favSong =
+      FirebaseFirestore.instance.collection('favSong');
   @override
   void initState() {
     super.initState();
-    if (widget.mediaItem.extras['fav'] == 1) {
-      setState(() {
-        addedFav = true;
-      });
-    } else {
-      setState(() {
-        addedFav = false;
-      });
-    }
+    favSong
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('userFav')
+        .doc(widget.mediaItem.extras['songId'].toString())
+        .get()
+        .then((doc) async {
+      if (doc.exists) {
+        setState(() {
+          addedFav = true;
+        });
+      } else {
+        setState(() {
+          addedFav = false;
+        });
+      }
+    }).catchError((error) => print("Failed to add user: $error"));
   }
 
 // Button onPressed methods
@@ -38,25 +50,58 @@ class _ExtrarContolsState extends State<ExtrarContols> {
   void _insert(MediaItem mediaItem, Function updateList) async {
     // row to insert
 
-    print(mediaItem.extras);
+    print(mediaItem.extras['songId'].toString());
     // return;
+    favSong
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('userFav')
+        .doc(mediaItem.extras['songId'].toString())
+        .get()
+        .then((doc) async {
+      if (doc.exists) {
+        doc.reference.delete();
+        updateList();
+        print("DATA IS DELTED");
+        setState(() {
+          addedFav = false;
+        });
+      } else {
+        Map<String, dynamic> row = {
+          DatabaseHelper.transcodings: mediaItem.extras['audio_url'],
+          DatabaseHelper.singerName: mediaItem.artist,
+          DatabaseHelper.artworkUrl: mediaItem.artUri,
+          DatabaseHelper.duration: mediaItem.duration.toString(),
+          DatabaseHelper.trackid: mediaItem.extras['songId'].toString(),
+          DatabaseHelper.userid: mediaItem.extras['singerId'].toString(),
+          DatabaseHelper.avatarUrl: mediaItem.extras['imageUrl'],
+          DatabaseHelper.songname: mediaItem.title,
+        };
 
-    Map<String, dynamic> row = {
-      DatabaseHelper.transcodings: mediaItem.extras['audio_url'],
-      DatabaseHelper.singerName: mediaItem.artist,
-      DatabaseHelper.artworkUrl: mediaItem.artUri,
-      DatabaseHelper.duration: mediaItem.duration.toString(),
-      DatabaseHelper.trackid: mediaItem.extras['songId'].toString(),
-      DatabaseHelper.userid: mediaItem.extras['singerId'].toString(),
-      DatabaseHelper.avatarUrl: mediaItem.extras['imageUrl'],
-      DatabaseHelper.songname: mediaItem.title,
-    };
-    final id = await dbHelper.insert(row);
-    print('inserted row id: $id');
-    setState(() {
-      addedFav = true;
+        favSong
+            .doc(FirebaseAuth.instance.currentUser.uid)
+            .collection("userFav")
+            .doc(mediaItem.extras['songId'].toString())
+            .set({
+          "transcodings": mediaItem.extras['audio_url'],
+          "singerName": mediaItem.artist,
+          "artworkUrl": mediaItem.artUri,
+          "duration": mediaItem.duration.toString(),
+          "trackid": mediaItem.extras['songId'].toString(),
+          "userid": mediaItem.extras['singerId'].toString(),
+          "avatarUrl": mediaItem.extras['imageUrl'],
+          "songname": mediaItem.title,
+        }).then((value) {
+          print("Added FAVE BASE");
+        }).catchError((error) => print("Failed to add user: $error"));
+
+        final id = await dbHelper.insert(row);
+        print('inserted row id: $id');
+        setState(() {
+          addedFav = true;
+        });
+        updateList();
+      }
     });
-    updateList();
   }
 
   void _query() async {
@@ -119,7 +164,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
                       color: addedFav ? Colors.red : Colors.grey,
                     ),
                     onPressed: () async {
-                      hasFav(favListProvider.updateList);
+                      _insert(widget.mediaItem, favListProvider.updateList);
                     }),
                 IconButton(
                     icon: Icon(
