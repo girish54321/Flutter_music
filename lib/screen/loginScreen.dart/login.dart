@@ -1,12 +1,19 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper.dart';
 import 'package:musicPlayer/home/HomeMain.dart';
 import 'package:musicPlayer/home/home.dart';
+import 'package:musicPlayer/provider/loginState.dart';
 import 'package:musicPlayer/screen/SingUpScreen/SingUpScreen.dart';
 import 'package:musicPlayer/screen/loginScreen.dart/AppButton.dart';
 import 'package:musicPlayer/screen/loginScreen.dart/inputText.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:provider/provider.dart';
+import 'package:rules/rules.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,6 +22,67 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  userLogin(Function changeLoginState, Function addUser) async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
+    pr.style(
+        message: 'Loading..',
+        padding: EdgeInsets.all(16.0),
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: Container(
+            padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
+        elevation: 6.0,
+        insetAnimCurve: Curves.easeInOut,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 19.0,
+          fontWeight: FontWeight.w600,
+        ));
+    await pr.show();
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim());
+      // addUser(userCredential.user.uid);
+      changeLoginState(true);
+      await pr.hide();
+    } on FirebaseAuthException catch (e) {
+      await pr.hide();
+      if (e.code == 'user-not-found') {
+        Helper().showSnackBar(
+            'No user found for that email.', 'error', context, true);
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+        Helper().showSnackBar(
+            'Wrong password provided for that user.', 'error', context, true);
+      }
+    } catch (e) {
+      await pr.hide();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
-                              FlatButton(
-                                onPressed: () {
+                              GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                       context,
                                       PageTransition(
@@ -103,9 +171,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           InputText(
-                            password: false,
-                            hint: "Email",
-                          ),
+                              password: false,
+                              hint: "Email",
+                              textEditingController: emailController,
+                              validator: (email) {
+                                final emailRule = Rule(email,
+                                    name: 'Email',
+                                    isRequired: true,
+                                    isEmail: true);
+                                if (emailRule.hasError) {
+                                  return emailRule.error;
+                                } else {
+                                  return null;
+                                }
+                              }),
                           new Text(
                             "Password",
                             style: TextStyle(
@@ -114,9 +193,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           InputText(
-                            password: true,
-                            hint: "Password",
-                          ),
+                              textEditingController: passwordController,
+                              password: true,
+                              hint: "Password",
+                              validator: (password) {
+                                final passWordRule = Rule(password,
+                                    name: 'Password',
+                                    isRequired: true,
+                                    minLength: 6);
+                                if (passWordRule.hasError) {
+                                  return passWordRule.error;
+                                } else {
+                                  return null;
+                                }
+                              }),
                           Align(
                             alignment: Alignment.centerRight,
                             child: new Text(
@@ -127,27 +217,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          Container(
-                            child: AppButton(
-                              buttonText: "SIGN IN",
-                              function: () {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AudioServiceWidget(
-                                                child: MyHomePage())),
-                                    (Route<dynamic> route) => false);
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (BuildContext context) =>
-                                //         MyHomePage(),
-                                //   ),
-                                //   result: (route) => true,
-                                // );
-                              },
-                            ),
-                          )
+                          Consumer<LoginStateProvider>(
+                            builder: (context, loginStateProvider, child) {
+                              return Container(
+                                child: AppButton(
+                                  buttonText: "Log In",
+                                  function: () {
+                                    if (_formKey.currentState.validate()) {
+                                      userLogin(
+                                          loginStateProvider.changeLoginState,
+                                          loginStateProvider.addUser);
+                                    }
+                                  },
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

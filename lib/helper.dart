@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicPlayer/database/dataBaseHelper/Recently_played.dart';
@@ -12,6 +13,19 @@ class Helper {
         backgroundColor: Colors.orange,
         textColor: Colors.white,
         fontSize: 16.0);
+  }
+
+  showSnackBar(message, title, context, bool error) {
+    return Flushbar(
+      title: title,
+      message: message,
+      backgroundColor: error ? Colors.orange : Theme.of(context).accentColor,
+      reverseAnimationCurve: Curves.easeIn,
+      forwardAnimationCurve: Curves.easeInOut,
+      duration: Duration(seconds: 5),
+      margin: EdgeInsets.all(8),
+      borderRadius: 8,
+    )..show(context);
   }
 
   printDuration(Duration duration) {

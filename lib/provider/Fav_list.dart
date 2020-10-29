@@ -20,7 +20,7 @@ class FavListProvider with ChangeNotifier {
     print('query all rows: PROVIDER');
     // print(allRows[0]);
     if (allRows.length != 0) {
-      print(allRows[0]);
+      // print(allRows[0]);
       for (int i = 0; i < allRows.length; i++) {
         FavSongMobileData favSongMobileData = new FavSongMobileData(
           allRows[i]['id'],

@@ -199,7 +199,7 @@ class _Recently_playedUIState extends State<Recently_playedUI> {
                 favSongMobileDataList:
                     recentlyPlayedProvider.favSongMobileDataList,
                 sendSongUrlToPlayer: sendSongUrlToPlayer)
-            : Text("Noting Played till now.");
+            : Text("");
       },
     );
   }

@@ -1,16 +1,20 @@
 import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:musicPlayer/home/HomeMain.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
+import 'package:musicPlayer/provider/loginState.dart';
 import 'package:musicPlayer/screen/loginScreen.dart/login.dart';
 import 'package:provider/provider.dart';
 import 'home/home.dart';
 
-void main() {
+Future<void> main() async {
 // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp()); //#FF2D55
 }
 
@@ -51,42 +55,32 @@ class Palette {
   static const Color primary = Color(0xFFFF2D55);
 }
 
-// ignore: non_constant_identifier_names
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      //                                     <--- MultiProvider
       providers: [
         ChangeNotifierProvider<RecentlyPlayedProvider>(
             create: (context) => RecentlyPlayedProvider()),
         ChangeNotifierProvider<FavListProvider>(
             create: (context) => FavListProvider()),
+        ChangeNotifierProvider<LoginStateProvider>(
+            create: (context) => LoginStateProvider()),
       ],
-      child: MaterialApp(
-          title: 'Music Player ',
-          theme: ThemeData(
-            primarySwatch: generateMaterialColor(Palette.primary),
-            // visualDensity: VisualDensity.adaptivePlatformDensity,
-            scaffoldBackgroundColor: Colors.white,
-          ),
-          home: AudioServiceWidget(child: MyHomePage())),
-      // child: Consumer<RecentlyPlayedProvider>( 
-      //   builder: (context, RecentlyPlayedProvider notifier, child) {
-      //     return MaterialApp(
-      //         title: 'Music Player',
-      //         theme: ThemeData(
-      //           primarySwatch: generateMaterialColor(Palette.primary),
-      //           // visualDensity: VisualDensity.adaptivePlatformDensity,
-      //           scaffoldBackgroundColor: Colors.white,
-      //         ),
-      //         home: AudioServiceWidget(child: LoginScreen()));
-      //   },
-      // ),
+      child: Consumer<LoginStateProvider>(
+        builder: (context, loginStateProvider, child) {
+          return MaterialApp(
+              title: 'Music Players',
+              theme: ThemeData(
+                primarySwatch: generateMaterialColor(Palette.primary),
+                scaffoldBackgroundColor: Colors.white,
+              ),
+              home: loginStateProvider.logedIn == true
+                  ? AudioServiceWidget(child: MyHomePage())
+                  : LoginScreen());
+          // home: AudioServiceWidget(child: MyHomePage()));
+        },
+      ),
     );
-    // home: SingerProgile());
-    // home: BGAudioPlayerScreen());
-    // home: OpenContainerTransformDemo());
   }
 }

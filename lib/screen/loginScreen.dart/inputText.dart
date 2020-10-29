@@ -11,6 +11,7 @@ class InputText extends StatefulWidget {
   final TextInputType textInputType;
   final String errorText;
   final Function onChnaged;
+  final FormFieldValidator validator;
 
   const InputText(
       {Key key,
@@ -23,7 +24,8 @@ class InputText extends StatefulWidget {
       this.focusNode,
       this.textInputType,
       this.errorText,
-      this.onChnaged});
+      this.onChnaged,
+      this.validator});
 
   @override
   _InputTextState createState() => _InputTextState();
@@ -35,13 +37,14 @@ class _InputTextState extends State<InputText> {
     return Container(
       padding: EdgeInsets.only(bottom: 18, top: 9),
       decoration: BoxDecoration(),
-      child: TextField(
+      child: TextFormField(
         keyboardType: widget.textInputType,
         focusNode: widget.focusNode,
         onChanged: widget.onChnaged,
-        onSubmitted: widget.changeFous,
+        onFieldSubmitted: widget.changeFous,
         obscureText: widget.password,
         controller: widget.textEditingController,
+        validator: widget.validator,
         decoration: InputDecoration(
             errorText: widget.errorText,
             prefixIcon: widget.leftIcon,
