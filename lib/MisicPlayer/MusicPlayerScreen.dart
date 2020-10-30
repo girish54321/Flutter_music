@@ -29,18 +29,23 @@ class BGAudioPlayerScreen extends StatefulWidget {
   _BGAudioPlayerScreenState createState() => _BGAudioPlayerScreenState();
 }
 
-class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
+class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
+    with TickerProviderStateMixin {
   final BehaviorSubject<double> _dragPositionSubject =
       BehaviorSubject.seeded(null);
 
   List<MediaItem> nowPlaying = [];
   bool _loading = false;
+  AnimationController _animationController;
 
   @override
   void initState() {
+    playInComingTrack();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _animationController.forward();
     super.initState();
     // _loading = false;
-    playInComingTrack();
   }
 
   playInComingTrack() async {
@@ -222,11 +227,26 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen> {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              onPressed: playing ? AudioService.pause : AudioService.play,
-              icon: Icon(
-                playing ? Icons.pause : Icons.play_arrow,
+              onPressed: () {
+                if (playing) {
+                  _animationController.reverse();
+                  AudioService.pause();
+                } else {
+                  _animationController.forward();
+                  AudioService.play();
+                }
+              },
+              // onPressed: playing ? AudioService.pause : AudioService.play,
+              // icon: Icon(
+              //   playing ? Icons.pause : Icons.play_arrow,
+              //   size: 40,
+              //   color: Colors.white,
+              // ),
+              icon: AnimatedIcon(
                 size: 40,
+                icon: AnimatedIcons.play_pause,
                 color: Colors.white,
+                progress: _animationController,
               ),
             ),
           ),

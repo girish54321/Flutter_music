@@ -10,6 +10,7 @@ import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:like_button/like_button.dart';
 
 class ExtrarContols extends StatefulWidget {
   final MediaItem mediaItem;
@@ -45,13 +46,8 @@ class _ExtrarContolsState extends State<ExtrarContols> {
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
-// Button onPressed methods
-
   void _insert(MediaItem mediaItem, Function updateList) async {
-    // row to insert
-
     print(mediaItem.extras['songId'].toString());
-    // return;
     favSong
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('userFav')
@@ -139,7 +135,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
   Future<void> hasFav(Function updateList) async {
     final data = await dbHelper
         .findObjects22(widget.mediaItem.extras['songId'].toString());
-    // return id;
     if (data.length == 0) {
       _insert(widget.mediaItem, updateList);
     } else {
@@ -150,21 +145,32 @@ class _ExtrarContolsState extends State<ExtrarContols> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        // padding: EdgeInsets.symmetric(horizontal: 28),
         padding: EdgeInsets.only(left: 33, right: 33, bottom: 14),
         child: Consumer<FavListProvider>(
-          //            <--- MyModel Consumer
           builder: (context, favListProvider, child) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                    icon: Icon(
-                      Icons.favorite,
-                      color: addedFav ? Colors.red : Colors.grey,
-                    ),
-                    onPressed: () async {
+                LikeButton(
+                    isLiked: addedFav,
+                    onTap: (bool isLiked) async {
                       _insert(widget.mediaItem, favListProvider.updateList);
+                      return !isLiked;
+                    },
+                    circleColor: CircleColor(
+                        start: Theme.of(context).accentColor,
+                        end: Theme.of(context).accentColor),
+                    bubblesColor: BubblesColor(
+                      dotPrimaryColor: Colors.grey,
+                      dotSecondaryColor: Colors.grey,
+                    ),
+                    likeBuilder: (bool addedFav) {
+                      return Icon(
+                        Icons.favorite,
+                        color: addedFav
+                            ? Theme.of(context).accentColor
+                            : Colors.grey,
+                      );
                     }),
                 IconButton(
                     icon: Icon(
@@ -179,9 +185,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
                       color: Theme.of(context).accentColor,
                     ),
                     onPressed: () {
-                      // imageUrl: https://i1.sndcdn.com/avatars-000463172286-f7nnhe-large.jpg, name: Distant.lo, fav: 1, songId: 25175318
-                      // mediaItem.extras['imageUrl']
-                      print("extras");
                       NowPlayingClass nowPlayingClass = new NowPlayingClass(
                         widget.mediaItem.id,
                         widget.mediaItem.title,

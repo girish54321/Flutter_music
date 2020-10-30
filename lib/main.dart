@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'home/home.dart';
 
 Future<void> main() async {
-// SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp()); //#FF2D55

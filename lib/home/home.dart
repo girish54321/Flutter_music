@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
-import 'package:musicPlayer/account/account.dart';
-import 'package:musicPlayer/animasions/rightToLeft.dart';
 import 'package:musicPlayer/home/HomeMain.dart';
 import 'package:musicPlayer/screen/Favorite/favorite.dart';
-import 'package:musicPlayer/search/search.dart';
+import 'package:musicPlayer/screen/account/account.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -17,11 +16,25 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   PageController pageController;
   int pageIndex = 0;
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
     super.initState();
     pageController = PageController();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.getToken().then((String token) {
+      print(token);
+    });
   }
 
   @override
@@ -50,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage>
       body: PageView(
         children: <Widget>[
           HomeScreen(),
-          // SearchScreen(),
           BGAudioPlayerScreen(),
           Favorite(),
           AccountScreen(),
@@ -66,8 +78,6 @@ class _MyHomePageState extends State<MyHomePage>
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.audiotrack), label: "EXPLORE"),
-            // BottomNavigationBarItem(
-            //     icon: Icon(Icons.queue_music_outlined), label: "PLAYLIST"),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.play_circle_filled,
@@ -75,8 +85,7 @@ class _MyHomePageState extends State<MyHomePage>
                 label: "PLAYER"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: "FAVORITE"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person), label: "ACCOUNT"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "ACCOUNT"),
           ]),
       bottomSheet: pageIndex != 1 ? NowPlayingMinPlayer() : Text(""),
     );

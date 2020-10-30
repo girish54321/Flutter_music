@@ -24,7 +24,6 @@ class RecentlyPlayedList extends StatelessWidget {
               child: Headline2(text: "Recently Played")),
           Container(
             height: 230,
-            // color: Colors.red,
             width: double.infinity,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -49,7 +48,7 @@ class RecentlyPlayedList extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              new Container(  
+                              new Container(
                                 height: 130.33,
                                 width: 130.33,
                                 child: ClipRRect(

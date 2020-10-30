@@ -235,6 +235,7 @@ class _FavoriteState extends State<Favorite> {
         body: Consumer<FavListProvider>(
             builder: (context, favListProvider, child) {
           return ListView.builder(
+              physics: const BouncingScrollPhysics(),
               itemCount: favListProvider.favSongMobileDataList.length,
               itemBuilder: (BuildContext context, int index) {
                 FavSongMobileData favSongMobileData =

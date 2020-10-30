@@ -110,7 +110,6 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                           RaisedButton(
-                            // onPressed: updateProfileData,
                             onPressed: () {},
                             child: Text(
                               "Update Profile",
@@ -126,13 +125,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               return Padding(
                                 padding: EdgeInsets.all(16.0),
                                 child: FlatButton.icon(
-                                  // onPressed: () async {
-                                  //   await FirebaseAuth.instance.signOut();
-                                  //   loginStateProvider.changeLoginState(false);
-                                  //   // loginStateProvider.saveUserFavSong();
-                                  //   // loginStateProvider.deleteFav();
-                                  //   // loginStateProvider.getClientId();
-                                  // },
                                   onPressed: () async {
                                     final action = await Dialogs.yesAbortDialog(
                                         context, 'Log Out', 'Are You Sure ?');
