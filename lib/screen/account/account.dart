@@ -27,10 +27,8 @@ class _AccountScreenState extends State<AccountScreen> {
               style: TextStyle(color: Colors.grey),
             )),
         TextField(
-          // controller: displayNameController,
           decoration: InputDecoration(
             hintText: "Update Display Name",
-            // errorText: _displayNameValid ? null : "Display Name too short",
           ),
         )
       ],

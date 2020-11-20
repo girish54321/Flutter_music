@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
-import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 
 import 'homeShongListItem.dart';

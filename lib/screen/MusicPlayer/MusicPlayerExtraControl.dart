@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +26,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
   @override
   void initState() {
     super.initState();
+    print("UID" + FirebaseAuth.instance.currentUser.uid);
     favSong
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('userFav')
@@ -106,24 +105,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
     allRows.forEach((row) => print(row));
   }
 
-  void _update() async {
-    // row to update
-    // Map<String, dynamic> row = {
-    //   DatabaseHelper.columnId: 1,
-    //   DatabaseHelper.columnName: 'Mary',
-    //   DatabaseHelper.columnAge: 32
-    // };
-    // final rowsAffected = await dbHelper.update(row);
-    // print('updated $rowsAffected row(s)');
-  }
-
   void _delete(data, Function updateList) async {
-    // Assuming that the number of rows is the id for the last row.
-    // final id = await dbHelper.queryRowCount();
-    // final rowsDeleted = await dbHelper.delete(id);
-    // print('deleted $rowsDeleted row(s): row $id');
-    // print(data[0]['id']);
-    // return;
     final rowsDeleted = await dbHelper.deleteFav(data[0]['id']);
     print('deleted $rowsDeleted ');
     setState(() {

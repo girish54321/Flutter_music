@@ -1,8 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:musicPlayer/database/dataBaseHelper/Recently_played.dart';
-import 'package:musicPlayer/modal/player_song_list.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class Helper {
   showToastMessage(message) {
@@ -13,6 +12,29 @@ class Helper {
         backgroundColor: Colors.orange,
         textColor: Colors.white,
         fontSize: 16.0);
+  }
+
+  showLoadingDilog(context) {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr.style(
+        message: 'Loading..',
+        padding: EdgeInsets.all(16.0),
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: Container(
+            padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
+        elevation: 6.0,
+        insetAnimCurve: Curves.easeInOut,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 19.0,
+          fontWeight: FontWeight.w600,
+        ));
+    return pr;
   }
 
   showSnackBar(message, title, context, bool error) {

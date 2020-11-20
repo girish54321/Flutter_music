@@ -1,19 +1,18 @@
 import 'dart:convert';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
-import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfileUi.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 class SingerProgile extends StatefulWidget {
@@ -33,7 +32,6 @@ class _SingerProgileState extends State<SingerProgile> {
   //Test
   List myList;
   ScrollController _scrollController = ScrollController();
-  int _currentMax = 10;
   bool _loadingMore = true;
   List<NowPlayingClass> nowPlaying = [];
   AudioUrl audioUrl;
@@ -97,16 +95,7 @@ class _SingerProgileState extends State<SingerProgile> {
         }
       }
     } catch (e) {
-      print("Error");
-      Flushbar(
-        title: "Error.",
-        message: e.toString(),
-        reverseAnimationCurve: Curves.easeIn,
-        forwardAnimationCurve: Curves.easeInOut,
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(8),
-        borderRadius: 8,
-      )..show(context);
+      Helper().showSnackBar(e.toString(), "Error.", context, true);
       _loadingMore = false;
       print(e);
     }
@@ -115,28 +104,16 @@ class _SingerProgileState extends State<SingerProgile> {
   Future<void> getSingerProfile(userId) async {
     try {
       http.Response response = await Network().getSingerProfile(userId);
-
       if (response.statusCode == 200) {
         var resBody = json.decode(response.body);
         setState(() {
           _loading = false;
           singerProfile = new SingerProfile.fromJson(resBody);
         });
-
         getSignerSonges(userId);
       }
     } catch (e) {
-      print("Error");
-      Flushbar(
-        title: "Error.",
-        message: e.toString(),
-        reverseAnimationCurve: Curves.easeIn,
-        forwardAnimationCurve: Curves.easeInOut,
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(8),
-        borderRadius: 8,
-      )..show(context);
-      // pr.hide();
+      Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
     }
   }
@@ -145,74 +122,28 @@ class _SingerProgileState extends State<SingerProgile> {
     try {
       http.Response response =
           await Network().getAllTrackFormSinger(userId); //147072974
-
       if (response.statusCode == 200) {
         var resBody = json.decode(response.body);
         setState(() {
           _loading = false;
         });
-
         setState(() {
           singerTracksModal = new SingerTracksModal.fromJson(resBody);
         });
-
         setState(() {
           newPageRef = singerTracksModal.nextHref;
         });
       }
     } catch (e) {
       print("Error");
-      // pr.hide();
-      Flushbar(
-        title: "Error.",
-        message: e.toString(),
-        reverseAnimationCurve: Curves.easeIn,
-        forwardAnimationCurve: Curves.easeInOut,
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(8),
-        borderRadius: 8,
-      )..show(context);
+      Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
     }
   }
 
-  static const int _COUNT = 10;
-  // mocking a network call
-  Future<List<String>> pageData(int previousCount) async {
-    await Future.delayed(Duration(seconds: 0, milliseconds: 1800));
-    List<String> dummyList = List();
-    if (previousCount < 30) {
-      // stop loading after 30 items
-      for (int i = previousCount; i < previousCount + _COUNT; i++) {
-        dummyList.add('Item $i');
-      }
-    }
-    return dummyList;
-  }
-
   Future<void> sendSongUrlToPlayer(
       Collection collection, Function updateList) async {
-    ProgressDialog pr = ProgressDialog(context);
-    //For normal dialog
-    pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
-    pr.style(
-        message: 'Loading..',
-        padding: EdgeInsets.all(16.0),
-        borderRadius: 10.0,
-        backgroundColor: Colors.white,
-        progressWidget: Container(
-            padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
-        elevation: 6.0,
-        insetAnimCurve: Curves.easeInOut,
-        progressTextStyle: TextStyle(
-            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-        messageTextStyle: TextStyle(
-          color: Colors.black,
-          fontSize: 19.0,
-          fontWeight: FontWeight.w600,
-        ));
-    await pr.show();
+    await Helper().showLoadingDilog(context).show();
     try {
       http.Response response =
           await Network().getStremUrl(collection.media.transcodings[1].url);
@@ -239,7 +170,7 @@ class _SingerProgileState extends State<SingerProgile> {
               1,
               collection.media.transcodings[1].url),
         );
-        pr.hide();
+        await Helper().showLoadingDilog(context).hide();
         if (AudioService.running) {
           if (nowPlaying != null) {
             var listItem = nowPlaying[0];
@@ -251,7 +182,7 @@ class _SingerProgileState extends State<SingerProgile> {
               "fav": listItem.fav,
               "audio_url": listItem.audio_url
             };
-            // print(nowPlayingSinger);
+
             MediaItem mediaItem = new MediaItem(
                 id: listItem.url,
                 title: listItem.title,
@@ -261,23 +192,12 @@ class _SingerProgileState extends State<SingerProgile> {
                 duration: listItem.duration,
                 extras: nowPlayingSinger);
 
-            Future.delayed(Duration(seconds: 5));
+            Future.delayed(Duration(seconds: 3));
             await AudioService.addQueueItem(mediaItem);
-
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
-            print("ADDEDEDED");
             updateList();
-            Flushbar(
-              title: "Done.",
-              message: "Added To PlayList.",
-              backgroundColor: Theme.of(context).accentColor,
-              reverseAnimationCurve: Curves.easeIn,
-              forwardAnimationCurve: Curves.easeInOut,
-              duration: Duration(seconds: 2),
-              margin: EdgeInsets.all(8),
-              borderRadius: 8,
-            )..show(context);
-            await Future.delayed(Duration(seconds: 5));
+            Helper().showSnackBar("Added To PlayList.", "Done.", context, true);
+            await Future.delayed(Duration(seconds: 1));
             nowPlaying.clear();
           }
         } else {
@@ -290,21 +210,13 @@ class _SingerProgileState extends State<SingerProgile> {
                   child: BGAudioPlayerScreen(
                     nowPlayingClass: nowPlaying,
                   )));
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(Duration(seconds: 1));
           nowPlaying.clear();
         }
       }
     } catch (e) {
-      pr.hide();
-      Flushbar(
-        title: "Error.",
-        message: e.toString(),
-        reverseAnimationCurve: Curves.easeIn,
-        forwardAnimationCurve: Curves.easeInOut,
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(8),
-        borderRadius: 8,
-      )..show(context);
+      await Helper().showLoadingDilog(context).hide();
+      Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
     }
   }

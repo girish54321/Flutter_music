@@ -6,6 +6,7 @@ class NowPlayingClass {
   final int singerId;
   final String imageUrl;
   final int fav;
+  // ignore: non_constant_identifier_names
   final String audio_url;
 
   NowPlayingClass(

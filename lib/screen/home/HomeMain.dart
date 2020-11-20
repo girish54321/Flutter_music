@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/home/RecentlyPlayedList/Recently_played_ui.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/network_utils/api.dart';
-import 'package:musicPlayer/screen/EmtyScreen/loadingScreen.dart';
+import 'package:musicPlayer/screen/Empty%20Screen/loadingScreen.dart';
+import 'package:musicPlayer/screen/home/RecentlyPlayedList/Recently_played_ui.dart';
 import 'package:musicPlayer/screen/playListScreen/playListScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/verticleBox.dart';
@@ -40,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen>
         });
       }
     } catch (e) {
-      print("response22 ERRERs");
       print(e);
     }
   }
@@ -54,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Home")),
@@ -66,9 +66,6 @@ class _HomeScreenState extends State<HomeScreen>
                 physics: const BouncingScrollPhysics(),
                 slivers: <Widget>[
                   SliverToBoxAdapter(
-                    // child: Padding(
-                    //     padding: EdgeInsets.only(left: 16.0, top: 18.0),
-                    //     child: Headline2(text: "Recently Played")),
                     child: Recently_playedUI(),
                   ),
                   SliverToBoxAdapter(

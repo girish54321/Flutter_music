@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
-import 'package:musicPlayer/home/HomeMain.dart';
-import 'package:musicPlayer/screen/Favorite/favorite.dart';
+import 'package:musicPlayer/screen/FavoriteSongList/favoriteSongList.dart';
+import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/screen/account/account.dart';
+import 'package:musicPlayer/screen/home/HomeMain.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 

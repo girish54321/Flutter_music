@@ -3,16 +3,14 @@ import 'dart:math';
 import 'package:audio_service/audio_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/home/HomeMain.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/provider/loginState.dart';
-import 'package:musicPlayer/screen/loginScreen.dart/login.dart';
+import 'package:musicPlayer/screen/auth/loginScreen/login.dart';
+import 'package:musicPlayer/screen/home/home.dart';
 import 'package:provider/provider.dart';
-import 'home/home.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp()); //#FF2D55
@@ -78,7 +76,6 @@ class MyApp extends StatelessWidget {
               home: loginStateProvider.logedIn == true
                   ? AudioServiceWidget(child: MyHomePage())
                   : LoginScreen());
-          // home: AudioServiceWidget(child: MyHomePage()));
         },
       ),
     );

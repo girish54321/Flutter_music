@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
-import 'package:musicPlayer/screen/EmtyScreen/loadingScreen.dart';
+import 'package:musicPlayer/screen/Empty%20Screen/loadingScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
 import 'package:provider/provider.dart';

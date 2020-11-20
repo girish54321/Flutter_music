@@ -4,17 +4,15 @@ import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:musicPlayer/MisicPlayer/MusicPlayerExtraControl.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
-import 'package:musicPlayer/network_utils/api.dart';
+import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerExtraControl.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
 import 'package:musicPlayer/screen/imageViewScreen/imageViewScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
-import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
-import '../helper.dart';
 import 'AudioPlayer.dart';
 
 class BGAudioPlayerScreen extends StatefulWidget {
@@ -45,14 +43,12 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _animationController.forward();
     super.initState();
-    // _loading = false;
   }
 
   playInComingTrack() async {
-    print("HEHHEHH1111E");
-    print(widget.nowPlayingClass[0].imageUrl);
+    print("IMAGE");
+    // print(widget.nowPlayingClass[0].imageUrl);
     if (AudioService.running) {
-      print("NOW PLAYIN");
       if (widget.nowPlayingClass != null) {
         var listItem = widget.nowPlayingClass[0];
         Map<String, dynamic> nowPlayingSinger = {
@@ -72,13 +68,13 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
             album: listItem.album,
             duration: listItem.duration,
             extras: nowPlayingSinger);
-
         Future.delayed(Duration(seconds: 5));
+        print("now playong" + widget.nowPlayingClass[0].name);
         await AudioService.addQueueItem(mediaItem);
-        print("ADDEDEDED");
       }
     } else {
-      print("NOW PLAYIN STRING");
+      print("not runing");
+      print("New Player" + widget.nowPlayingClass.length.toString());
       if (widget.nowPlayingClass != null) {
         for (int i = 0; i < widget.nowPlayingClass.length; i++) {
           var listItem = widget.nowPlayingClass[i];
@@ -121,13 +117,11 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
           androidNotificationIcon: 'mipmap/launcher_icon',
           params: params,
         );
-        print("STATED NA");
+
         setState(() {
           _loading = false;
         });
-      } else {
-        print("NOw data in pao");
-      }
+      } else {}
     }
   }
 
@@ -236,12 +230,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                   AudioService.play();
                 }
               },
-              // onPressed: playing ? AudioService.pause : AudioService.play,
-              // icon: Icon(
-              //   playing ? Icons.pause : Icons.play_arrow,
-              //   size: 40,
-              //   color: Colors.white,
-              // ),
               icon: AnimatedIcon(
                 size: 40,
                 icon: AnimatedIcons.play_pause,
@@ -289,9 +277,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                 color: Theme.of(context).accentColor,
               ),
               onPressed: () {
-                // imageUrl: https://i1.sndcdn.com/avatars-000463172286-f7nnhe-large.jpg, name: Distant.lo, fav: 1, songId: 25175318
-                // mediaItem.extras['imageUrl']
-                print("extras");
                 NowPlayingClass nowPlayingClass = new NowPlayingClass(
                   mediaItem.id,
                   mediaItem.title,
@@ -333,6 +318,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
           stream: _audioStateStream,
           builder: (context, snapshot) {
             final audioState = snapshot.data;
+            // ignore: unused_local_variable
             final queue = audioState?.queue;
             final mediaItem = audioState?.mediaItem;
             final playbackState = audioState?.playbackState;
@@ -351,8 +337,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                     coverArt(mediaItem),
                     positionIndicator(mediaItem, playbackState),
                     playerContalors(playing),
-                    // SizedBox(height: 11),
-                    // extraContorl(mediaItem)
                     ExtrarContols(mediaItem: mediaItem)
                   ]
                 ],
@@ -420,6 +404,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
   Widget positionIndicator(MediaItem mediaItem, PlaybackState state) {
     double seekPos;
     // print(mediaItem);
+    // ignore: unused_local_variable
     Duration length;
     return StreamBuilder(
       stream: Rx.combineLatest2<double, double, double>(
@@ -430,6 +415,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
         double position =
             snapshot.data ?? state.currentPosition.inMilliseconds.toDouble();
         double duration = mediaItem?.duration?.inMilliseconds?.toDouble();
+        // ignore: unused_local_variable
         final player = AudioPlayer();
         return Container(
           child: Column(

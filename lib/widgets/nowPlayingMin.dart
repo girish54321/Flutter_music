@@ -1,7 +1,6 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/MisicPlayer/AudioPlayer.dart';
-import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
+import 'package:musicPlayer/screen/MusicPlayer/AudioPlayer.dart';
+import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +11,6 @@ class NowPlayingMinPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ContainerTransitionType _transitionType = ContainerTransitionType.fade;
     return StreamBuilder<AudioState>(
       stream: _audioStateStream,
       builder: (context, snapshot) {
@@ -107,6 +105,7 @@ class PlayButton extends StatelessWidget {
         final playbackState = audioState?.playbackState;
         final processingState =
             playbackState?.processingState ?? AudioProcessingState.none;
+        // ignore: unused_local_variable
         final playing = playbackState?.playing ?? false;
         return processingState == AudioProcessingState.none
             ? Center(

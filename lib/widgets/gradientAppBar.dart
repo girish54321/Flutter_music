@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/animasions/FadeAnimation.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
-import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 
 class GardeenAppBar extends StatelessWidget {

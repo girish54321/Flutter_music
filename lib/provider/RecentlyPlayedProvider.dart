@@ -18,9 +18,7 @@ class RecentlyPlayedProvider with ChangeNotifier {
     final dbHelper = RecentlyPlayedDatabaseHelper.instance;
     final allRows = await dbHelper.queryAllRows();
     print('query all rows: PROVIDER');
-    // print(allRows[0]);
     if (allRows.length != 0) {
-      // print(allRows[0]);
       for (int i = 0; i < allRows.length; i++) {
         FavSongMobileData favSongMobileData = new FavSongMobileData(
           allRows[i]['id'],

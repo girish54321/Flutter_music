@@ -1,24 +1,22 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:audio_service/audio_service.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
-import 'package:musicPlayer/MisicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
 import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
-import 'package:musicPlayer/screen/EmtyScreen/loadingScreen.dart';
+import 'package:musicPlayer/screen/Empty%20Screen/loadingScreen.dart';
+import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 class PlayListScreen extends StatefulWidget {
@@ -39,7 +37,6 @@ class _PlayListScreenState extends State<PlayListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.itemsCollection.id);
     getlayListForId();
@@ -48,33 +45,14 @@ class _PlayListScreenState extends State<PlayListScreen> {
   Future<void> sendSongUrlToPlayer(
       playList.Track track, Function updateList) async {
     nowPlaying.clear();
-    ProgressDialog pr = ProgressDialog(context);
-    pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
-    pr.style(
-        message: 'Loading..',
-        padding: EdgeInsets.all(16.0),
-        borderRadius: 10.0,
-        backgroundColor: Colors.white,
-        progressWidget: Container(
-            padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
-        elevation: 6.0,
-        insetAnimCurve: Curves.easeInOut,
-        progressTextStyle: TextStyle(
-            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-        messageTextStyle: TextStyle(
-          color: Colors.black,
-          fontSize: 19.0,
-          fontWeight: FontWeight.w600,
-        ));
-    await pr.show();
+    await Helper().showLoadingDilog(context).show();
     final hasData = await dbHelper.hasData(track.id.toString());
-    try { 
+    try {
       http.Response response =
           await Network().getStremUrl(track.media.transcodings[1].url);
       print(response.body);
       if (response.statusCode == 200) {
-        var singerName = "UnKnow";
+        var singerName = "";
         if (track.user.fullName != null) {
           singerName = track.user.username;
         }
@@ -93,11 +71,10 @@ class _PlayListScreenState extends State<PlayListScreen> {
               track.id,
               track.user.id,
               track.user.avatarUrl,
-              // ignore: unrelated_type_equality_checks
               hasData == true ? 1 : 0,
               track.media.transcodings[1].url),
         );
-        pr.hide();
+         await Helper().showLoadingDilog(context).hide();
         if (AudioService.running) {
           if (nowPlaying != null) {
             var listItem = nowPlaying[0];
@@ -123,19 +100,13 @@ class _PlayListScreenState extends State<PlayListScreen> {
             print("ADDEDEDED");
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             updateList();
+              await Helper().showLoadingDilog(context).hide();
             nowPlaying.clear();
-            Flushbar(
-              title: "Done.",
-              message: "Added To PlayList.",
-              backgroundColor: Theme.of(context).accentColor,
-              reverseAnimationCurve: Curves.easeIn,
-              forwardAnimationCurve: Curves.easeInOut,
-              duration: Duration(seconds: 2),
-              margin: EdgeInsets.all(8),
-              borderRadius: 8,
-            )..show(context);
+            Helper()
+                .showSnackBar("Added To PlayList.", "Done.", context, false);
           }
         } else {
+            await Helper().showLoadingDilog(context).hide();
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
           Navigator.push(
@@ -151,17 +122,9 @@ class _PlayListScreenState extends State<PlayListScreen> {
         }
       }
     } catch (e) {
-      print("Error");
-      pr.hide();
-      Flushbar(
-        title: "Error.",
-        message: e.toString(),
-        reverseAnimationCurve: Curves.easeIn,
-        forwardAnimationCurve: Curves.easeInOut,
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(8),
-        borderRadius: 8,
-      )..show(context);
+        await Helper().showLoadingDilog(context).hide();
+     
+      Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
     }
   }
@@ -170,7 +133,6 @@ class _PlayListScreenState extends State<PlayListScreen> {
     try {
       http.Response response =
           await Network().getPlayListForId(widget.itemsCollection.id);
-      // print(response.body);
       if (response.statusCode == 200) {
         var resBody = json.decode(response.body);
         playListResponse = new PlayListResponse.fromJson(resBody);
@@ -179,16 +141,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
         });
       }
     } catch (e) {
-      print("Error");
-      Flushbar(
-        title: "Error.",
-        message: e.toString(),
-        reverseAnimationCurve: Curves.easeIn,
-        forwardAnimationCurve: Curves.easeInOut,
-        duration: Duration(seconds: 2),
-        margin: EdgeInsets.all(8),
-        borderRadius: 8,
-      )..show(context);
+      Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
     }
   }

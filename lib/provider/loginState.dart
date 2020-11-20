@@ -7,7 +7,7 @@ import 'dart:math';
 class LoginStateProvider with ChangeNotifier {
   bool logedIn = false;
   var userData;
-  AppUser user = null;
+  AppUser user;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference favSong =
       FirebaseFirestore.instance.collection('favSong');
@@ -48,9 +48,6 @@ class LoginStateProvider with ChangeNotifier {
   }
 
   saveUserFavSong() {
-    //  favSong.document(widget.currentUser.id)
-    //     .collection("userPosts")
-    //     .document(postId)
     var rng = new Random();
     favSong
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -63,23 +60,8 @@ class LoginStateProvider with ChangeNotifier {
   }
 
   getUserData() async {
-    // postsRef
-    //     .document(widget.currentUser.id)
-    //     .collection("userPosts")
-    //     .document(postId)
-    //     .setData({
-    //   "postId": postId,
-    //   "ownerId": widget.currentUser.id,
-    //   "username": widget.currentUser.username,
-    //   "mediaUrl": mediaUrl,
-    //   "description": description,
-    //   "location": location,
-    //   "timestamp": timestamp,
-    //   "likes": {},
-    // });
     DocumentSnapshot doc =
         await users.doc(FirebaseAuth.instance.currentUser.uid).get();
-    print("USER DATA");
     user = AppUser.fromDocument(doc);
     print(user.userName);
     notifyListeners();
@@ -90,23 +72,11 @@ class LoginStateProvider with ChangeNotifier {
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('userFav')
         .get();
-    print("ALL NAV");
-    // snapshot.docs.map((doc) => print(doc).toList());
+
     for (int i = 0; i < snapshot.docs.length; i++) {
       print("ALL avatarUrl");
       print(snapshot.docs[i]['singerName']);
     }
-    // print(snapshot.docs['sing']);
-    // QuerySnapshot snapshot = await timelineRef
-    //     .document(widget.currentUser.id)
-    //     .collection('timelinePosts')
-    //     .orderBy('timestamp', descending: true)
-    //     .getDocuments();
-    // List<Post> posts =
-    //     snapshot.documents.map((doc) => Post.fromDocument(doc)).toList();
-    // setState(() {
-    //   this.posts = posts;
-    // });
   }
 
   deleteFav() {
@@ -126,10 +96,9 @@ class LoginStateProvider with ChangeNotifier {
   changeLoginState(bool state) {
     print("CHNECN USER");
     logedIn = state;
+    LoginStateProvider();
     notifyListeners();
   }
-
-  // add user to dataBase
 
   Future<void> addUser(userId, userName, email) {
     print("ADDING USER");
