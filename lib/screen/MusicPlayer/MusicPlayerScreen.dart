@@ -145,6 +145,12 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                 height: 290.00,
                 width: 290.00,
                 decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Theme.of(context).accentColor,
+                      blurRadius: 5.0,
+                    ),
+                  ],
                   image:
                       DecorationImage(image: imageProvider, fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(20.00),
@@ -154,6 +160,13 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                 height: 290.00,
                 width: 290.00,
                 decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(1.0, 6.0),
+                      blurRadius: 40.0,
+                    ),
+                  ],
                   image: DecorationImage(
                       image: AssetImage('assets/images/placholder.jpg'),
                       fit: BoxFit.cover),
@@ -180,8 +193,15 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 26),
           child: Center(
-            child: Headline3(
-              text: title != null ? title : "",
+            child: Text(
+              title != null ? title : "",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+                color: Color(0xff000000),
+              ),
             ),
           ),
         ),

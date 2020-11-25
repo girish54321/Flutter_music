@@ -11,6 +11,7 @@ import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
+import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
 import 'package:page_transition/page_transition.dart';
@@ -30,8 +31,8 @@ class _FavoriteState extends State<Favorite> {
   List<NowPlayingClass> nowPlaying = [];
   AudioUrl audioUrl;
 
-  Future<void> sendSongUrlToPlayer(
-      FavSongMobileData favSongMobileData, Function updateList) async {
+  Future<void> sendSongUrlToPlayer(FavSongMobileData favSongMobileData,
+      Function updateList, Function updateResentPlayList) async {
     await Helper().showLoadingDilog(context).show();
     try {
       http.Response response =
@@ -83,6 +84,7 @@ class _FavoriteState extends State<Favorite> {
             await AudioService.addQueueItem(mediaItem);
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             updateList();
+            updateResentPlayList();
             Helper()
                 .showSnackBar("Added To PlayList.", "Done.", context, false);
             nowPlaying.clear();
@@ -92,6 +94,7 @@ class _FavoriteState extends State<Favorite> {
           print(nowPlaying[0].title);
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
+          updateResentPlayList();
           Navigator.push(
               context,
               PageTransition(
@@ -125,14 +128,16 @@ class _FavoriteState extends State<Favorite> {
               itemBuilder: (BuildContext context, int index) {
                 FavSongMobileData favSongMobileData =
                     favListProvider.favSongMobileDataList[index];
-                return Consumer<FavListProvider>(
-                  builder: (context, favListProvider, child) {
+                return Consumer<RecentlyPlayedProvider>(
+                  builder: (context, recentlyPlayedProvide, child) {
                     return ShowUp(
                       delay: 150,
                       child: SongListItem(
                         onClick: () {
                           sendSongUrlToPlayer(
-                              favSongMobileData, favListProvider.updateList);
+                              favSongMobileData,
+                              favListProvider.updateList,
+                              recentlyPlayedProvide.updateList);
                         },
                         imageUrl: favSongMobileData.artworkUrl,
                         title: favSongMobileData.songname != null

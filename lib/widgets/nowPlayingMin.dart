@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/screen/MusicPlayer/AudioPlayer.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
@@ -42,23 +43,45 @@ class NowPlayingMinPlayer extends StatelessWidget {
                       },
                       title: Headline5(text: mediaItem.title),
                       subtitle: CaptionL(text: mediaItem.artist),
-                      leading: Container(
-                        height: 54.00,
-                        width: 54.00,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(mediaItem.artUri
-                                  .replaceAll("large", "t300x300")),
-                              fit: BoxFit.cover),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0.00, 3.00),
-                              color: Color(0xff00a650).withOpacity(0.30),
-                              blurRadius: 26,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(15.00),
+                      leading: CachedNetworkImage(
+                        imageUrl:
+                            mediaItem.artUri.replaceAll("large", "t300x300"),
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: 54.00,
+                          width: 54.00,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0.00, 3.00),
+                                color: Color(0xff00a650).withOpacity(0.30),
+                                blurRadius: 26,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(15.00),
+                          ),
                         ),
+                        placeholder: (context, url) => Container(
+                          height: 54.00,
+                          width: 54.00,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image:
+                                    AssetImage("assets/images/placholder.jpg"),
+                                fit: BoxFit.cover),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0.00, 3.00),
+                                color: Color(0xff00a650).withOpacity(0.30),
+                                blurRadius: 26,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(
+                                15.00), //assets/images/placholder.jpg
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                       trailing: IconButton(
                           icon: new Icon(

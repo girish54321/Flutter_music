@@ -196,11 +196,14 @@ class _SingerProgileState extends State<SingerProgile> {
             await AudioService.addQueueItem(mediaItem);
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             updateList();
-            Helper().showSnackBar("Added To PlayList.", "Done.", context, true);
-            await Future.delayed(Duration(seconds: 1));
+            await Helper().showLoadingDilog(context).hide();
+            Helper()
+                .showSnackBar("Added To PlayList.", "Done.", context, false);
+            await Future.delayed(Duration(seconds: 2));
             nowPlaying.clear();
           }
         } else {
+          await Helper().showLoadingDilog(context).hide();
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
           Navigator.push(
