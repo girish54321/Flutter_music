@@ -1,8 +1,12 @@
 # Flutter MusicPlayer
 
-![stack Overflow](https://github.com/girish54321/Flutter_music/blob/main/images/1.png)
+<img src="https://github.com/girish54321/Flutter_music/blob/main/images/1.jpg" width="400" height="720" />
 
-![stack Overflow](https://github.com/girish54321/Flutter_music/blob/main/images/2.png)
+<img src="https://github.com/girish54321/Flutter_music/blob/main/images/2.jpg" width="400" height="720" />
+
+<img src="https://github.com/girish54321/Flutter_music/blob/main/images/3.jpg" width="400" height="720" />
+
+<img src="https://github.com/girish54321/Flutter_music/blob/main/images/4.jpg" width="400" height="720" />
 
 A new Flutter project.
 
