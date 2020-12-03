@@ -82,6 +82,11 @@ class _HomeScreenState extends State<HomeScreen>
                           collection: collection, goToPlayList: goToPlayList);
                     }, childCount: homeSongList.collection.length),
                   ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 60,
+                    ),
+                  ),
                 ],
               ),
       ),

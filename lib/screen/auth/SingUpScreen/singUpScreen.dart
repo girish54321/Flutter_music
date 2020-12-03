@@ -23,7 +23,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
               password: passwordController.text.trim());
       print(userCredential);
       addUser(userCredential.user.uid, userNameController.text.trim(),
-          emailController.text.trim());
+          emailController.text.trim(), null);
       changeLoginState(true);
       Navigator.of(context).pop();
       await Helper().showLoadingDilog(context).hide();

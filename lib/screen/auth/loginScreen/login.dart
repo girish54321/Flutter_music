@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/screen/auth/loginScreen/loginUi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,42 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  userLogin(Function changeLoginState, Function addUser) async {
+  Future<UserCredential> signInWithGoogle(Function changeLoginState,
+      Function addUser, Function updateFavList) async {
+    try {
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential newUser =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      print("ONLY USR-----------------------------");
+      print(newUser.user.displayName);
+
+      addUser(newUser.user.uid, newUser.user.displayName, newUser.user.email,
+          newUser.user.photoURL);
+      updateFavList();
+      changeLoginState(true);
+      // Future.delayed(const Duration(seconds: 1), () {
+      //   changeLoginState(true);
+      // });
+    } catch (e) {
+      Helper().showSnackBar(e.toString(), "ERROR", context, true);
+    }
+  }
+
+  comeingSoonMssage(text) {
+    Helper().showSnackBar('Coming Soon', text, context, true);
+  }
+
+  userLogin(Function changeLoginState, Function addUser,
+      Function updateFavList) async {
     await Helper().showLoadingDilog(context).show();
     try {
       // ignore: unused_local_variable
@@ -37,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
               email: emailController.text.trim(),
               password: passwordController.text.trim());
       changeLoginState(true);
+      updateFavList();
       await Helper().showLoadingDilog(context).hide();
     } on FirebaseAuthException catch (e) {
       await Helper().showLoadingDilog(context).hide();
@@ -58,10 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoginUi(
-        emailController: emailController,
-        userLogin: userLogin,
-        passwordController: passwordController,
-      ),
+          emailController: emailController,
+          userLogin: userLogin,
+          passwordController: passwordController,
+          comeingSoonMssage: comeingSoonMssage,
+          signInWithGoogle: signInWithGoogle),
     );
   }
 }

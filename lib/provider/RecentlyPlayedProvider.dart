@@ -10,8 +10,15 @@ class RecentlyPlayedProvider with ChangeNotifier {
   }
 
   void updateList() {
+    print("UPDATE LIST");
     favSongMobileDataList.clear();
     updateProviderData();
+  }
+
+  void clearList() {
+    print("CLINE LIST FAV");
+    favSongMobileDataList = [];
+    notifyListeners();
   }
 
   Future<void> updateProviderData() async {

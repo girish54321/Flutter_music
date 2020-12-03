@@ -24,7 +24,9 @@ class GardeenAppBar extends StatelessWidget {
         collapseMode: CollapseMode.pin,
         background: CachedNetworkImage(
           placeholder: (context, url) => PlaseHolder(),
-          imageUrl: imageUrl != null ? imageUrl : "",
+          imageUrl: imageUrl != null
+              ? imageUrl
+              : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
                 image: DecorationImage(

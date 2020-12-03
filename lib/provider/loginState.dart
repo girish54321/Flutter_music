@@ -95,12 +95,16 @@ class LoginStateProvider with ChangeNotifier {
 
   changeLoginState(bool state) {
     print("CHNECN USER");
+    print("CHANGE STATR");
     logedIn = state;
+    if (state) {
+      getUserData();
+    }
     LoginStateProvider();
     notifyListeners();
   }
 
-  Future<void> addUser(userId, userName, email) {
+  Future<void> addUser(userId, userName, email, imageUrl) {
     print("ADDING USER");
     print(userId);
     return FirebaseFirestore.instance
@@ -117,7 +121,7 @@ class LoginStateProvider with ChangeNotifier {
         users.doc(userId).set({
           'userName': userName,
           'email': email,
-          "imageUrl": null,
+          "imageUrl": imageUrl,
           'user_id': userId,
         }).then((value) {
           logedIn = true;

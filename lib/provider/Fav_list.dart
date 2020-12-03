@@ -16,6 +16,12 @@ class FavListProvider with ChangeNotifier {
     updateProviderData();
   }
 
+  void clearList() {
+    print("CLINE LIST FAV");
+    favSongMobileDataList = [];
+    notifyListeners();
+  }
+
   Future<void> updateProviderData() async {
     QuerySnapshot snapshot = await favSong
         .doc(FirebaseAuth.instance.currentUser.uid)

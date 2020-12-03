@@ -39,7 +39,9 @@ class SongListItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.00),
           ),
         ),
-        imageUrl: imageUrl != null ? imageUrl : "",
+        imageUrl: imageUrl != null
+            ? imageUrl
+            : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
         imageBuilder: (context, imageProvider) => Container(
           height: 60.00,
           width: 60.00,

@@ -34,12 +34,21 @@ class _PlayListScreenState extends State<PlayListScreen> {
   AudioUrl audioUrl;
   List<NowPlayingClass> nowPlaying = [];
   final dbHelper = DatabaseHelper.instance;
+  ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     print(widget.itemsCollection.id);
     getlayListForId();
+    _scrollController = new ScrollController();
+    _scrollController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> sendSongUrlToPlayer(
@@ -50,7 +59,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
     try {
       http.Response response =
           await Network().getStremUrl(track.media.transcodings[1].url);
-      print(response.body);
+
       if (response.statusCode == 200) {
         var singerName = "";
         if (track.user.fullName != null) {
@@ -58,7 +67,6 @@ class _PlayListScreenState extends State<PlayListScreen> {
         }
         var resBody = json.decode(response.body);
         audioUrl = new AudioUrl.fromJson(resBody);
-
         nowPlaying.add(
           new NowPlayingClass(
               audioUrl.url,
@@ -74,7 +82,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
               hasData == true ? 1 : 0,
               track.media.transcodings[1].url),
         );
-         await Helper().showLoadingDilog(context).hide();
+        await Helper().showLoadingDilog(context).hide();
         if (AudioService.running) {
           if (nowPlaying != null) {
             var listItem = nowPlaying[0];
@@ -82,16 +90,20 @@ class _PlayListScreenState extends State<PlayListScreen> {
               "name": listItem.name,
               "songId": listItem.songId,
               "singerId": listItem.singerId,
-              "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
+              "imageUrl": listItem.imageUrl != null
+                  ? listItem.imageUrl.replaceAll("large", "t500x500")
+                  : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
               "fav": hasData == true ? 1 : 0,
               "audio_url": listItem.audio_url
             };
-            print(nowPlayingSinger);
+
             MediaItem mediaItem = new MediaItem(
                 id: listItem.url,
                 title: listItem.title,
                 artist: listItem.artist,
-                artUri: listItem.artUri.replaceAll("large", "t500x500"),
+                artUri: listItem.artUri != null
+                    ? listItem.artUri.replaceAll("large", "t500x500")
+                    : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
                 album: listItem.album,
                 duration: listItem.duration,
                 extras: nowPlayingSinger);
@@ -100,13 +112,13 @@ class _PlayListScreenState extends State<PlayListScreen> {
             print("ADDEDEDED");
             DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
             updateList();
-              await Helper().showLoadingDilog(context).hide();
+            await Helper().showLoadingDilog(context).hide();
             nowPlaying.clear();
             Helper()
                 .showSnackBar("Added To PlayList.", "Done.", context, false);
           }
         } else {
-            await Helper().showLoadingDilog(context).hide();
+          await Helper().showLoadingDilog(context).hide();
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
           Navigator.push(
@@ -122,10 +134,98 @@ class _PlayListScreenState extends State<PlayListScreen> {
         }
       }
     } catch (e) {
-        await Helper().showLoadingDilog(context).hide();
-     
+      await Helper().showLoadingDilog(context).hide();
+
       Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
+    }
+  }
+
+  loadPlaylist(
+    Function updateList,
+  ) async {
+    await Helper().showLoadingDilog(context).show();
+    nowPlaying.clear();
+    for (var i = 0; i < 4; i++) {
+      playList.Track track = playListResponse.tracks[i];
+      final hasData = await dbHelper.hasData(track.id.toString());
+      http.Response response =
+          await Network().getStremUrl(track.media.transcodings[1].url);
+
+      if (response.statusCode == 200) {
+        var singerName = "";
+        if (track.user.fullName != null) {
+          singerName = track.user.username;
+        }
+        var resBody = json.decode(response.body);
+        audioUrl = new AudioUrl.fromJson(resBody);
+        nowPlaying.add(
+          new NowPlayingClass(
+              audioUrl.url,
+              track.title,
+              singerName,
+              track.artworkUrl,
+              null,
+              Duration(milliseconds: track.media.transcodings[1].duration),
+              singerName,
+              track.id,
+              track.user.id,
+              track.user.avatarUrl,
+              hasData == true ? 1 : 0,
+              track.media.transcodings[1].url),
+        );
+      }
+    }
+    if (AudioService.running) {
+      for (var i = 0; i < nowPlaying.length; i++) {
+        NowPlayingClass now = nowPlaying[i];
+
+        Map<String, dynamic> nowPlayingSinger = {
+          "name": now.name,
+          "songId": now.songId,
+          "singerId": now.singerId,
+          "imageUrl": now.imageUrl != null
+              ? now.imageUrl.replaceAll("large", "t500x500")
+              : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
+          "fav": now.fav,
+          "audio_url": now.audio_url
+        };
+
+        MediaItem mediaItem = new MediaItem(
+            id: now.url,
+            title: now.title,
+            artist: now.artist,
+            artUri: now.artUri != null
+                ? now.artUri.replaceAll("large", "t500x500")
+                : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
+            album: now.album,
+            duration: now.duration,
+            extras: nowPlayingSinger);
+        Future.delayed(Duration(seconds: 5));
+        await AudioService.addQueueItem(mediaItem);
+        print("ADDEDEDED");
+        DatabaseOperations().insertRecentlyPlayed(now);
+        updateList();
+        await Helper().showLoadingDilog(context).hide();
+        nowPlaying.clear();
+
+        Helper().showSnackBar("Added To PlayList.", "Done.", context, false);
+      }
+    } else {
+      await Helper().showLoadingDilog(context).hide();
+
+      DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
+      updateList();
+      Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: BGAudioPlayerScreen(
+                nowPlayingClass: nowPlaying,
+              )));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        nowPlaying.clear();
+      });
     }
   }
 
@@ -139,75 +239,118 @@ class _PlayListScreenState extends State<PlayListScreen> {
         setState(() {
           _loading = false;
         });
+      } else {
+        Helper().showSnackBar("Server Error", "Error.", context, true);
+        Navigator.pop(context);
       }
     } catch (e) {
       Helper().showSnackBar(e.toString(), "Error.", context, true);
+      Navigator.pop(context);
       print(e);
     }
+  }
+
+  Widget _buildFab(Function updateList) {
+    final double defaultTopMargin = 364.0 - 4.0;
+    final double scaleStart = 96.0;
+    final double scaleEnd = scaleStart / 2;
+    double top = defaultTopMargin;
+    double scale = 1.0;
+    if (_scrollController.hasClients) {
+      double offset = _scrollController.offset;
+      top -= offset;
+      if (offset < defaultTopMargin - scaleStart) {
+        scale = 1.0;
+      } else if (offset < defaultTopMargin - scaleEnd) {
+        scale = (defaultTopMargin - scaleEnd - offset) / scaleEnd;
+      } else {
+        scale = 0.0;
+      }
+    }
+
+    return new Positioned(
+      top: top,
+      right: 16.0,
+      child: new Transform(
+        transform: new Matrix4.identity()..scale(scale),
+        alignment: Alignment.center,
+        child: new FloatingActionButton(
+          onPressed: () {
+            loadPlaylist(updateList);
+          },
+          child: new Icon(Icons.play_arrow_sharp),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _loading
-          ? Center(
-              child: Center(
-                child: new LoadingScreen(),
-              ),
-            )
-          : CustomScrollView(
-              slivers: <Widget>[
-                GardeenAppBar(
-                  isProfile: false,
-                  imageUrl: playListResponse.artworkUrl != null
-                      ? playListResponse.artworkUrl
-                          .replaceAll("large", "t500x500")
-                      : "",
-                  title: widget.itemsCollection.title,
+        body: _loading
+            ? Center(
+                child: Center(
+                  child: new LoadingScreen(),
                 ),
-                SliverToBoxAdapter(
-                    child: SizedBox(
-                  height: 16,
-                )),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    playList.Track track = playListResponse.tracks[index];
-                    return Consumer<RecentlyPlayedProvider>(
-                        builder: (context, recentlyPlayedProvider, child) {
-                      return Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 4.0),
-                            child: SongListItem(
-                                // onClick: sendSongUrlToPlayer,
-                                onClick: () {
-                                  print("OUTT");
-                                  sendSongUrlToPlayer(
-                                      track, recentlyPlayedProvider.updateList);
-                                },
-                                imageUrl: track.artworkUrl != null
-                                    ? track.artworkUrl
-                                    : playListResponse.artworkUrl != null
-                                        ? playListResponse.artworkUrl
-                                        : "",
-                                title: track.title != null
-                                    ? track.title
-                                    : "Title Not Avalive",
-                                subtitle: track.user != null
-                                    ? track.user.username != null
-                                        ? track.user.username
-                                        : ""
-                                    : "Artise Name Not Found",
-                                duration: track.media.transcodings[1].duration),
-                          ),
-                        ],
-                      );
-                    });
-                  }, childCount: 5),
-                ),
-              ],
-            ),
-    );
+              )
+            : Consumer<RecentlyPlayedProvider>(
+                builder: (context, recentlyPlayedProvider, child) {
+                return Stack(
+                  children: [
+                    CustomScrollView(
+                      controller: _scrollController,
+                      slivers: <Widget>[
+                        GardeenAppBar(
+                          isProfile: false,
+                          imageUrl: playListResponse.artworkUrl != null
+                              ? playListResponse.artworkUrl
+                                  .replaceAll("large", "t500x500")
+                              : null,
+                          title: widget.itemsCollection.title,
+                        ),
+                        SliverToBoxAdapter(
+                            child: SizedBox(
+                          height: 16,
+                        )),
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            playList.Track track =
+                                playListResponse.tracks[index];
+                            return Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 4.0),
+                                  child: SongListItem(
+                                      onClick: () {
+                                        sendSongUrlToPlayer(track,
+                                            recentlyPlayedProvider.updateList);
+                                      },
+                                      imageUrl: track.artworkUrl != null
+                                          ? track.artworkUrl
+                                          : playListResponse.artworkUrl != null
+                                              ? playListResponse.artworkUrl
+                                              : null,
+                                      title: track.title != null
+                                          ? track.title
+                                          : "Title Not Avalive",
+                                      subtitle: track.user != null
+                                          ? track.user.username != null
+                                              ? track.user.username
+                                              : ""
+                                          : "Artise Name Not Found",
+                                      duration:
+                                          track.media.transcodings[1].duration),
+                                ),
+                              ],
+                            );
+                          }, childCount: 5),
+                        ),
+                      ],
+                    ),
+                    _buildFab(recentlyPlayedProvider.updateList),
+                  ],
+                );
+              }));
   }
 }

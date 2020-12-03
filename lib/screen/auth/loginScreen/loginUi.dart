@@ -1,7 +1,11 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/provider/Fav_list.dart';
+import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/provider/loginState.dart';
 import 'package:musicPlayer/screen/auth/SingUpScreen/singUpScreen.dart';
 import 'package:musicPlayer/widgets/AppButton.dart';
+import 'package:musicPlayer/widgets/SocialLoginButton.dart';
 import 'package:musicPlayer/widgets/inputText.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +15,15 @@ class LoginUi extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final Function userLogin;
-
+  final Function comeingSoonMssage;
+  final Function signInWithGoogle;
   const LoginUi(
       {Key key,
       @required this.emailController,
       @required this.passwordController,
-      @required this.userLogin})
+      @required this.userLogin,
+      this.comeingSoonMssage,
+      this.signInWithGoogle})
       : super(key: key);
 
   @override
@@ -152,24 +159,76 @@ class LoginUi extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Consumer<LoginStateProvider>(
-                          builder: (context, loginStateProvider, child) {
-                            return Container(
-                              child: AppButton(
-                                buttonText: "Log In",
-                                function: () {
-                                  if (_formKey.currentState.validate()) {
-                                    userLogin(
-                                        loginStateProvider.changeLoginState,
-                                        loginStateProvider.addUser);
-                                  }
-                                },
-                              ),
+                        Consumer<FavListProvider>(
+                          builder: (context, favListProvider, child) {
+                            return Consumer<LoginStateProvider>(
+                              builder: (context, loginStateProvider, child) {
+                                return Container(
+                                  child: AppButton(
+                                    buttonText: "Log In",
+                                    function: () {
+                                      if (_formKey.currentState.validate()) {
+                                        userLogin(
+                                            loginStateProvider.changeLoginState,
+                                            loginStateProvider.addUser,
+                                            favListProvider.updateList);
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
                       ],
                     ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 22),
+                    child: Text(
+                      "-OR-",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: "SF Pro Display",
+                        fontSize: 18,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ),
+                  SocialLoginButton(
+                      function: () {
+                        comeingSoonMssage("FaceBook");
+                      },
+                      title: "Sign In with Facebook",
+                      icon: Icon(
+                        EvaIcons.facebook,
+                        color: Colors.blue,
+                      )),
+                  SizedBox(
+                    height: 22,
+                  ),
+                  Consumer<FavListProvider>(
+                    builder: (context, favListProvider, child) {
+                      return Consumer<LoginStateProvider>(
+                        builder: (context, loginStateProvider, child) {
+                          return SocialLoginButton(
+                              function: () {
+                                signInWithGoogle(
+                                    loginStateProvider.changeLoginState,
+                                    loginStateProvider.addUser,
+                                    favListProvider.updateList);
+                              },
+                              title: "Sign In with Google",
+                              icon: Icon(
+                                EvaIcons.google,
+                                color: Colors.orange,
+                              ));
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 24,
                   ),
                 ],
               ),

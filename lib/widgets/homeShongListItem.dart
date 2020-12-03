@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/animasions/rightToLeft.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/widgets/appNetWorkImage.dart';
 
 class HomeShongListItem extends StatelessWidget {
@@ -21,7 +22,12 @@ class HomeShongListItem extends StatelessWidget {
         delay: 150,
         child: InkWell(
           onTap: () {
-            goToPlayList(itemsCollection, itemsCollection.id.toString());
+            if (itemsCollection.kind != CollectionKind.SYSTEM_PLAYLIST) {
+              goToPlayList(itemsCollection, itemsCollection.id.toString());
+            } else {
+              Helper().showSnackBar(
+                  "Playlist isn't available", "Error", context, true);
+            }
           },
           child: Column(
             children: [
