@@ -1,12 +1,10 @@
 # Flutter MusicPlayer
 
-<img src="https://github.com/girish54321/Flutter_music/blob/main/images/1.jpg" width="400" height="720" />
 
-<img src="https://github.com/girish54321/Flutter_music/blob/main/images/2.jpg" width="400" height="720" />
-
-<img src="https://github.com/girish54321/Flutter_music/blob/main/images/3.jpg" width="400" height="720" />
-
-<img src="https://github.com/girish54321/Flutter_music/blob/main/images/4.jpg" width="400" height="720" />
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="1604"  src="https://github.com/girish54321/Flutter_music/blob/main/images/1.jpg">  Welcome Screen |  <img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/2.jpg"> Create Account Screen |<img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/3.jpg"> Home Screen |
+|<img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/4.jpg"> 
 
 A new Flutter project.
 
