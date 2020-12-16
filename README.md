@@ -3,7 +3,7 @@
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604"  src="https://github.com/girish54321/Flutter_music/blob/main/images/1.jpg">  Welcome Screen |  <img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/2.jpg"> Create Account Screen |<img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/3.jpg"> Home Screen |
+|<img width="1604"  src="https://github.com/girish54321/Flutter_music/blob/main/images/1.jpg">  Home Screen |  <img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/2.jpg"> PlayList Screen |<img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/3.jpg"> Player Screen |
 |<img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/4.jpg"> 
 
 A new Flutter project.
