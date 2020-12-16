@@ -5,6 +5,7 @@ import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/provider/loginState.dart';
 import 'package:provider/provider.dart';
 import 'package:musicPlayer/Compontes/dialogs.dart';
+import 'package:musicPlayer/helper/theme.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -151,6 +152,16 @@ class _AccountScreenState extends State<AccountScreen> {
                               );
                             },
                           ),
+                          Consumer<ThemeNotifier>(
+                            builder: (context, notifier, child) =>
+                                SwitchListTile(
+                              title: Text("Dark Mode"),
+                              onChanged: (val) {
+                                notifier.toggleTheme();
+                              },
+                              value: notifier.darkTheme,
+                            ),
+                          )
                         ],
                       ),
                     ),

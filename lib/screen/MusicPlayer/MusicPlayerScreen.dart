@@ -1,15 +1,13 @@
 import 'dart:math';
-
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerExtraControl.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
-import 'package:musicPlayer/screen/imageViewScreen/imageViewScreen.dart';
-import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/screen/MusicPlayer/coverArt.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
@@ -46,8 +44,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
   }
 
   playInComingTrack() async {
-    print("IMAGE");
-    // print(widget.nowPlayingClass[0].imageUrl);
     if (AudioService.running) {
       if (widget.nowPlayingClass != null) {
         var listItem = widget.nowPlayingClass[0];
@@ -69,12 +65,10 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
             duration: listItem.duration,
             extras: nowPlayingSinger);
         Future.delayed(Duration(seconds: 5));
-        print("now playong" + widget.nowPlayingClass[0].name);
+
         await AudioService.addQueueItem(mediaItem);
       }
     } else {
-      print("not runing");
-      print("New Player" + widget.nowPlayingClass.length.toString());
       if (widget.nowPlayingClass != null) {
         for (int i = 0; i < widget.nowPlayingClass.length; i++) {
           var listItem = widget.nowPlayingClass[i];
@@ -123,97 +117,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
         });
       } else {}
     }
-  }
-
-  Widget coverArt(MediaItem mediaItem) {
-    return Column(
-      children: <Widget>[
-        InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade,
-                    child: ImageViewScreen(
-                        imageUrl: mediaItem.artUri, heroTag: "heroTag")));
-          },
-          child: Hero(
-            tag: "heroTag",
-            child: CachedNetworkImage(
-              imageUrl: mediaItem.artUri,
-              imageBuilder: (context, imageProvider) => Container(
-                height: 290.00,
-                width: 290.00,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Theme.of(context).accentColor,
-                      blurRadius: 5.0,
-                    ),
-                  ],
-                  image:
-                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                  borderRadius: BorderRadius.circular(20.00),
-                ),
-              ),
-              placeholder: (context, url) => Container(
-                height: 290.00,
-                width: 290.00,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 40.0,
-                    ),
-                  ],
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/placholder.jpg'),
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.circular(20.00),
-                ),
-              ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
-        ),
-        singerName(mediaItem.artist, mediaItem.title, mediaItem.extras),
-      ],
-    );
-  }
-
-  Widget singerName(name, title, extras) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          height: 18,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 26),
-          child: Center(
-            child: Text(
-              title != null ? title : "",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w700,
-                fontSize: 22,
-                color: Color(0xff000000),
-              ),
-            ),
-          ),
-        ),
-        Center(
-            child: FlatButton(
-          child: LargeBody(
-            text: name != null ? name : "",
-          ),
-          onPressed: () {},
-        )),
-      ],
-    );
   }
 
   Widget playerContalors(playing) {
@@ -311,7 +214,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                   mediaItem.extras['fav'],
                   mediaItem.extras['audio_url'],
                 );
-                print(mediaItem.extras);
                 Navigator.push(
                     context,
                     PageTransition(
@@ -332,7 +234,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).accentColor,
       body: SafeArea(
         child: StreamBuilder<AudioState>(
           stream: _audioStateStream,
@@ -354,7 +255,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                     _startAudioPlayerBtn(),
                   ] else ...[
                     SizedBox(height: 14),
-                    coverArt(mediaItem),
+                    CoverArt(mediaItem: mediaItem),
                     positionIndicator(mediaItem, playbackState),
                     playerContalors(playing),
                     ExtrarContols(mediaItem: mediaItem)
@@ -423,7 +324,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
 
   Widget positionIndicator(MediaItem mediaItem, PlaybackState state) {
     double seekPos;
-    // print(mediaItem);
     // ignore: unused_local_variable
     Duration length;
     return StreamBuilder(
@@ -444,19 +344,24 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
               if (duration != null)
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 18),
-                  child: Slider(
-                    activeColor: Theme.of(context).accentColor,
-                    inactiveColor: Colors.grey.shade300,
-                    min: 0.0,
+                  child: FlutterSlider(
+                    tooltip: FlutterSliderTooltip(disabled: true),
+                    handler: FlutterSliderHandler(child: Text("")),
+                    trackBar: FlutterSliderTrackBar(
+                        inactiveTrackBar:
+                            BoxDecoration(color: Colors.grey.shade300),
+                        activeTrackBar: BoxDecoration(
+                            color: Theme.of(context).accentColor)),
+                    values: [
+                      seekPos ?? max(0.0, min(position, duration)),
+                    ],
                     max: duration,
-                    value: seekPos ?? max(0.0, min(position, duration)),
-                    onChanged: (value) {
-                      _dragPositionSubject.add(value);
-                    },
-                    onChangeEnd: (value) {
+                    min: 0.0,
+                    onDragging: (handlerIndex, lowerValue, upperValue) {
+                      print(lowerValue);
                       AudioService.seekTo(
-                          Duration(milliseconds: value.toInt()));
-                      seekPos = value;
+                          Duration(milliseconds: lowerValue.toInt()));
+                      seekPos = lowerValue;
                       _dragPositionSubject.add(null);
                     },
                   ),

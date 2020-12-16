@@ -17,7 +17,6 @@ class FavListProvider with ChangeNotifier {
   }
 
   void clearList() {
-    print("CLINE LIST FAV");
     favSongMobileDataList = [];
     notifyListeners();
   }

@@ -63,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage>
       body: PageView(
         children: <Widget>[
           HomeScreen(),
-          BGAudioPlayerScreen(),
           Favorite(),
           AccountScreen(),
         ],
@@ -71,22 +70,12 @@ class _MyHomePageState extends State<MyHomePage>
         onPageChanged: onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      bottomNavigationBar: CupertinoTabBar(
-          currentIndex: pageIndex,
-          onTap: onTap,
-          activeColor: Theme.of(context).primaryColor,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.audiotrack), label: "EXPLORE"),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.play_circle_filled,
-                ),
-                label: "PLAYER"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: "FAVORITE"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "ACCOUNT"),
-          ]),
+      bottomNavigationBar:
+          CupertinoTabBar(currentIndex: pageIndex, onTap: onTap, items: [
+        BottomNavigationBarItem(icon: Icon(Icons.audiotrack), label: "EXPLORE"),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "FAVORITE"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "ACCOUNT"),
+      ]),
       bottomSheet: pageIndex != 1 ? NowPlayingMinPlayer() : Text(""),
     );
   }

@@ -56,6 +56,7 @@ dependencies:
   like_button: ^1.0.4
   google_sign_in: "^4.5.1"
   eva_icons_flutter: ^2.0.1
+  flutter_xlider: ^3.4.0
 
 dev_dependencies:
   flutter_test:

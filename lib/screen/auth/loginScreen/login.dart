@@ -51,9 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
           newUser.user.photoURL);
       updateFavList();
       changeLoginState(true);
-      // Future.delayed(const Duration(seconds: 1), () {
-      //   changeLoginState(true);
-      // });
     } catch (e) {
       Helper().showSnackBar(e.toString(), "ERROR", context, true);
     }

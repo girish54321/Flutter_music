@@ -32,7 +32,7 @@ class NowPlayingMinPlayer extends StatelessWidget {
                 Container(
                   // height: 55.00,
                   width: double.infinity,
-                  color: Color(0xfff9f9f9),
+                  // color: Color(0xfff9f9f9),
                   child: ListTile(
                       onTap: () {
                         Navigator.push(
