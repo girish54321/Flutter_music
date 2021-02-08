@@ -35,15 +35,15 @@ class _SingerProgileState extends State<SingerProgile> {
   bool _loadingMore = true;
   List<NowPlayingClass> nowPlaying = [];
   AudioUrl audioUrl;
+  String errorMessage;
 
   @override
   void initState() {
     super.initState();
-    print("sfd");
-    print(widget.nowPlayingClass.singerId);
+
     Future.delayed(Duration.zero, () {
       if (widget.nowPlayingClass != null) {
-        getSingerProfile(widget.nowPlayingClass.singerId);
+        getSingerProfile();
       } else {
         Fluttertoast.showToast(
             msg: "Error Loading Singer",
@@ -101,7 +101,12 @@ class _SingerProgileState extends State<SingerProgile> {
     }
   }
 
-  Future<void> getSingerProfile(userId) async {
+  Future<void> getSingerProfile() async {
+    setState(() {
+      _loading = true;
+      errorMessage = null;
+    });
+    var userId = widget.nowPlayingClass.singerId;
     try {
       http.Response response = await Network().getSingerProfile(userId);
       if (response.statusCode == 200) {
@@ -109,19 +114,28 @@ class _SingerProgileState extends State<SingerProgile> {
         setState(() {
           _loading = false;
           singerProfile = new SingerProfile.fromJson(resBody);
+          errorMessage = null;
         });
         getSignerSonges(userId);
+      } else {
+        setState(() {
+          _loading = false;
+          errorMessage = "Error";
+        });
       }
     } catch (e) {
       Helper().showSnackBar(e.toString(), "Error.", context, true);
+      setState(() {
+        _loading = false;
+        errorMessage = e.toString();
+      });
       print(e);
     }
   }
 
   Future<void> getSignerSonges(userId) async {
     try {
-      http.Response response =
-          await Network().getAllTrackFormSinger(userId); //147072974
+      http.Response response = await Network().getAllTrackFormSinger(userId);
       if (response.statusCode == 200) {
         var resBody = json.decode(response.body);
         setState(() {
@@ -235,6 +249,8 @@ class _SingerProgileState extends State<SingerProgile> {
       singerProfile: singerProfile,
       singerTracksModal: singerTracksModal,
       sendSongUrlToPlayer: sendSongUrlToPlayer,
+      errorMessage: errorMessage,
+      getSingerProfile: getSingerProfile,
     );
   }
 }

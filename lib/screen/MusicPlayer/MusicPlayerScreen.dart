@@ -137,8 +137,8 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
             onPressed: AudioService.skipToPrevious,
           ),
           Container(
-            height: 70.00,
-            width: 70.00,
+            height: 60.00,
+            width: 60.00,
             decoration: BoxDecoration(
               color: Color(0xffff2d55),
               shape: BoxShape.circle,
@@ -374,8 +374,8 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                     Text(
                       Helper().printDuration(state.currentPosition),
                       style: TextStyle(
-                          fontSize: 12,
                           fontWeight: FontWeight.bold,
+                          fontSize: 12,
                           color: Theme.of(context).accentColor),
                     ),
                     Text(

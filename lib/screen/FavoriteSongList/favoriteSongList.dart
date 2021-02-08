@@ -37,7 +37,6 @@ class _FavoriteState extends State<Favorite> {
     try {
       http.Response response =
           await Network().getStremUrl(favSongMobileData.transcodings);
-      print(response.body);
       if (response.statusCode == 200) {
         var singerName = "UnKnow";
         if (favSongMobileData.singerName != null) {
@@ -90,8 +89,6 @@ class _FavoriteState extends State<Favorite> {
             nowPlaying.clear();
           }
         } else {
-          print("nowPlaying");
-          print(nowPlaying[0].title);
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
           updateResentPlayList();
@@ -109,7 +106,6 @@ class _FavoriteState extends State<Favorite> {
     } catch (e) {
       await Helper().showLoadingDilog(context).hide();
       Helper().showSnackBar(e.toString(), "Error.", context, true);
-
       print(e);
     }
   }

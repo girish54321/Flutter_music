@@ -127,7 +127,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
         : AudioProcessingState.skippingToPrevious;
     AudioServiceBackground.setMediaItem(mediaItem);
     await _audioPlayer.setUrl(mediaItem.id);
-    print(mediaItem.id);
+  
     _skipState = null;
     if (_playing) {
       onPlay();

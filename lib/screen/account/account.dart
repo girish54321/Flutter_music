@@ -49,10 +49,8 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
         TextField(
-          // controller: bioController,
           decoration: InputDecoration(
             hintText: email,
-            // errorText: _bioValid ? null : "Bio too long",
           ),
         )
       ],

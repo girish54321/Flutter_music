@@ -6,6 +6,7 @@ import 'package:musicPlayer/screen/Empty%20Screen/loadingScreen.dart';
 import 'package:musicPlayer/screen/home/RecentlyPlayedList/Recently_played_ui.dart';
 import 'package:musicPlayer/screen/playListScreen/playListScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:musicPlayer/widgets/infoView.dart';
 import 'package:musicPlayer/widgets/verticleBox.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   bool _loading = true;
   HomeSongList homeSongList;
+  String errorMessage;
 
   @override
   void initState() {
@@ -30,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   _getSongPlayList() async {
+    setState(() {
+      _loading = true;
+    });
     try {
       http.Response response = await Network().getHomeScreenPlayList();
       if (response.statusCode == 200) {
@@ -37,9 +42,19 @@ class _HomeScreenState extends State<HomeScreen>
         homeSongList = new HomeSongList.fromJson(resBody);
         setState(() {
           _loading = false;
+          errorMessage = null;
+        });
+      } else {
+        setState(() {
+          _loading = false;
+          errorMessage = response.statusCode.toString();
         });
       }
     } catch (e) {
+      setState(() {
+        _loading = false;
+        errorMessage = e.toString();
+      });
       print(e);
     }
   }
@@ -62,33 +77,41 @@ class _HomeScreenState extends State<HomeScreen>
             ? Center(
                 child: new LoadingScreen(),
               )
-            : CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Recently_playedUI(),
+            : errorMessage != null
+                ? ErrorView(
+                    errorMessage: errorMessage,
+                    function: () {
+                      _getSongPlayList();
+                    },
+                  )
+                : CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: <Widget>[
+                      SliverToBoxAdapter(
+                        child: Recently_playedUI(),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 16.0, top: 18.0),
+                            child: Headline2(text: "Recommended for you")),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                          HomeSongListCollection collection =
+                              homeSongList.collection[index];
+                          return VerticalBox(
+                              collection: collection,
+                              goToPlayList: goToPlayList);
+                        }, childCount: homeSongList.collection.length),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 60,
+                        ),
+                      ),
+                    ],
                   ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 16.0, top: 18.0),
-                        child: Headline2(text: "Recommended for you")),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      HomeSongListCollection collection =
-                          homeSongList.collection[index];
-                      return VerticalBox(
-                          collection: collection, goToPlayList: goToPlayList);
-                    }, childCount: homeSongList.collection.length),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 60,
-                    ),
-                  ),
-                ],
-              ),
       ),
     );
   }

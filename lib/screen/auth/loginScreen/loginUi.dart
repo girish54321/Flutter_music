@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
-import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/provider/loginState.dart';
 import 'package:musicPlayer/screen/auth/SingUpScreen/singUpScreen.dart';
 import 'package:musicPlayer/widgets/AppButton.dart';

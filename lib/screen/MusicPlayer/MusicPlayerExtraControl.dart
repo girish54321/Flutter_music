@@ -26,7 +26,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
   @override
   void initState() {
     super.initState();
-    print("UID" + FirebaseAuth.instance.currentUser.uid);
+
     favSong
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('userFav')
@@ -46,7 +46,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
   }
 
   void _insert(MediaItem mediaItem, Function updateList) async {
-    print(mediaItem.extras['songId'].toString());
     favSong
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('userFav')
@@ -56,7 +55,7 @@ class _ExtrarContolsState extends State<ExtrarContols> {
       if (doc.exists) {
         doc.reference.delete();
         updateList();
-        print("DATA IS DELTED");
+
         setState(() {
           addedFav = false;
         });
@@ -77,17 +76,17 @@ class _ExtrarContolsState extends State<ExtrarContols> {
             .collection("userFav")
             .doc(mediaItem.extras['songId'].toString())
             .set({
-          "transcodings": mediaItem.extras['audio_url'],
-          "singerName": mediaItem.artist,
-          "artworkUrl": mediaItem.artUri,
-          "duration": mediaItem.duration.toString(),
-          "trackid": mediaItem.extras['songId'].toString(),
-          "userid": mediaItem.extras['singerId'].toString(),
-          "avatarUrl": mediaItem.extras['imageUrl'],
-          "songname": mediaItem.title,
-        }).then((value) {
-          print("Added FAVE BASE");
-        }).catchError((error) => print("Failed to add user: $error"));
+              "transcodings": mediaItem.extras['audio_url'],
+              "singerName": mediaItem.artist,
+              "artworkUrl": mediaItem.artUri,
+              "duration": mediaItem.duration.toString(),
+              "trackid": mediaItem.extras['songId'].toString(),
+              "userid": mediaItem.extras['singerId'].toString(),
+              "avatarUrl": mediaItem.extras['imageUrl'],
+              "songname": mediaItem.title,
+            })
+            .then((value) {})
+            .catchError((error) => print("Failed to add user: $error"));
 
         final id = await dbHelper.insert(row);
         print('inserted row id: $id');
@@ -101,7 +100,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
 
   void _query() async {
     final allRows = await dbHelper.queryAllRows();
-    print('query all rows:');
     allRows.forEach((row) => print(row));
   }
 
@@ -181,7 +179,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
                         widget.mediaItem.extras['fav'],
                         widget.mediaItem.extras['audio_url'],
                       );
-                      print(widget.mediaItem.extras);
                       Navigator.push(
                           context,
                           PageTransition(

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/screen/FavoriteSongList/favoriteSongList.dart';
-import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/screen/account/account.dart';
 import 'package:musicPlayer/screen/home/HomeMain.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
@@ -76,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage>
         BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "FAVORITE"),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "ACCOUNT"),
       ]),
-      bottomSheet: pageIndex != 1 ? NowPlayingMinPlayer() : Text(""),
+      bottomSheet: NowPlayingMinPlayer(),
     );
   }
 }

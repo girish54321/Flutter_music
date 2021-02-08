@@ -29,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // ignore: missing_return
   Future<UserCredential> signInWithGoogle(Function changeLoginState,
       Function addUser, Function updateFavList) async {
     try {
