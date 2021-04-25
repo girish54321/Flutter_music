@@ -1,5 +1,4 @@
 class RecentlyPlayed {
-  // final int id;
   final String transcodings;
   final String singerName;
   final String artworkUrl;
@@ -9,14 +8,6 @@ class RecentlyPlayed {
   final String avatarUrl;
   final String songname;
 
-  RecentlyPlayed(
-      // this.id,
-      this.transcodings,
-      this.singerName,
-      this.artworkUrl,
-      this.duration,
-      this.trackId,
-      this.userId,
-      this.avatarUrl,
-      this.songname);
+  RecentlyPlayed(this.transcodings, this.singerName, this.artworkUrl,
+      this.duration, this.trackId, this.userId, this.avatarUrl, this.songname);
 }

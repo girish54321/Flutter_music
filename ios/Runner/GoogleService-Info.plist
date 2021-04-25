@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>557394503558-0tbkihrq21nm776vgga027g0amro00lv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.557394503558-0tbkihrq21nm776vgga027g0amro00lv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>557394503558-seh12v0846gla243itg72g3se9356rkp.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBwfwVTX8fIRp5uixMdYXAZrozFP471j-8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>557394503558</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.flutter.musicPlayer</string>
+	<key>PROJECT_ID</key>
+	<string>music-player-ac914</string>
+	<key>STORAGE_BUCKET</key>
+	<string>music-player-ac914.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:557394503558:ios:77c2f7f3841d58d5b6ee07</string>
+	<key>DATABASE_URL</key>
+	<string>https://music-player-ac914.firebaseio.com</string>
+</dict>
+</plist>

@@ -5,9 +5,8 @@ class Network {
   var token;
   final String getHomeScreenSongs =
       "https://api-v2.soundcloud.com/mixed-selections?client_id=8rirGfqZBZPpMxmdSA5WjjpowkwD0Ygz&limit=10&offset=0&linked_partitioning=1&app_version=1603104302&app_locale=en";
-  // String client_id = "8rirGfqZBZPpMxmdSA5WjjpowkwD0Ygz";
-  // ignore: non_constant_identifier_names
-  String client_id;
+
+  String clientID;
 
   CollectionReference clientId =
       FirebaseFirestore.instance.collection('clientId');
@@ -20,50 +19,49 @@ class Network {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('Document exists on the database clientId');
-        client_id = documentSnapshot.get('clientId').toString().trim();
+        clientID = documentSnapshot.get('clientId').toString().trim();
       } else {}
     });
   }
 
-//s
   getHomeScreenPlayList() async {
     await _getToken();
     return await http.get(
-        "https://api-v2.soundcloud.com/mixed-selections?client_id=$client_id&limit=10&offset=0&linked_partitioning=1&app_version=1603104302&app_locale=en",
+        "https://api-v2.soundcloud.com/mixed-selections?client_id=$clientID&limit=10&offset=0&linked_partitioning=1&app_version=1603104302&app_locale=en",
         headers: _setHeaders());
   }
 
   getMOreTracks(offset) async {
     await _getToken();
-    return await http.get("$offset&client_id=$client_id",
+    return await http.get("$offset&client_id=$clientID",
         headers: _setHeaders());
   }
 
   getAllTrackFormSinger(userId) async {
     await _getToken();
     return await http.get(
-        "https://api-v2.soundcloud.com/users/$userId/tracks?client_id=$client_id",
+        "https://api-v2.soundcloud.com/users/$userId/tracks?client_id=$clientID",
         headers: _setHeaders());
   }
 
   getSingerProfile(userID) async {
     await _getToken();
     return await http.get(
-        "https://api-v2.soundcloud.com/users/$userID?client_id=$client_id",
+        "https://api-v2.soundcloud.com/users/$userID?client_id=$clientID",
         headers: _setHeaders());
   }
 
   getPlayListForId(id) async {
     await _getToken();
     return await http.get(
-        "https://api-v2.soundcloud.com/playlists/$id?client_id=$client_id",
+        "https://api-v2.soundcloud.com/playlists/$id?client_id=$clientID",
         headers: _setHeaders());
   }
 
   getStremUrl(id) async {
     await _getToken();
-    if (client_id != null) {
-      return await http.get(id + '?client_id=$client_id',
+    if (clientID != null) {
+      return await http.get(id + '?client_id=$clientID',
           headers: _setHeaders());
     } else {
       return null;
@@ -73,6 +71,5 @@ class Network {
   _setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        // 'Authorization' : 'Bearer $token'
       };
 }
