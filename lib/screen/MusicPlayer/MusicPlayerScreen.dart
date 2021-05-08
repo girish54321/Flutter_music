@@ -214,12 +214,8 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                   mediaItem.extras['fav'],
                   mediaItem.extras['audio_url'],
                 );
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child:
-                            SingerProgile(nowPlayingClass: nowPlayingClass)));
+                Helper().goToPage(
+                    context, SingerProgile(nowPlayingClass: nowPlayingClass));
               }),
           IconButton(
               icon: Icon(
@@ -234,6 +230,7 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Music Player")),
       body: SafeArea(
         child: StreamBuilder<AudioState>(
           stream: _audioStateStream,

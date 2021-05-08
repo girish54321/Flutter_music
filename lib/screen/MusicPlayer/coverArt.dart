@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/screen/imageViewScreen/imageViewScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,12 +18,10 @@ class CoverArt extends StatelessWidget {
       children: <Widget>[
         InkWell(
           onTap: () {
-            Navigator.push(
+            Helper().goToPage(
                 context,
-                PageTransition(
-                    type: PageTransitionType.fade,
-                    child: ImageViewScreen(
-                        imageUrl: mediaItem.artUri, heroTag: "heroTag")));
+                ImageViewScreen(
+                    imageUrl: mediaItem.artUri, heroTag: "heroTag"));
           },
           child: Hero(
             tag: "heroTag",

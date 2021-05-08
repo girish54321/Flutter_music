@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:musicPlayer/screen/Empty%20Screen/loadingScreen.dart';
@@ -60,11 +61,8 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   goToPlayList(ItemsCollection id, String heroTag) {
-    Navigator.push(
-        context,
-        PageTransition(
-            type: PageTransitionType.rightToLeft,
-            child: PlayListScreen(itemsCollection: id, heroTag: heroTag)));
+    Helper().goToPage(
+        context, PlayListScreen(itemsCollection: id, heroTag: heroTag));
   }
 
   @override

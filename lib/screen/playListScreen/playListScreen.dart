@@ -122,13 +122,11 @@ class _PlayListScreenState extends State<PlayListScreen> {
           await Helper().showLoadingDilog(context).hide();
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
-          Navigator.push(
+          Helper().goToPage(
               context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying,
-                  )));
+              BGAudioPlayerScreen(
+                nowPlayingClass: nowPlaying,
+              ));
           Future.delayed(const Duration(milliseconds: 500), () {
             nowPlaying.clear();
           });

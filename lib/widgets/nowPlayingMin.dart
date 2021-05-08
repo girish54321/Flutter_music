@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/screen/MusicPlayer/AudioPlayer.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
@@ -35,11 +36,7 @@ class NowPlayingMinPlayer extends StatelessWidget {
                   // color: Color(0xfff9f9f9),
                   child: ListTile(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.bottomToTop,
-                                child: BGAudioPlayerScreen()));
+                        Helper().goToPage(context, BGAudioPlayerScreen());
                       },
                       title: Headline5(text: mediaItem.title),
                       subtitle: CaptionL(text: mediaItem.artist),

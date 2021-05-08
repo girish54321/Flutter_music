@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/provider/loginState.dart';
 import 'package:musicPlayer/screen/auth/SingUpScreen/singUpScreen.dart';
@@ -87,11 +88,7 @@ class LoginUi extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: SingUpScreen()));
+                                Helper().goToPage(context, SingUpScreen());
                               },
                               child: Text(
                                 "Sign Up",

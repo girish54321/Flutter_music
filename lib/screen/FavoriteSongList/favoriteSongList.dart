@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
@@ -14,7 +13,6 @@ import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -38,7 +36,7 @@ class _FavoriteState extends State<Favorite> {
       http.Response response =
           await Network().getStremUrl(favSongMobileData.transcodings);
       if (response.statusCode == 200) {
-        var singerName = "UnKnow";
+        var singerName = "Unknown";
         if (favSongMobileData.singerName != null) {
           singerName = favSongMobileData.singerName;
         }
@@ -92,13 +90,11 @@ class _FavoriteState extends State<Favorite> {
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
           updateResentPlayList();
-          Navigator.push(
+          Helper().goToPage(
               context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying,
-                  )));
+              BGAudioPlayerScreen(
+                nowPlayingClass: nowPlaying,
+              ));
           await Future.delayed(Duration(seconds: 3));
           nowPlaying.clear();
         }
@@ -113,39 +109,42 @@ class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Favorite"),
-        ),
-        body: Consumer<FavListProvider>(
-            builder: (context, favListProvider, child) {
+      appBar: AppBar(
+        title: Text("Favorite"),
+      ),
+      body: Consumer<FavListProvider>(
+        builder: (context, favListProvider, child) {
           return ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: favListProvider.favSongMobileDataList.length,
-              itemBuilder: (BuildContext context, int index) {
-                FavSongMobileData favSongMobileData =
-                    favListProvider.favSongMobileDataList[index];
-                return Consumer<RecentlyPlayedProvider>(
-                  builder: (context, recentlyPlayedProvide, child) {
-                    return ShowUp(
-                      delay: 150,
-                      child: SongListItem(
-                        onClick: () {
-                          sendSongUrlToPlayer(
-                              favSongMobileData,
-                              favListProvider.updateList,
-                              recentlyPlayedProvide.updateList);
-                        },
-                        imageUrl: favSongMobileData.artworkUrl,
-                        title: favSongMobileData.songname != null
-                            ? favSongMobileData.songname
-                            : "Title Not Avalive",
-                        subtitle: favSongMobileData.singerName,
-                        durationString: favSongMobileData.duration,
-                      ),
-                    );
-                  },
-                );
-              });
-        }));
+            physics: const BouncingScrollPhysics(),
+            itemCount: favListProvider.favSongMobileDataList.length,
+            itemBuilder: (BuildContext context, int index) {
+              FavSongMobileData favSongMobileData =
+                  favListProvider.favSongMobileDataList[index];
+              return Consumer<RecentlyPlayedProvider>(
+                builder: (context, recentlyPlayedProvide, child) {
+                  return ShowUp(
+                    delay: 150,
+                    child: SongListItem(
+                      onClick: () {
+                        sendSongUrlToPlayer(
+                            favSongMobileData,
+                            favListProvider.updateList,
+                            recentlyPlayedProvide.updateList);
+                      },
+                      imageUrl: favSongMobileData.artworkUrl,
+                      title: favSongMobileData.songname != null
+                          ? favSongMobileData.songname
+                          : "Title Not Avalive",
+                      subtitle: favSongMobileData.singerName,
+                      durationString: favSongMobileData.duration,
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

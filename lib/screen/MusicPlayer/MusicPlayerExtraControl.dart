@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
@@ -179,12 +180,8 @@ class _ExtrarContolsState extends State<ExtrarContols> {
                         widget.mediaItem.extras['fav'],
                         widget.mediaItem.extras['audio_url'],
                       );
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: SingerProgile(
-                                  nowPlayingClass: nowPlayingClass)));
+                      Helper().goToPage(context,
+                          SingerProgile(nowPlayingClass: nowPlayingClass));
                     }),
                 IconButton(
                     icon: Icon(

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class Helper {
@@ -70,5 +73,23 @@ class Helper {
     }
     micros = (double.parse(parts[parts.length - 1]) * 1000000).round();
     return Duration(hours: hours, minutes: minutes, microseconds: micros);
+  }
+
+  goToPage(BuildContext context, Widget child) {
+    if (Platform.isIOS) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => child,
+        ),
+      );
+    } else {
+      Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: child,
+          ));
+    }
   }
 }

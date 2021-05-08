@@ -71,9 +71,7 @@ class _SingerProgileState extends State<SingerProgile> {
 
   _getMoreData() async {
     try {
-      http.Response response =
-          await Network().getMOreTracks(newPageRef); //147072974
-
+      http.Response response = await Network().getMOreTracks(newPageRef);
       if (response.statusCode == 200) {
         var resBody = json.decode(response.body);
         setState(() {
@@ -220,13 +218,11 @@ class _SingerProgileState extends State<SingerProgile> {
           await Helper().showLoadingDilog(context).hide();
           DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
           updateList();
-          Navigator.push(
+          Helper().goToPage(
               context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: BGAudioPlayerScreen(
-                    nowPlayingClass: nowPlaying,
-                  )));
+              BGAudioPlayerScreen(
+                nowPlayingClass: nowPlaying,
+              ));
           await Future.delayed(Duration(seconds: 1));
           nowPlaying.clear();
         }
