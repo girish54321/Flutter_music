@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
@@ -12,7 +11,6 @@ import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfileUi.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 
 class SingerProgile extends StatefulWidget {

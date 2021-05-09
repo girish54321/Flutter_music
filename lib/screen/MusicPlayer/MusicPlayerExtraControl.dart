@@ -7,7 +7,6 @@ import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/provider/Fav_list.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:like_button/like_button.dart';
 

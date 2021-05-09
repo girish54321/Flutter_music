@@ -15,7 +15,6 @@ import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/infoView.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

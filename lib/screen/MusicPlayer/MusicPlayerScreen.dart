@@ -9,7 +9,6 @@ import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerExtraControl.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfile.dart';
 import 'package:musicPlayer/screen/MusicPlayer/coverArt.dart';
 import 'package:musicPlayer/widgets/nowPlayingMin.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
 import 'AudioPlayer.dart';
 

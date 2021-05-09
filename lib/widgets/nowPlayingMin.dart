@@ -4,7 +4,6 @@ import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/screen/MusicPlayer/AudioPlayer.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:audio_service/audio_service.dart';
 

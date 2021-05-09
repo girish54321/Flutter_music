@@ -10,7 +10,6 @@ import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:musicPlayer/widgets/infoView.dart';
 import 'package:musicPlayer/widgets/verticleBox.dart';
 import 'package:http/http.dart' as http;
-import 'package:page_transition/page_transition.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

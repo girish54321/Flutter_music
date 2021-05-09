@@ -42,6 +42,7 @@ class LoginStateProvider with ChangeNotifier {
           logedIn = true;
           print("clientId");
           return true;
+          // ignore: return_of_invalid_type_from_catch_error
         }).catchError((error) => print("Failed to add user: $error"));
       }
     });
@@ -129,6 +130,7 @@ class LoginStateProvider with ChangeNotifier {
           print("Added");
           changeLoginState(true);
           return true;
+          // ignore: return_of_invalid_type_from_catch_error
         }).catchError((error) => print("Failed to add user: $error"));
       }
     });

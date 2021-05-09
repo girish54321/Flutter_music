@@ -5,7 +5,6 @@ class AppButton extends StatelessWidget {
   final Function function;
 
   const AppButton({Key key, this.buttonText, this.function}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

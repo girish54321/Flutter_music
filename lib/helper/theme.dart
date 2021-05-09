@@ -51,7 +51,10 @@ ThemeData light = ThemeData(
 
 ThemeData dark = ThemeData(
     brightness: Brightness.dark,
+    toggleableActiveColor: generateMaterialColor(Palette.primary),
+    accentColor: generateMaterialColor(Palette.primary),
     primarySwatch: generateMaterialColor(Palette.primary),
+    scaffoldBackgroundColor: Colors.black,
     fontFamily: 'Poppins');
 
 class ThemeNotifier extends ChangeNotifier {

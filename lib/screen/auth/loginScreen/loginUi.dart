@@ -7,7 +7,6 @@ import 'package:musicPlayer/screen/auth/SingUpScreen/singUpScreen.dart';
 import 'package:musicPlayer/widgets/AppButton.dart';
 import 'package:musicPlayer/widgets/SocialLoginButton.dart';
 import 'package:musicPlayer/widgets/inputText.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:rules/rules.dart';
 
