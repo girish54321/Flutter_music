@@ -45,8 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       UserCredential newUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      print("ONLY USR-----------------------------");
-      print(newUser.user.displayName);
 
       addUser(newUser.user.uid, newUser.user.displayName, newUser.user.email,
           newUser.user.photoURL);

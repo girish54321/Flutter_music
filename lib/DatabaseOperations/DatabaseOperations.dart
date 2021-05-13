@@ -16,8 +16,6 @@ class DatabaseOperations {
   }
 
   void insertRecentlyPlayed(NowPlayingClass nowPlayingClass) async {
-    print(nowPlayingClass.audio_url);
-
     Map<String, dynamic> row = {
       RecentlyPlayedDatabaseHelper.transcodings: nowPlayingClass.audio_url,
       RecentlyPlayedDatabaseHelper.singerName: nowPlayingClass.artist,
@@ -31,6 +29,5 @@ class DatabaseOperations {
       RecentlyPlayedDatabaseHelper.songname: nowPlayingClass.title,
     };
     final id = await dbHelper.insert(row);
-    print('insertRecentlyPlayed row id: $id');
   }
 }

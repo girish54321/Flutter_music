@@ -6,6 +6,7 @@ import 'package:musicPlayer/provider/loginState.dart';
 import 'package:provider/provider.dart';
 import 'package:musicPlayer/Compontes/dialogs.dart';
 import 'package:musicPlayer/helper/theme.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -151,13 +152,30 @@ class _AccountScreenState extends State<AccountScreen> {
                             },
                           ),
                           Consumer<ThemeNotifier>(
-                            builder: (context, notifier, child) =>
+                            builder: (context, notifier, child) => Column(
+                              children: [
+                                // ToggleSwitch(
+                                //   minWidth: 200,
+                                //   icons: [
+                                //     Icons.check,
+                                //     Icons.check,
+                                //     Icons.check,
+                                //   ],
+                                //   initialLabelIndex: 0,
+                                //   labels: ['Light', 'Dark', 'OLED Black'],
+                                //   onToggle: (index) {
+                                //     print('switched to: $index');
+                                //     if (index == 0) {}
+                                //   },
+                                // ),
                                 SwitchListTile(
-                              title: Text("Dark Mode"),
-                              onChanged: (val) {
-                                notifier.toggleTheme();
-                              },
-                              value: notifier.darkTheme,
+                                  title: Text("Dark Mode"),
+                                  onChanged: (val) {
+                                    notifier.toggleTheme();
+                                  },
+                                  value: notifier.darkTheme,
+                                ),
+                              ],
                             ),
                           )
                         ],
