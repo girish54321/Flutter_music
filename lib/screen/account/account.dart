@@ -154,26 +154,24 @@ class _AccountScreenState extends State<AccountScreen> {
                           Consumer<ThemeNotifier>(
                             builder: (context, notifier, child) => Column(
                               children: [
-                                // ToggleSwitch(
-                                //   minWidth: 200,
-                                //   icons: [
-                                //     Icons.check,
-                                //     Icons.check,
-                                //     Icons.check,
-                                //   ],
-                                //   initialLabelIndex: 0,
-                                //   labels: ['Light', 'Dark', 'OLED Black'],
-                                //   onToggle: (index) {
-                                //     print('switched to: $index');
-                                //     if (index == 0) {}
-                                //   },
-                                // ),
-                                SwitchListTile(
-                                  title: Text("Dark Mode"),
-                                  onChanged: (val) {
-                                    notifier.toggleTheme();
+                                ToggleSwitch(
+                                  cornerRadius: 3.0,
+                                  minWidth: 200,
+                                  icons: [
+                                    Icons.check,
+                                    Icons.check,
+                                  ],
+                                  initialLabelIndex: notifier.darkTheme ? 1 : 0,
+                                  activeBgColor: Theme.of(context).accentColor,
+                                  labels: ['Light', 'OLED Black'],
+                                  onToggle: (index) {
+                                    print('switched to: $index');
+                                    if (index == 0) {
+                                      notifier.toggleTheme();
+                                    } else {
+                                      notifier.toggleTheme();
+                                    }
                                   },
-                                  value: notifier.darkTheme,
                                 ),
                               ],
                             ),

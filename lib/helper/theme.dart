@@ -75,7 +75,6 @@ class ThemeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeToLight() {}
   _initPrefs() async {
     if (_prefs == null) _prefs = await SharedPreferences.getInstance();
   }
