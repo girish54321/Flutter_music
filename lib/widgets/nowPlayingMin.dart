@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/screen/MusicPlayer/AudioPlayer.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
+import 'package:musicPlayer/widgets/PositionIndicator.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:audio_service/audio_service.dart';
@@ -12,6 +13,8 @@ class NowPlayingMinPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BehaviorSubject<double> _dragPositionSubject =
+        BehaviorSubject.seeded(null);
     return StreamBuilder<AudioState>(
       stream: _audioStateStream,
       builder: (context, snapshot) {
@@ -21,6 +24,7 @@ class NowPlayingMinPlayer extends StatelessWidget {
         final processingState =
             playbackState?.processingState ?? AudioProcessingState.none;
         final playing = playbackState?.playing ?? false;
+
         return Container(
           height: processingState == AudioProcessingState.none ? 1.0 : 74.00,
           width: MediaQuery.of(context).size.width,
@@ -33,9 +37,15 @@ class NowPlayingMinPlayer extends StatelessWidget {
                   width: double.infinity,
                   child: Column(
                     children: [
-                      Container(
-                        height: 2,
-                        color: Colors.red,
+                      // Container(
+                      //   height: 2,
+                      //   color: Colors.red,
+                      // ),
+                      PositionIndicator(
+                        state: playbackState,
+                        mediaItem: mediaItem,
+                        smallView: true,
+                        dragPositionSubject: _dragPositionSubject,
                       ),
                       ListTile(
                           onTap: () {

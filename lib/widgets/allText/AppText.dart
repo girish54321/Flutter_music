@@ -88,6 +88,7 @@ class Headline5 extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Text(
       text,
+      maxLines: 1,
       style: TextStyle(
         fontFamily: "Poppins",
         fontWeight: FontWeight.w600,

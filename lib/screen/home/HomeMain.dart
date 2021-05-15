@@ -82,7 +82,6 @@ class _HomeScreenState extends State<HomeScreen>
                     },
                   )
                 : CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
                     slivers: <Widget>[
                       SliverToBoxAdapter(
                         child: Recently_playedUI(),
