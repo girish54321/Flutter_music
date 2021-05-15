@@ -158,8 +158,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                   cornerRadius: 3.0,
                                   minWidth: 200,
                                   icons: [
-                                    Icons.check,
-                                    Icons.check,
+                                    Icons.lightbulb,
+                                    Icons.nightlight_round,
                                   ],
                                   initialLabelIndex: notifier.darkTheme ? 1 : 0,
                                   activeBgColor: Theme.of(context).accentColor,

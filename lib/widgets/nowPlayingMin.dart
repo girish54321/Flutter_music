@@ -22,7 +22,7 @@ class NowPlayingMinPlayer extends StatelessWidget {
             playbackState?.processingState ?? AudioProcessingState.none;
         final playing = playbackState?.playing ?? false;
         return Container(
-          height: processingState == AudioProcessingState.none ? 1.0 : 72.00,
+          height: processingState == AudioProcessingState.none ? 1.0 : 74.00,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
@@ -30,63 +30,70 @@ class NowPlayingMinPlayer extends StatelessWidget {
                 Text("Not Playing")
               ] else ...[
                 Container(
-                  // height: 55.00,
                   width: double.infinity,
-                  // color: Color(0xfff9f9f9),
-                  child: ListTile(
-                      onTap: () {
-                        Helper().goToPage(context, BGAudioPlayerScreen());
-                      },
-                      title: Headline5(text: mediaItem.title),
-                      subtitle: CaptionL(text: mediaItem.artist),
-                      leading: CachedNetworkImage(
-                        imageUrl:
-                            mediaItem.artUri.replaceAll("large", "t300x300"),
-                        imageBuilder: (context, imageProvider) => Container(
-                          height: 54.00,
-                          width: 54.00,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0.00, 3.00),
-                                color: Color(0xff00a650).withOpacity(0.30),
-                                blurRadius: 26,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(15.00),
-                          ),
-                        ),
-                        placeholder: (context, url) => Container(
-                          height: 54.00,
-                          width: 54.00,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    AssetImage("assets/images/placholder.jpg"),
-                                fit: BoxFit.cover),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0.00, 3.00),
-                                color: Color(0xff00a650).withOpacity(0.30),
-                                blurRadius: 26,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(
-                                15.00), //assets/images/placholder.jpg
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 2,
+                        color: Colors.red,
                       ),
-                      trailing: IconButton(
-                          icon: new Icon(
-                            playing ? Icons.pause : Icons.play_arrow,
-                            color: Colors.black,
+                      ListTile(
+                          onTap: () {
+                            Helper().goToPage(context, BGAudioPlayerScreen());
+                          },
+                          title: Headline5(text: mediaItem.title),
+                          subtitle: CaptionL(text: mediaItem.artist),
+                          leading: CachedNetworkImage(
+                            imageUrl: mediaItem.artUri
+                                .replaceAll("large", "t300x300"),
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 54.00,
+                              width: 54.00,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0.00, 3.00),
+                                    color: Color(0xff00a650).withOpacity(0.30),
+                                    blurRadius: 26,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(15.00),
+                              ),
+                            ),
+                            placeholder: (context, url) => Container(
+                              height: 54.00,
+                              width: 54.00,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        "assets/images/placholder.jpg"),
+                                    fit: BoxFit.cover),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0.00, 3.00),
+                                    color: Color(0xff00a650).withOpacity(0.30),
+                                    blurRadius: 26,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(
+                                    15.00), //assets/images/placholder.jpg
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
-                          onPressed: playing
-                              ? AudioService.pause
-                              : AudioService.play)),
+                          trailing: IconButton(
+                              icon: new Icon(
+                                playing ? Icons.pause : Icons.play_arrow,
+                                color: Colors.black,
+                              ),
+                              onPressed: playing
+                                  ? AudioService.pause
+                                  : AudioService.play)),
+                    ],
+                  ),
                 )
               ]
             ],
