@@ -9,15 +9,21 @@ class HomeShongListItem extends StatelessWidget {
   final ItemsCollection itemsCollection;
   final int height;
   final Function goToPlayList;
+  final double leftPadding;
 
   const HomeShongListItem(
-      {Key key, this.height, this.itemsCollection, this.goToPlayList})
+      {Key key,
+      this.height,
+      this.itemsCollection,
+      this.goToPlayList,
+      this.leftPadding})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.0, top: 16.0),
+      padding: EdgeInsets.only(
+          left: leftPadding != null ? leftPadding : 16.0, top: 16.0),
       child: RightToLeft(
         delay: 150,
         child: InkWell(

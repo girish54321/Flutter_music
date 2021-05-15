@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:musicPlayer/helper/helper.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
+import 'package:musicPlayer/screen/collectionList/collectionList.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
 
 import 'homeShongListItem.dart';
@@ -15,13 +17,33 @@ class VerticalBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Headline4(text: collection.title)),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: SMALLCAPTION(text: collection.description),
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Headline4(text: collection.title)),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SMALLCAPTION(text: collection.description),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.0),
+              child: TextButton(
+                onPressed: () {
+                  Helper().goToPage(
+                      context,
+                      CollectionList(
+                          collection: collection.items.collection,
+                          title: collection.title));
+                },
+                child: Text("View All"),
+              ),
+            )
+          ]),
           Container(
             height: 265,
             child: ListView.builder(
