@@ -220,7 +220,8 @@ class _SingerProgileState extends State<SingerProgile> {
               context,
               BGAudioPlayerScreen(
                 nowPlayingClass: nowPlaying,
-              ));
+              ),
+              false);
           await Future.delayed(Duration(seconds: 1));
           nowPlaying.clear();
         }

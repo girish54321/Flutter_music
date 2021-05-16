@@ -17,7 +17,7 @@ class CollectionList extends StatefulWidget {
 class _CollectionListState extends State<CollectionList> {
   goToPlayList(ItemsCollection id, String heroTag) {
     Helper().goToPage(
-        context, PlayListScreen(itemsCollection: id, heroTag: heroTag));
+        context, PlayListScreen(itemsCollection: id, heroTag: heroTag), false);
   }
 
   @override

@@ -94,7 +94,8 @@ class _FavoriteState extends State<Favorite> {
               context,
               BGAudioPlayerScreen(
                 nowPlayingClass: nowPlaying,
-              ));
+              ),
+              false);
           await Future.delayed(Duration(seconds: 3));
           nowPlaying.clear();
         }

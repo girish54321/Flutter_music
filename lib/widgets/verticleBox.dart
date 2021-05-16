@@ -38,7 +38,8 @@ class VerticalBox extends StatelessWidget {
                       context,
                       CollectionList(
                           collection: collection.items.collection,
-                          title: collection.title));
+                          title: collection.title),
+                      false);
                 },
                 child: Text("View All"),
               ),

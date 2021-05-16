@@ -75,8 +75,12 @@ class Helper {
     return Duration(hours: hours, minutes: minutes, microseconds: micros);
   }
 
-  goToPage(BuildContext context, Widget child) {
-    if (Platform.isIOS) {
+  goToPage(
+    BuildContext context,
+    Widget child,
+    bool hasHeroTag,
+  ) {
+    if (Platform.isIOS || hasHeroTag) {
       Navigator.push(
         context,
         MaterialPageRoute(

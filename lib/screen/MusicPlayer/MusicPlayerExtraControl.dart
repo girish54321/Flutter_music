@@ -179,8 +179,10 @@ class _ExtrarContolsState extends State<ExtrarContols> {
                         widget.mediaItem.extras['fav'],
                         widget.mediaItem.extras['audio_url'],
                       );
-                      Helper().goToPage(context,
-                          SingerProgile(nowPlayingClass: nowPlayingClass));
+                      Helper().goToPage(
+                          context,
+                          SingerProgile(nowPlayingClass: nowPlayingClass),
+                          false);
                     }),
                 IconButton(
                     icon: Icon(

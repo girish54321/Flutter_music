@@ -213,8 +213,8 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                   mediaItem.extras['fav'],
                   mediaItem.extras['audio_url'],
                 );
-                Helper().goToPage(
-                    context, SingerProgile(nowPlayingClass: nowPlayingClass));
+                Helper().goToPage(context,
+                    SingerProgile(nowPlayingClass: nowPlayingClass), false);
               }),
           IconButton(
               icon: Icon(
@@ -229,7 +229,15 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Music Player")),
+      appBar: AppBar(
+        title: Text("Music Player"),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: StreamBuilder<AudioState>(
           stream: _audioStateStream,
@@ -251,7 +259,9 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                     _startAudioPlayerBtn(),
                   ] else ...[
                     SizedBox(height: 14),
-                    CoverArt(mediaItem: mediaItem),
+                    CoverArt(
+                      mediaItem: mediaItem,
+                    ),
                     positionIndicator(mediaItem, playbackState),
                     playerContalors(playing),
                     ExtrarContols(mediaItem: mediaItem)

@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   goToPlayList(ItemsCollection id, String heroTag) {
     Helper().goToPage(
-        context, PlayListScreen(itemsCollection: id, heroTag: heroTag));
+        context, PlayListScreen(itemsCollection: id, heroTag: heroTag), false);
   }
 
   @override

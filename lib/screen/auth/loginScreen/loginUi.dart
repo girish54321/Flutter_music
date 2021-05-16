@@ -87,7 +87,8 @@ class LoginUi extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Helper().goToPage(context, SingUpScreen());
+                                Helper()
+                                    .goToPage(context, SingUpScreen(), false);
                               },
                               child: Text(
                                 "Sign Up",

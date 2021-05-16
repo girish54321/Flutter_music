@@ -125,7 +125,8 @@ class _PlayListScreenState extends State<PlayListScreen> {
               context,
               BGAudioPlayerScreen(
                 nowPlayingClass: nowPlaying,
-              ));
+              ),
+              false);
           Future.delayed(const Duration(milliseconds: 500), () {
             nowPlaying.clear();
           });

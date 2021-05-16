@@ -5,8 +5,11 @@ import 'package:musicPlayer/screen/MusicPlayer/AudioPlayer.dart';
 import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/PositionIndicator.dart';
 import 'package:musicPlayer/widgets/allText/AppText.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:audio_service/audio_service.dart';
+
+import '../helper/helper.dart';
 
 class NowPlayingMinPlayer extends StatelessWidget {
   const NowPlayingMinPlayer({Key key}) : super(key: key);
@@ -26,7 +29,7 @@ class NowPlayingMinPlayer extends StatelessWidget {
         final playing = playbackState?.playing ?? false;
 
         return Container(
-          height: processingState == AudioProcessingState.none ? 1.0 : 74.00,
+          height: processingState == AudioProcessingState.none ? 0.0 : 74.00,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
@@ -37,10 +40,6 @@ class NowPlayingMinPlayer extends StatelessWidget {
                   width: double.infinity,
                   child: Column(
                     children: [
-                      // Container(
-                      //   height: 2,
-                      //   color: Colors.red,
-                      // ),
                       PositionIndicator(
                         state: playbackState,
                         mediaItem: mediaItem,
@@ -49,7 +48,8 @@ class NowPlayingMinPlayer extends StatelessWidget {
                       ),
                       ListTile(
                           onTap: () {
-                            Helper().goToPage(context, BGAudioPlayerScreen());
+                            Helper().goToPage(
+                                context, BGAudioPlayerScreen(), false);
                           },
                           title: Headline5(text: mediaItem.title),
                           subtitle: CaptionL(text: mediaItem.artist),

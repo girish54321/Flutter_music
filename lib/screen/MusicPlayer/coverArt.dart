@@ -7,8 +7,10 @@ import 'package:musicPlayer/widgets/allText/AppText.dart';
 
 class CoverArt extends StatelessWidget {
   final MediaItem mediaItem;
-
-  const CoverArt({Key key, @required this.mediaItem}) : super(key: key);
+  const CoverArt({
+    Key key,
+    @required this.mediaItem,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,8 @@ class CoverArt extends StatelessWidget {
           onTap: () {
             Helper().goToPage(
                 context,
-                ImageViewScreen(
-                    imageUrl: mediaItem.artUri, heroTag: "heroTag"));
+                ImageViewScreen(imageUrl: mediaItem.artUri, heroTag: "heroTag"),
+                false);
           },
           child: Hero(
             tag: "heroTag",
