@@ -112,9 +112,8 @@ class SingerProfileUi extends StatelessWidget {
                                         SongListItem(
                                             onClick: () {
                                               sendSongUrlToPlayer(
-                                                  collection,
-                                                  recentlyPlayedProvider
-                                                      .updateList);
+                                                collection,
+                                              );
                                             },
                                             imageUrl: collection.artworkUrl,
                                             title: collection.title != null

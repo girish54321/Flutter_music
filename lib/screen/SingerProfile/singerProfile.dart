@@ -1,15 +1,13 @@
 import 'dart:convert';
-import 'package:audio_service/audio_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
 import 'package:musicPlayer/helper/helper.dart';
+import 'package:musicPlayer/helper/playerHelper.dart';
 import 'package:musicPlayer/modal/SingerProfileModal.dart';
 import 'package:musicPlayer/modal/SingerTrackModale.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/network_utils/api.dart';
 import 'package:http/http.dart' as http;
-import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/screen/SingerProfile/singerProfileUi.dart';
 import 'package:flutter/material.dart';
 
@@ -151,8 +149,13 @@ class _SingerProgileState extends State<SingerProgile> {
     }
   }
 
+  void clearNowPlaying() {
+    nowPlaying.clear();
+  }
+
   Future<void> sendSongUrlToPlayer(
-      Collection collection, Function updateList) async {
+    Collection collection,
+  ) async {
     await Helper().showLoadingDilog(context).show();
     try {
       http.Response response =
@@ -181,50 +184,7 @@ class _SingerProgileState extends State<SingerProgile> {
               collection.media.transcodings[1].url),
         );
         await Helper().showLoadingDilog(context).hide();
-        if (AudioService.running) {
-          if (nowPlaying != null) {
-            var listItem = nowPlaying[0];
-            Map<String, dynamic> nowPlayingSinger = {
-              "name": listItem.name,
-              "songId": listItem.songId,
-              "singerId": listItem.singerId,
-              "imageUrl": listItem.imageUrl.replaceAll("large", "t500x500"),
-              "fav": listItem.fav,
-              "audio_url": listItem.audio_url
-            };
-
-            MediaItem mediaItem = new MediaItem(
-                id: listItem.url,
-                title: listItem.title,
-                artist: listItem.artist,
-                artUri: listItem.artUri.replaceAll("large", "t500x500"),
-                album: listItem.album,
-                duration: listItem.duration,
-                extras: nowPlayingSinger);
-
-            Future.delayed(Duration(seconds: 3));
-            await AudioService.addQueueItem(mediaItem);
-            DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
-            updateList();
-            await Helper().showLoadingDilog(context).hide();
-            Helper()
-                .showSnackBar("Added To PlayList.", "Done.", context, false);
-            await Future.delayed(Duration(seconds: 2));
-            nowPlaying.clear();
-          }
-        } else {
-          await Helper().showLoadingDilog(context).hide();
-          DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
-          updateList();
-          Helper().goToPage(
-              context,
-              BGAudioPlayerScreen(
-                nowPlayingClass: nowPlaying,
-              ),
-              false);
-          await Future.delayed(Duration(seconds: 1));
-          nowPlaying.clear();
-        }
+        PlayerHelper().playSong(nowPlaying, context, clearNowPlaying);
       }
     } catch (e) {
       await Helper().showLoadingDilog(context).hide();

@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:musicPlayer/DatabaseOperations/DatabaseOperations.dart';
 import 'package:musicPlayer/database/dataBaseHelper/database_helper.dart';
 import 'package:musicPlayer/helper/helper.dart';
+import 'package:musicPlayer/helper/playerHelper.dart';
 import 'package:musicPlayer/modal/audio_url.dart';
 import 'package:musicPlayer/modal/homeSongList.dart';
 import 'package:musicPlayer/modal/playListResponse.dart';
@@ -11,7 +10,6 @@ import 'package:musicPlayer/modal/playListResponse.dart' as playList;
 import 'package:musicPlayer/modal/player_song_list.dart';
 import 'package:musicPlayer/provider/RecentlyPlayedProvider.dart';
 import 'package:musicPlayer/screen/Empty%20Screen/loadingScreen.dart';
-import 'package:musicPlayer/screen/MusicPlayer/MusicPlayerScreen.dart';
 import 'package:musicPlayer/widgets/gradientAppBar.dart';
 import 'package:musicPlayer/widgets/infoView.dart';
 import 'package:musicPlayer/widgets/songListItem.dart';
@@ -51,6 +49,10 @@ class _PlayListScreenState extends State<PlayListScreen> {
     super.dispose();
   }
 
+  void clearNowPlaying() {
+    nowPlaying.clear();
+  }
+
   Future<void> sendSongUrlToPlayer(
       playList.Track track, Function updateList) async {
     nowPlaying.clear();
@@ -83,54 +85,7 @@ class _PlayListScreenState extends State<PlayListScreen> {
               track.media.transcodings[1].url),
         );
         await Helper().showLoadingDilog(context).hide();
-        if (AudioService.running) {
-          if (nowPlaying != null) {
-            var listItem = nowPlaying[0];
-            Map<String, dynamic> nowPlayingSinger = {
-              "name": listItem.name,
-              "songId": listItem.songId,
-              "singerId": listItem.singerId,
-              "imageUrl": listItem.imageUrl != null
-                  ? listItem.imageUrl.replaceAll("large", "t500x500")
-                  : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
-              "fav": hasData == true ? 1 : 0,
-              "audio_url": listItem.audio_url
-            };
-
-            MediaItem mediaItem = new MediaItem(
-                id: listItem.url,
-                title: listItem.title,
-                artist: listItem.artist,
-                artUri: listItem.artUri != null
-                    ? listItem.artUri.replaceAll("large", "t500x500")
-                    : "https://api.time.com/wp-content/uploads/2018/04/listening-to-music-headphones.jpg?quality=85&w=1024&h=512&crop=1",
-                album: listItem.album,
-                duration: listItem.duration,
-                extras: nowPlayingSinger);
-            Future.delayed(Duration(seconds: 5));
-            await AudioService.addQueueItem(mediaItem);
-
-            DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
-            updateList();
-            await Helper().showLoadingDilog(context).hide();
-            nowPlaying.clear();
-            Helper()
-                .showSnackBar("Added To PlayList.", "Done.", context, false);
-          }
-        } else {
-          await Helper().showLoadingDilog(context).hide();
-          DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
-          updateList();
-          Helper().goToPage(
-              context,
-              BGAudioPlayerScreen(
-                nowPlayingClass: nowPlaying,
-              ),
-              false);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            nowPlaying.clear();
-          });
-        }
+        PlayerHelper().playSong(nowPlaying, context, clearNowPlaying);
       }
     } catch (e) {
       await Helper().showLoadingDilog(context).hide();
