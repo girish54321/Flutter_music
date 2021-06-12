@@ -32,13 +32,13 @@ class PlayerHelper {
             duration: listItem.duration,
             extras: nowPlayingSinger);
 
-        Future.delayed(Duration(seconds: 3));
+        Future.delayed(Duration(seconds: 1));
         await AudioService.addQueueItem(mediaItem);
         DatabaseOperations().insertRecentlyPlayed(nowPlaying[0]);
         recentlyPlayedProvider.updateList();
         await Helper().showLoadingDilog(context).hide();
         Helper().showSnackBar("Added To PlayList.", "Done.", context, false);
-        await Future.delayed(Duration(seconds: 3));
+        await Future.delayed(Duration(seconds: 1));
         clearList();
       }
     } else {
@@ -53,7 +53,7 @@ class PlayerHelper {
                 child: BGAudioPlayerScreen(
                   nowPlayingClass: nowPlaying,
                 )));
-        await Future.delayed(Duration(seconds: 3));
+        await Future.delayed(Duration(seconds: 1));
         clearList();
       }
     }
