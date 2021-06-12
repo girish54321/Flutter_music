@@ -96,7 +96,6 @@ class NowPlayingMinPlayer extends StatelessWidget {
                           trailing: IconButton(
                               icon: new Icon(
                                 playing ? Icons.pause : Icons.play_arrow,
-                                color: Colors.black,
                               ),
                               onPressed: playing
                                   ? AudioService.pause
