@@ -3,10 +3,42 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:musicPlayer/responsive/enums/device_screen_type.dart';
+import 'package:musicPlayer/responsive/utils/ui_utils.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class Helper {
+  getMobileOrientation(context) {
+    int cellCount = 2;
+    var mediaQuery = MediaQuery.of(context);
+    double deviceWidth = mediaQuery.size.shortestSide;
+    print(deviceWidth);
+    DeviceScreenType deviceScreenType = getDeviceType(mediaQuery);
+    var orientation = mediaQuery.orientation;
+    if (deviceScreenType == DeviceScreenType.Mobile) {
+      cellCount = orientation == Orientation.portrait ? 2 : 4;
+    } else if (deviceScreenType == DeviceScreenType.Tablet) {
+      cellCount = 4;
+    } else if (deviceScreenType == DeviceScreenType.Desktop) {
+      cellCount = responsiveNumGridTiles(mediaQuery);
+    }
+    return cellCount;
+  }
+
+  int responsiveNumGridTiles(MediaQueryData mediaQuery) {
+    double deviceWidth = mediaQuery.size.width;
+    if (deviceWidth < 700) {
+      return 3;
+    } else if (deviceWidth < 1200) {
+      return 5;
+    } else if (deviceWidth < 1650) {
+      return 8;
+    } else {
+      return 8;
+    }
+  }
+
   showToastMessage(message) {
     Fluttertoast.showToast(
         msg: message,

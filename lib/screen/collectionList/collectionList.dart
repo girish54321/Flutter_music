@@ -23,6 +23,7 @@ class _CollectionListState extends State<CollectionList> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var cellNumber = Helper().getMobileOrientation(context);
     // ignore: unused_local_variable
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 2;
@@ -31,10 +32,10 @@ class _CollectionListState extends State<CollectionList> {
       body: GridView.builder(
         itemCount: widget.collection.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: cellNumber,
           crossAxisSpacing: 2,
           mainAxisSpacing: 2,
-          childAspectRatio: (itemWidth / 261),
+          childAspectRatio: (2 / 2.4),
         ),
         itemBuilder: (
           context,

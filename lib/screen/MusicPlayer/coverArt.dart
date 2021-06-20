@@ -29,10 +29,8 @@ class CoverArt extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: mediaItem.artUri,
               imageBuilder: (context, imageProvider) => Container(
-                height: size.width * 0.7,
-                width: size.width * 0.7,
-                // height: 300,
-                // width: 300,
+                height: 300,
+                width: 300,
                 decoration: BoxDecoration(
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -46,8 +44,8 @@ class CoverArt extends StatelessWidget {
                 ),
               ),
               placeholder: (context, url) => Container(
-                height: size.width * 0.7,
-                width: size.width * 0.7,
+                height: 300,
+                width: 300,
                 decoration: BoxDecoration(
                   boxShadow: <BoxShadow>[
                     BoxShadow(
