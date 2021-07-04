@@ -143,7 +143,6 @@ class _SingerProgileState extends State<SingerProgile> {
         });
       }
     } catch (e) {
-      print("Error");
       Helper().showSnackBar(e.toString(), "Error.", context, true);
       print(e);
     }

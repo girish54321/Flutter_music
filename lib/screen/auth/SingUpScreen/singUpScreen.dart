@@ -21,7 +21,6 @@ class _SingUpScreenState extends State<SingUpScreen> {
           .createUserWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim());
-      print(userCredential);
       addUser(userCredential.user.uid, userNameController.text.trim(),
           emailController.text.trim(), null);
       changeLoginState(true);
@@ -32,11 +31,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
       if (e.code == 'weak-password') {
         Helper().showSnackBar(
             'The password provided is too weak.', 'error', context, true);
-        print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         Helper().showSnackBar('The account already exists for that email.',
             'error', context, true);
-        print('The account already exists for that email.');
       }
     } catch (e) {
       await Helper().showLoadingDilog(context).hide();

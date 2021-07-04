@@ -18,7 +18,6 @@ class Network {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('Document exists on the database clientId');
         clientID = documentSnapshot.get('clientId').toString().trim();
       } else {}
     });

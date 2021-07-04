@@ -33,7 +33,6 @@ class _Recently_playedUIState extends State<Recently_playedUI> {
     try {
       http.Response response =
           await Network().getStremUrl(favSongMobileData.transcodings);
-      print(response.body);
       if (response.statusCode == 200) {
         var singerName = "UnKnow";
         if (favSongMobileData.singerName != null) {

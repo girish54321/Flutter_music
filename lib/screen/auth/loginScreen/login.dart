@@ -76,9 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (e.code == 'user-not-found') {
         Helper().showSnackBar(
             'No user found for that email.', 'error', context, true);
-        print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
         Helper().showSnackBar(
             'Wrong password provided for that user.', 'error', context, true);
       }

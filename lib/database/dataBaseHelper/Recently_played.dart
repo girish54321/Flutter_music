@@ -74,7 +74,8 @@ class RecentlyPlayedDatabaseHelper {
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
     // return await db.query(table);
-    final ret = await db.rawQuery('SELECT * FROM $table ORDER BY $columnId DESC');
+    final ret =
+        await db.rawQuery('SELECT * FROM $table ORDER BY $columnId DESC');
     return ret;
   }
 
@@ -110,8 +111,6 @@ class RecentlyPlayedDatabaseHelper {
     Database db = await instance.database;
     final ret =
         await db.rawQuery('SELECT * FROM $table WHERE $trackid=?', [query]);
-    // print("WOWOWO");
-    // print(ret);
     if (ret.length == 0) {
       return false;
     } else {

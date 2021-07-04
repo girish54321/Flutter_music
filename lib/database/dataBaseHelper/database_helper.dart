@@ -112,8 +112,6 @@ class DatabaseHelper {
     Database db = await instance.database;
     final ret =
         await db.rawQuery('SELECT * FROM $table WHERE $trackid=?', [query]);
-    // print("WOWOWO");
-    // print(ret);
     if (ret.length == 0) {
       return false;
     } else {

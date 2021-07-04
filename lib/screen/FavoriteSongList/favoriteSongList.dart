@@ -62,8 +62,6 @@ class _FavoriteState extends State<Favorite> {
           );
         });
         await Helper().showLoadingDilog(context).hide();
-        print("Adding");
-        print(nowPlaying[0].title);
         await Future.delayed(Duration(seconds: 2));
         PlayerHelper().playSong(nowPlaying, context, clearNowPlaying);
       }
@@ -83,6 +81,7 @@ class _FavoriteState extends State<Favorite> {
       body: Consumer<FavListProvider>(
         builder: (context, favListProvider, child) {
           return ListView.builder(
+            shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             itemCount: favListProvider.favSongMobileDataList.length,
             itemBuilder: (BuildContext context, int index) {

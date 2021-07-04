@@ -12,8 +12,6 @@ class Helper {
   getMobileOrientation(context) {
     int cellCount = 2;
     var mediaQuery = MediaQuery.of(context);
-    double deviceWidth = mediaQuery.size.shortestSide;
-    print(deviceWidth);
     DeviceScreenType deviceScreenType = getDeviceType(mediaQuery);
     var orientation = mediaQuery.orientation;
     if (deviceScreenType == DeviceScreenType.Mobile) {

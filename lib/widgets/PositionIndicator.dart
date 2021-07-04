@@ -65,7 +65,6 @@ class PositionIndicator extends StatelessWidget {
                           max: duration,
                           min: 0.0,
                           onDragging: (handlerIndex, lowerValue, upperValue) {
-                            print(lowerValue);
                             AudioService.seekTo(
                                 Duration(milliseconds: lowerValue.toInt()));
                             seekPos = lowerValue;

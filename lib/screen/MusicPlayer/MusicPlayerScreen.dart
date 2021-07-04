@@ -54,7 +54,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
           "fav": listItem.fav,
           "audio_url": listItem.audio_url
         };
-        print(nowPlayingSinger);
         MediaItem mediaItem = new MediaItem(
             id: listItem.url,
             title: listItem.title,
@@ -98,7 +97,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
           list.add(m);
         }
         var params = {"data": list};
-        print(params);
         setState(() {
           _loading = true;
         });
@@ -364,7 +362,6 @@ class _BGAudioPlayerScreenState extends State<BGAudioPlayerScreen>
                     max: duration,
                     min: 0.0,
                     onDragging: (handlerIndex, lowerValue, upperValue) {
-                      print(lowerValue);
                       AudioService.seekTo(
                           Duration(milliseconds: lowerValue.toInt()));
                       seekPos = lowerValue;

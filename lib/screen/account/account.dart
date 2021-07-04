@@ -165,7 +165,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                   activeBgColor: Theme.of(context).accentColor,
                                   labels: ['Light', 'OLED Black'],
                                   onToggle: (index) {
-                                    print('switched to: $index');
                                     if (index == 0) {
                                       notifier.toggleTheme();
                                     } else {

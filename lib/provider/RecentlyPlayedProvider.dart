@@ -10,13 +10,11 @@ class RecentlyPlayedProvider with ChangeNotifier {
   }
 
   void updateList() {
-    print("UPDATE LIST");
     favSongMobileDataList.clear();
     updateProviderData();
   }
 
   void clearList() {
-    print("CLINE LIST FAV");
     favSongMobileDataList = [];
     notifyListeners();
   }
@@ -24,7 +22,6 @@ class RecentlyPlayedProvider with ChangeNotifier {
   Future<void> updateProviderData() async {
     final dbHelper = RecentlyPlayedDatabaseHelper.instance;
     final allRows = await dbHelper.queryAllRows();
-    print('query all rows: PROVIDER');
     if (allRows.length != 0) {
       for (int i = 0; i < allRows.length; i++) {
         FavSongMobileData favSongMobileData = new FavSongMobileData(
@@ -43,7 +40,6 @@ class RecentlyPlayedProvider with ChangeNotifier {
       }
       notifyListeners();
     } else {
-      print('query all NO DATA:');
       notifyListeners();
     }
   }

@@ -32,15 +32,12 @@ class LoginStateProvider with ChangeNotifier {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('Document exists on the database clientId');
-        print(documentSnapshot.get('clientId'));
         return true;
       } else {
         clientId.doc('clientId').set({
           'clientId': 'clientId',
         }).then((value) {
           logedIn = true;
-          print("clientId");
           return true;
           // ignore: return_of_invalid_type_from_catch_error
         }).catchError((error) => print("Failed to add user: $error"));
@@ -56,7 +53,6 @@ class LoginStateProvider with ChangeNotifier {
         .doc(rng.nextInt(100).toString())
         .set({"sing": "yeyeye"}).then((value) {
       logedIn = true;
-      print("Added FAVE");
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
@@ -64,7 +60,6 @@ class LoginStateProvider with ChangeNotifier {
     DocumentSnapshot doc =
         await users.doc(FirebaseAuth.instance.currentUser.uid).get();
     user = AppUser.fromDocument(doc);
-    print(user.userName);
     notifyListeners();
   }
 
@@ -73,11 +68,6 @@ class LoginStateProvider with ChangeNotifier {
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('userFav')
         .get();
-
-    for (int i = 0; i < snapshot.docs.length; i++) {
-      print("ALL avatarUrl");
-      print(snapshot.docs[i]['singerName']);
-    }
   }
 
   deleteFav() {
@@ -89,14 +79,11 @@ class LoginStateProvider with ChangeNotifier {
         .then((doc) {
       if (doc.exists) {
         doc.reference.delete();
-        print("DATA IS DELTED");
       }
     });
   }
 
   changeLoginState(bool state) {
-    print("CHNECN USER");
-    print("CHANGE STATR");
     logedIn = state;
     if (state) {
       getUserData();
@@ -106,15 +93,12 @@ class LoginStateProvider with ChangeNotifier {
   }
 
   Future<void> addUser(userId, userName, email, imageUrl) {
-    print("ADDING USER");
-    print(userId);
     return FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('Document exists on the database');
         logedIn = true;
         notifyListeners();
         return true;
@@ -127,7 +111,6 @@ class LoginStateProvider with ChangeNotifier {
         }).then((value) {
           logedIn = true;
           notifyListeners();
-          print("Added");
           changeLoginState(true);
           return true;
           // ignore: return_of_invalid_type_from_catch_error

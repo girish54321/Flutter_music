@@ -127,7 +127,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
         : AudioProcessingState.skippingToPrevious;
     AudioServiceBackground.setMediaItem(mediaItem);
     await _audioPlayer.setUrl(mediaItem.id);
-  
+
     _skipState = null;
     if (_playing) {
       onPlay();
@@ -204,7 +204,6 @@ class AudioPlayerTask extends BackgroundAudioTask {
     Duration position,
     Duration bufferedPosition,
   }) async {
-    print('SetState $processingState');
     if (position == null) {
       position = _audioPlayer.playbackEvent.position;
     }

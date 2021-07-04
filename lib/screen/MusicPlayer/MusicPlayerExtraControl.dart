@@ -87,9 +87,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
             })
             .then((value) {})
             .catchError((error) => print("Failed to add user: $error"));
-
-        final id = await dbHelper.insert(row);
-        print('inserted row id: $id');
         setState(() {
           addedFav = true;
         });
@@ -105,7 +102,6 @@ class _ExtrarContolsState extends State<ExtrarContols> {
 
   void _delete(data, Function updateList) async {
     final rowsDeleted = await dbHelper.deleteFav(data[0]['id']);
-    print('deleted $rowsDeleted ');
     setState(() {
       addedFav = false;
     });
