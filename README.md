@@ -1,7 +1,5 @@
 # Flutter MusicPlayer
 
-# This Project is very old now need to update every part if this code 
-
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="1604"  src="https://github.com/girish54321/Flutter_music/blob/main/images/1.jpg">  Home Screen |  <img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/2.jpg"> PlayList Screen |<img width="1604" src="https://github.com/girish54321/Flutter_music/blob/main/images/3.jpg"> Player Screen |
